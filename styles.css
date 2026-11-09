@@ -1,18 +1,21 @@
 /* ==========================================================================
    suspensions/styles.css
    ==========================================================================
-   All the styling for the Suspensions Dashboard, in five parts:
+   All the styling for the Suspensions Dashboard, in six parts:
      A.  WCA's brand: colors and font, exactly as in the Youth Justice
          Dashboard. Defined once here; the JavaScript reads the same values.
-     A2. This dashboard's own colors (steel blue, with WCA orange for the
-         Black-White gap). Also defined once here; charts.js reads them.
+     A2. This dashboard's own colors (steel blue; ink to plum with pencil
+         yellow for part 1; a color for each student group in part 1's chart).
+         Also defined once here; charts.js reads them.
      B.  Page basics and the pieces every section uses, as in the Youth
          Justice Dashboard: headings, headline tiles, chart cards, legends,
          the hover tooltip, "About the data".
-     C.  The map section: layout, how districts look, the map legend.
+     C.  The map section: layout, the side panel, how districts look, the
+         map legend.
      D.  This dashboard's own pieces: the banner, the jump links, the part
-         headings with icons, the map switch, the district table, the bill
-         cards, the $50 million bar, the panels.
+         headings with icons, the bill cards, the $50 million bar, the panels.
+     E.  Part 1's own pieces: the opening panel and its picture, the figure
+         chart, the highlighter mark, the callout.
    Parts A and B are copied unchanged from the Youth Justice Dashboard;
    change them there and here together, or not at all.
    ========================================================================== */
@@ -75,12 +78,14 @@
              src: url("resources/fonts/lexend-latin-700-normal.woff2") format("woff2"); }
 
 /* --------------------------------------------------------------------------
-   A2. THIS DASHBOARD'S COLORS  ·  steel blue
+   A2. THIS DASHBOARD'S COLORS
    --------------------------------------------------------------------------
-   The Suspensions Dashboard's own scheme, built from the Solutions Not
-   Suspensions colors in WCA's asset library. Both map scales passed the
-   dataviz color check (one hue, light to dark, steps far enough apart, light
-   end visible on white), 2026-11-09. charts.js reads these by name. */
+   The Suspensions Dashboard's own scheme. Steel blue comes from the Solutions
+   Not Suspensions colors in WCA's asset library; plum and pencil yellow were
+   added for part 1. The map scale and the five group colors passed the
+   dataviz color check for color-blind readers, 2026-11-09 (the map: one hue,
+   light to dark, steps far enough apart; the groups: every pair tells apart,
+   each stands out on white and on its own tint). charts.js reads these by name. */
 
 :root {
   --sns-ink:          #183A50;   /* titles and headings; the banner's first color; darkest map step */
@@ -96,14 +101,24 @@
   --sns-rate-4:       #2E5F7F;
   --sns-rate-5:       #183A50;
 
-  /* Map, Black-White gap: 4 steps of WCA orange (the brand's one tertiary color) */
-  --sns-gap-1:        #E8A07A;   /* same as --wca-orange-100 */
-  --sns-gap-2:        #DD7440;
-  --sns-gap-3:        #D14905;   /* same as --wca-orange */
-  --sns-gap-4:        #9C3604;
+  /* Part 1's opening panel: ink to plum, with pencil yellow */
+  --sns-violet:       #41306F;   /* between ink and plum, the middle of the panel */
+  --sns-plum:         #6A2C7E;   /* the far end of the panel */
+  --sns-yellow:       #FFD45C;   /* the big numbers on the panel; lit windows and the way home in the picture */
+  --sns-marker:       #FFE99A;   /* the highlighter mark behind a key phrase, on white */
+
+  /* Part 1's chart: one color per student group, and a pale tint of it for the group's row.
+     Which group gets which is set in part E (by the group's id). */
+  --sns-group-1:      #772A88;   --sns-group-1-tint: #F1EAF3;   /* plum:  children in foster care */
+  --sns-group-2:      #A1790C;   --sns-group-2-tint: #F6F2E7;   /* gold:  homeless students */
+  --sns-group-3:      #2C9A88;   --sns-group-3-tint: #EAF5F3;   /* teal:  Black students */
+  --sns-group-4:      #5285D9;   --sns-group-4-tint: #EEF3FB;   /* blue:  students with disabilities */
+  --sns-group-5:      #92413D;   --sns-group-5-tint: #F4ECEC;   /* brick: students from low-income families */
+  --sns-average:      #6A6F76;   --sns-average-tint: #F0F1F1;   /* gray:  the average, all students (a neutral, not a
+                                                                    sixth group color: its row is told apart by its label) */
 
   /* The second color of the two-color icons from the asset library (their "accent" parts),
-     and the color of call-outs and benchmark lines */
+     and the color of call-outs and of the line at the average */
   --wca-accent:       var(--wca-orange);
 }
 
@@ -252,7 +267,7 @@ section > h2 { margin-bottom: 4px; }
    C. MAP SECTION LAYOUT  ·  adapted from the Youth Justice Dashboard
    -------------------------------------------------------------------------- */
 
-/* The row of controls above the map: the two-button switch and the district list */
+/* The row above the map: one line of help and the district list */
 .controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin: 12px 0 16px; font-size: 15px; }
 .controls label { color: var(--fine); }
 .controls select {
@@ -268,20 +283,23 @@ section > h2 { margin-bottom: 4px; }
 
 .map { width: 100%; height: auto; display: block; max-height: 640px; }
 
-/* The side panel: the chosen district next to Westchester as a whole */
+/* The side panel: the chosen district next to the Westchester average */
 .side-panel {
   background: var(--sns-tint); border-radius: var(--radius); padding: 18px 20px;
   font-size: 15px;
 }
-.side-panel h3 { margin-bottom: 2px; color: var(--sns-ink); }
-.side-panel .towns { color: var(--fine); font-size: 13px; margin-bottom: 14px; }
-.side-panel .big { font-size: 34px; font-weight: 700; line-height: 1.1; color: var(--sns-ink); }
-.side-panel .big-label { color: var(--body); font-size: 14px; margin-bottom: 12px; }
-.side-panel dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 6px 12px; font-size: 14px; }
-.side-panel dt { color: var(--fine); }
-.side-panel dd { margin: 0; font-weight: 600; color: var(--ink); }
-.side-panel .note { color: var(--fine); font-size: 13px; margin-top: 14px; }
-.side-panel .hint { color: var(--muted); font-size: 13px; margin-top: 14px; }
+.side-panel h3 { margin-bottom: 2px; font-size: 20px; color: var(--sns-ink); }
+.side-panel .towns { color: var(--fine); font-size: 13px; margin-bottom: 16px; }
+
+/* Two big numbers side by side, a small bar under each */
+.versus { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 14px; }
+.versus.one { grid-template-columns: 1fr; }                 /* Westchester as a whole: one number */
+.versus-number { font-size: 36px; font-weight: 700; line-height: 1.1; color: var(--sns-ink); }
+.versus-name { color: var(--fine); font-size: 13px; margin: 2px 0 8px; }
+.versus-bar { height: 8px; border-radius: 4px; background: var(--white); }
+.versus-bar span { display: block; height: 100%; border-radius: 4px; background: var(--sns-steel); }
+.versus-item.average .versus-bar span { background: var(--wca-accent); }   /* the average is orange, as in the chart above */
+.versus-text { margin: 0; font-size: 15px; }
 
 
 /* --------------------------------------------------------------------------
@@ -373,25 +391,6 @@ html { scroll-padding-top: 56px; }   /* so a jumped-to heading isn't hidden unde
 .fact .value { font-size: 34px; font-weight: 700; line-height: 1.1; color: var(--sns-ink); }
 .fact p { margin: 6px 0 0; font-size: 15px; }
 
-/* The two-button switch above the map */
-.switch { display: inline-flex; border: 1px solid var(--sns-steel); border-radius: 6px; overflow: hidden; }
-.switch button {
-  font: inherit; font-size: 14px; padding: 7px 12px; border: 0; cursor: pointer;
-  background: var(--white); color: var(--sns-steel);
-}
-.switch button + button { border-left: 1px solid var(--sns-steel); }
-.switch button[aria-pressed="true"] { background: var(--sns-steel); color: var(--white); }
-.switch button:focus-visible { outline: 2px solid var(--sns-ink); outline-offset: -3px; }
-
-/* "Every district's numbers": a table folded away under the map */
-details.table-view { margin-top: 16px; }
-details.table-view summary { cursor: pointer; font-weight: 600; color: var(--sns-steel); }
-.table-wrap { overflow-x: auto; margin-top: 10px; }   /* the table scrolls sideways on phones; the page doesn't */
-.table-wrap table { border-collapse: collapse; font-size: 14px; min-width: 640px; width: 100%; }
-.table-wrap th, .table-wrap td { padding: 6px 8px; border-bottom: 1px solid var(--rule); text-align: right; }
-.table-wrap th:first-child, .table-wrap td:first-child { text-align: left; }
-.table-wrap th { color: var(--fine); font-weight: 600; vertical-align: bottom; }
-
 /* Two short research cards side by side (part 3) */
 .research { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 8px; }
 .research .item { border-left: 4px solid var(--wca-accent); padding: 4px 0 4px 14px; }
@@ -454,9 +453,169 @@ details.table-view summary { cursor: pointer; font-weight: 600; color: var(--sns
   .tiles.small .tile { display: flex; align-items: center; gap: 14px; }
   .tiles.small .value { font-size: 26px; min-width: 78px; }
   .tiles.small .label { margin-top: 0; }
-  /* The side panel's numbers: each label above its value */
-  .side-panel dl { grid-template-columns: 1fr; gap: 0; }
-  .side-panel dd { margin-bottom: 8px; }
   /* The jump links stay on one line and scroll sideways, so they take less of the screen */
   .jump { flex-wrap: nowrap; overflow-x: auto; white-space: nowrap; gap: 4px 16px; }
+}
+
+
+/* --------------------------------------------------------------------------
+   E. PART 1'S OWN PIECES  ·  the opening panel, the figure chart, the callout
+   --------------------------------------------------------------------------
+   Part 1 is the first part rebuilt in this dashboard's own look: a dark panel
+   from ink to plum with pencil-yellow numbers, children drawn for the page,
+   and a highlighter mark behind the key phrase. Parts 2 to 4 still use part D. */
+
+/* The drawings at the top of index.html take no room on the page */
+.drawings { position: absolute; width: 0; height: 0; overflow: hidden; }
+.art-lit { fill: var(--sns-yellow); }                       /* lit windows, the bell, the flag */
+.art-dark { fill: var(--sns-ink); }                         /* classmates in the windows, doors */
+.art-dark-line { stroke: var(--sns-ink); fill: none; }      /* clock hands, window bars */
+.art-way-home { stroke: var(--sns-yellow); }                /* the dotted way home */
+
+/* The opening panel: title and one line on the left, the picture on the right */
+.opener {
+  display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); align-items: center; gap: 28px;
+  background: linear-gradient(118deg, var(--sns-ink) 0%, var(--sns-violet) 58%, var(--sns-plum) 100%);
+  color: var(--white); border-radius: 14px; padding: 34px 38px; overflow: hidden;
+}
+.opener .kicker { font-size: 13px; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; opacity: 0.85; }
+.opener h2 { color: var(--white); font-size: 30px; font-weight: 700; margin: 2px 0 16px; }
+.statement { font-size: 22px; line-height: 1.5; margin: 0; }
+.statement .line { display: block; }                        /* each sentence starts its own line */
+.statement strong { font-weight: 700; }
+.statement .big { color: var(--sns-yellow); font-size: 1.5em; line-height: 1; white-space: nowrap; }
+.opener-art { align-self: end; margin: -10px -38px -34px 0; color: var(--white); }   /* runs to the panel's edge */
+.opener-art svg { display: block; width: 100%; height: auto; }
+
+/* A chart card in the new look: no line above it, the title underlined */
+.card.focus { border-top: 0; padding-top: 32px; }
+.chart-title {
+  font-size: 22px; font-weight: 600; line-height: 1.35; color: var(--sns-ink);
+  margin: 0 0 4px; padding-bottom: 10px; border-bottom: 2px solid var(--sns-ink);
+}
+.card .note:empty { display: none; }
+
+/* The key phrase of a sentence: bold, with a highlighter mark behind its lower half */
+.mark {
+  font-weight: 700; padding: 0 3px; margin: 0 -1px;
+  background: linear-gradient(transparent 56%, var(--sns-marker) 56%);
+  -webkit-box-decoration-break: clone; box-decoration-break: clone;
+}
+
+/* The figure chart: one row per student group. charts.js writes the rows and sets
+   --slots (figures in the longest row) and --average (where the average falls, in figures).
+   --per-line is how many figures sit side by side: all of them on a wide screen, 10 on a phone
+   (a longer row then wraps onto a second line, which also makes the figures easy to count). */
+.kidchart {
+  --label-width: 250px; --value-width: 112px; --per-line: var(--slots);
+  list-style: none; margin: 48px 0 0; padding: 0;           /* room above for the "Westchester average" tag */
+}
+.kidrow {
+  --row-color: var(--sns-steel); --row-tint: var(--sns-tint);
+  display: grid; grid-template-columns: var(--label-width) minmax(0, 1fr) var(--value-width);
+  column-gap: 20px; align-items: center;
+  background: var(--row-tint); border-radius: 12px; padding: 10px 18px; margin-bottom: 8px;
+}
+/* Each group's color, by the id the script gives it (CHART_GROUPS) */
+.kidrow[data-group="foster_care"]  { --row-color: var(--sns-group-1); --row-tint: var(--sns-group-1-tint); }
+.kidrow[data-group="homeless"]     { --row-color: var(--sns-group-2); --row-tint: var(--sns-group-2-tint); }
+.kidrow[data-group="black"]        { --row-color: var(--sns-group-3); --row-tint: var(--sns-group-3-tint); }
+.kidrow[data-group="disabilities"] { --row-color: var(--sns-group-4); --row-tint: var(--sns-group-4-tint); }
+.kidrow[data-group="low_income"]   { --row-color: var(--sns-group-5); --row-tint: var(--sns-group-5-tint); }
+.kidrow[data-group="average"]      { --row-color: var(--sns-average); --row-tint: var(--sns-average-tint); }
+
+.kidrow .name { font-weight: 600; line-height: 1.25; color: var(--ink); }
+.kidrow .counts { font-size: 13px; color: var(--fine); margin-top: 2px; }
+
+/* The line of figures. It fills the row's height so the dashed line can run edge to edge. */
+.kidrow .kids {
+  position: relative; align-self: stretch;
+  display: grid; grid-template-columns: repeat(var(--per-line), minmax(0, 1fr)); align-content: center;
+  color: var(--row-color);
+}
+.kid { display: block; width: 100%; height: auto; }
+
+/* The dashed line at the average: drawn in every row, long enough to join the rows above and below */
+.kidrow .kids::after {
+  content: ""; position: absolute; top: -10px; bottom: -18px;
+  left: calc(var(--average) / var(--per-line) * 100%); margin-left: -1px;
+  border-left: 2px dashed var(--wca-accent);
+}
+.kidrow:first-child .kids::after { top: -13px; }
+.kidrow:last-child .kids::after { bottom: -10px; }
+
+/* The tag above the line (wide screens) */
+.average-tag {
+  position: absolute; bottom: calc(100% + 18px); left: calc(var(--average) / var(--per-line) * 100%);
+  transform: translateX(-50%); white-space: nowrap;
+  background: var(--wca-accent); color: var(--white); font-size: 12px; font-weight: 600;
+  padding: 3px 9px; border-radius: 4px;
+}
+.average-tag::after {
+  content: ""; position: absolute; top: 100%; left: 50%; margin-left: -5px;
+  border: 5px solid transparent; border-bottom: 0; border-top-color: var(--wca-accent);
+}
+/* The same words beside the line in the average's own row (phones, where there is no room for the tag) */
+.average-note { display: none; }
+
+.kidrow .value { text-align: right; }
+.kidrow .one-in { display: block; font-size: 26px; font-weight: 700; line-height: 1.1; color: var(--sns-ink); white-space: nowrap; }
+.kidrow .pct { display: block; font-size: 13px; color: var(--fine); margin-top: 2px; }
+
+/* How to read the figures: one line under the chart, with a figure beside it */
+.key { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--fine); margin: 10px 0 0; }
+.key .kid { flex: none; width: 14px; color: var(--sns-steel); }
+.key strong { color: var(--ink); }
+
+/* The one sentence under the chart */
+.also {
+  border-left: 4px solid var(--wca-accent); padding: 4px 0 4px 14px; margin: 20px 0 14px;
+  font-size: 18px; color: var(--ink);
+}
+
+/* The map's legend title */
+.legend-title { font-size: 14px; font-weight: 600; color: var(--sns-ink); margin-top: 12px; }
+.legend-title + .map-legend { margin-top: 4px; }
+
+@media (max-width: 900px) {
+  .opener { grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); }
+  .kidchart { --label-width: 200px; }
+  .statement { font-size: 20px; }
+}
+
+@media (max-width: 860px) {
+  /* The figure chart: name and "1 in N" on the first line, the figures on their own line below */
+  .kidchart { margin-top: 14px; }
+  .kidrow { grid-template-columns: minmax(0, 1fr) auto; column-gap: 12px; row-gap: 8px; padding: 10px 14px 12px; }
+  .kidrow .who { grid-column: 1; grid-row: 1; }
+  .kidrow .value { grid-column: 2; grid-row: 1; align-self: start; }
+  .kidrow .kids { grid-column: 1 / -1; grid-row: 2; }
+  .kidrow .kids::after, .kidrow:first-child .kids::after, .kidrow:last-child .kids::after { top: -4px; bottom: -4px; }
+  .kidrow .one-in { font-size: 22px; }
+  .average-tag { display: none; }
+  .average-note {
+    display: block; position: absolute; top: 50%; transform: translateY(-50%);
+    left: calc(var(--average) / var(--per-line) * 100% + 8px);
+    color: var(--wca-accent); font-size: 12px; font-weight: 600; white-space: nowrap;
+  }
+}
+
+@media (max-width: 760px) {
+  /* The panel: the picture moves under the words and runs edge to edge */
+  .opener { grid-template-columns: 1fr; gap: 10px; padding: 22px 20px 0; }
+  .opener h2 { font-size: 24px; margin-bottom: 10px; }
+  .statement { font-size: 17px; }
+  .statement .big { font-size: 1.38em; }
+  .opener-art { width: min(100% + 40px, 560px); margin: 0 -20px 0 0; justify-self: end; }   /* as wide as the panel, up to 560px */
+
+  .chart-title { font-size: 19px; }
+  .also { font-size: 17px; }
+}
+
+@media (max-width: 480px) {
+  .kidchart { --per-line: 10; }                             /* phones: 10 figures to a line */
+}
+
+@media (max-width: 374px) {
+  .statement { font-size: 16px; }                           /* small phones: each sentence still fits its line */
 }

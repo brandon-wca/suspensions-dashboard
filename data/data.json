@@ -1,22 +1,16 @@
 {
   "meta": {
     "dashboard": "Suspensions Dashboard",
-    "generated": "2026-11-09 16:12 (local time)",
+    "generated": "2026-11-09 18:33 (local time)",
     "built_by": "build_data.py",
     "latest_year": "2024-25",
     "first_year": "2018-19",
-    "pooled_years": [
-      "2022-23",
-      "2023-24",
-      "2024-25"
-    ],
-    "pooled_label": "2022-23 to 2024-25",
     "arrests_period": "2023-2025",
     "settings": {
       "measure": "out-of-school suspensions / October (BEDS day) enrollment",
       "small_group_enrolled": 30,
       "min_sent_home_to_compare": 10,
-      "pooled_years": 3,
+      "small_group_note_below": 500,
       "school_days": 180
     },
     "sources": {
@@ -104,199 +98,17 @@
   ],
   "who": {
     "year": "2024-25",
-    "race": [
-      {
-        "group": "Black",
-        "label": "Black",
-        "westchester": {
-          "sent_home": 975,
-          "enrolled": 14782,
-          "rate": 6.6,
-          "one_in": 15,
-          "too_few": false,
-          "too_few_to_compare": false
-        },
-        "state": {
-          "sent_home": 24593,
-          "enrolled": 368743,
-          "rate": 6.7,
-          "one_in": 15,
-          "too_few": false,
-          "too_few_to_compare": false
-        }
-      },
-      {
-        "group": "Hispanic",
-        "label": "Hispanic",
-        "westchester": {
-          "sent_home": 1335,
-          "enrolled": 53671,
-          "rate": 2.5,
-          "one_in": 40,
-          "too_few": false,
-          "too_few_to_compare": false
-        },
-        "state": {
-          "sent_home": 19732,
-          "enrolled": 741253,
-          "rate": 2.7,
-          "one_in": 38,
-          "too_few": false,
-          "too_few_to_compare": false
-        }
-      },
-      {
-        "group": "Multiracial",
-        "label": "Multiracial",
-        "westchester": {
-          "sent_home": 88,
-          "enrolled": 6054,
-          "rate": 1.5,
-          "one_in": 69,
-          "too_few": false,
-          "too_few_to_compare": false
-        },
-        "state": {
-          "sent_home": 4289,
-          "enrolled": 88648,
-          "rate": 4.8,
-          "one_in": 21,
-          "too_few": false,
-          "too_few_to_compare": false
-        }
-      },
-      {
-        "group": "White",
-        "label": "White",
-        "westchester": {
-          "sent_home": 532,
-          "enrolled": 54334,
-          "rate": 1,
-          "one_in": 102,
-          "too_few": false,
-          "too_few_to_compare": false
-        },
-        "state": {
-          "sent_home": 25244,
-          "enrolled": 957377,
-          "rate": 2.6,
-          "one_in": 38,
-          "too_few": false,
-          "too_few_to_compare": false
-        }
-      },
-      {
-        "group": "Asian",
-        "label": "Asian",
-        "westchester": {
-          "sent_home": 53,
-          "enrolled": 9312,
-          "rate": 0.6,
-          "one_in": 176,
-          "too_few": false,
-          "too_few_to_compare": false
-        },
-        "state": {
-          "sent_home": 1785,
-          "enrolled": 254305,
-          "rate": 0.7,
-          "one_in": 142,
-          "too_few": false,
-          "too_few_to_compare": false
-        }
-      },
-      {
-        "group": "American Indian/Alaska Native",
-        "label": "American Indian or Alaska Native",
-        "westchester": {
-          "sent_home": 3,
-          "enrolled": 236,
-          "rate": 1.3,
-          "one_in": 79,
-          "too_few": false,
-          "too_few_to_compare": true
-        },
-        "state": {
-          "sent_home": 551,
-          "enrolled": 18112,
-          "rate": 3,
-          "one_in": 33,
-          "too_few": false,
-          "too_few_to_compare": false
-        }
-      },
-      {
-        "group": "Native Hawaiian/Other Pacific Islander",
-        "label": "Native Hawaiian or Pacific Islander",
-        "westchester": {
-          "sent_home": 2,
-          "enrolled": 126,
-          "rate": 1.6,
-          "one_in": 63,
-          "too_few": false,
-          "too_few_to_compare": true
-        },
-        "state": {
-          "sent_home": 92,
-          "enrolled": 5005,
-          "rate": 1.8,
-          "one_in": 54,
-          "too_few": false,
-          "too_few_to_compare": false
-        }
-      }
-    ],
-    "gap_pair": {
-      "a": {
-        "group": "Black",
-        "label": "Black",
-        "westchester": {
-          "sent_home": 975,
-          "enrolled": 14782,
-          "rate": 6.6,
-          "one_in": 15,
-          "too_few": false,
-          "too_few_to_compare": false
-        },
-        "state": {
-          "sent_home": 24593,
-          "enrolled": 368743,
-          "rate": 6.7,
-          "one_in": 15,
-          "too_few": false,
-          "too_few_to_compare": false
-        }
-      },
-      "b": {
-        "group": "White",
-        "label": "White",
-        "westchester": {
-          "sent_home": 532,
-          "enrolled": 54334,
-          "rate": 1,
-          "one_in": 102,
-          "too_few": false,
-          "too_few_to_compare": false
-        },
-        "state": {
-          "sent_home": 25244,
-          "enrolled": 957377,
-          "rate": 2.6,
-          "one_in": 38,
-          "too_few": false,
-          "too_few_to_compare": false
-        }
-      }
-    },
-    "too_few_note_groups": [
-      "American Indian or Alaska Native",
-      "Native Hawaiian or Pacific Islander"
-    ],
-    "all_students": {
+    "average": {
+      "sent_home": 2988,
+      "enrolled": 138515,
       "rate": 2.2,
-      "one_in": 46
+      "one_in": 46,
+      "too_few": false,
+      "too_few_to_compare": false,
+      "label": "The average: all students",
+      "per_100": 2
     },
-    "other_groups": [
+    "groups": [
       {
         "sent_home": 48,
         "enrolled": 245,
@@ -304,10 +116,13 @@
         "one_in": 5,
         "too_few": false,
         "too_few_to_compare": false,
+        "id": "foster_care",
         "group": "In Foster Care",
         "label": "Children in foster care",
-        "everyone_else_rate": 2.1,
-        "times_everyone_else": 9.2
+        "words": "children in foster care",
+        "per_100": 20,
+        "times_average": 9.1,
+        "small": true
       },
       {
         "sent_home": 149,
@@ -316,10 +131,28 @@
         "one_in": 14,
         "too_few": false,
         "too_few_to_compare": false,
+        "id": "homeless",
         "group": "Homeless/McKinney-Vento",
-        "label": "Students who are homeless",
-        "everyone_else_rate": 2.1,
-        "times_everyone_else": 3.3
+        "label": "Homeless students",
+        "words": "homeless students",
+        "per_100": 7,
+        "times_average": 3.2,
+        "small": false
+      },
+      {
+        "sent_home": 975,
+        "enrolled": 14782,
+        "rate": 6.6,
+        "one_in": 15,
+        "too_few": false,
+        "too_few_to_compare": false,
+        "id": "black",
+        "group": "Black",
+        "label": "Black students",
+        "words": "Black students",
+        "per_100": 7,
+        "times_average": 3.1,
+        "small": false
       },
       {
         "sent_home": 1032,
@@ -328,10 +161,13 @@
         "one_in": 23,
         "too_few": false,
         "too_few_to_compare": false,
+        "id": "disabilities",
         "group": "Students with Disabilities",
         "label": "Students with disabilities",
-        "everyone_else_rate": 1.7,
-        "times_everyone_else": 2.6
+        "words": "students with disabilities",
+        "per_100": 4,
+        "times_average": 2.0,
+        "small": false
       },
       {
         "sent_home": 2038,
@@ -340,68 +176,122 @@
         "one_in": 27,
         "too_few": false,
         "too_few_to_compare": false,
+        "id": "low_income",
         "group": "Economically Disadvantaged",
         "label": "Students from low-income families",
-        "everyone_else_rate": 1.1,
-        "times_everyone_else": 3.3
-      },
-      {
-        "sent_home": 2114,
-        "enrolled": 71301,
-        "rate": 3,
-        "one_in": 34,
-        "too_few": false,
-        "too_few_to_compare": false,
-        "group": "Male",
-        "label": "Boys",
-        "everyone_else_rate": 1.3,
-        "times_everyone_else": 2.3
+        "words": "students from low-income families",
+        "per_100": 4,
+        "times_average": 1.7,
+        "small": false
       }
     ],
+    "by_id": {
+      "foster_care": {
+        "sent_home": 48,
+        "enrolled": 245,
+        "rate": 19.6,
+        "one_in": 5,
+        "too_few": false,
+        "too_few_to_compare": false,
+        "id": "foster_care",
+        "group": "In Foster Care",
+        "label": "Children in foster care",
+        "words": "children in foster care",
+        "per_100": 20,
+        "times_average": 9.1,
+        "small": true
+      },
+      "homeless": {
+        "sent_home": 149,
+        "enrolled": 2154,
+        "rate": 6.9,
+        "one_in": 14,
+        "too_few": false,
+        "too_few_to_compare": false,
+        "id": "homeless",
+        "group": "Homeless/McKinney-Vento",
+        "label": "Homeless students",
+        "words": "homeless students",
+        "per_100": 7,
+        "times_average": 3.2,
+        "small": false
+      },
+      "black": {
+        "sent_home": 975,
+        "enrolled": 14782,
+        "rate": 6.6,
+        "one_in": 15,
+        "too_few": false,
+        "too_few_to_compare": false,
+        "id": "black",
+        "group": "Black",
+        "label": "Black students",
+        "words": "Black students",
+        "per_100": 7,
+        "times_average": 3.1,
+        "small": false
+      },
+      "disabilities": {
+        "sent_home": 1032,
+        "enrolled": 23569,
+        "rate": 4.4,
+        "one_in": 23,
+        "too_few": false,
+        "too_few_to_compare": false,
+        "id": "disabilities",
+        "group": "Students with Disabilities",
+        "label": "Students with disabilities",
+        "words": "students with disabilities",
+        "per_100": 4,
+        "times_average": 2.0,
+        "small": false
+      },
+      "low_income": {
+        "sent_home": 2038,
+        "enrolled": 54607,
+        "rate": 3.7,
+        "one_in": 27,
+        "too_few": false,
+        "too_few_to_compare": false,
+        "id": "low_income",
+        "group": "Economically Disadvantaged",
+        "label": "Students from low-income families",
+        "words": "students from low-income families",
+        "per_100": 4,
+        "times_average": 1.7,
+        "small": false
+      }
+    },
+    "left_out": [],
+    "title": {
+      "names": "Children in foster care, homeless students and Black students",
+      "times": "3 to 9 times"
+    },
+    "figures_in_longest_row": 20,
     "trend": {
       "first_year": "2018-19",
-      "gap_first_year": 7.0
+      "count_word": "five",
+      "same_top_groups": true
     },
-    "source": "CUR-0012 (out-of-school suspensions over October enrollment)"
+    "source": "CUR-0012, Westchester County (out-of-school suspensions over October enrollment)"
   },
   "districts": {
     "year": "2024-25",
-    "pooled_years": [
-      "2022-23",
-      "2023-24",
-      "2024-25"
-    ],
-    "pooled_label": "2022-23 to 2024-25",
-    "default_measure": "rate",
-    "measures": {
-      "rate": {
-        "label": "Share of students sent home, 2024-25",
-        "unit": "%",
-        "steps": [
-          1,
-          2,
-          3,
-          5
-        ],
-        "description": "Students with at least one out-of-school suspension, as a share of students enrolled in October."
-      },
-      "gap": {
-        "label": "How many times as often Black students are sent home as White students, 2022-23 to 2024-25",
-        "unit": "times",
-        "steps": [
-          3,
-          4,
-          5
-        ],
-        "description": "Black students' rate of being sent home divided by White students', with the latest 3 school years added together."
-      }
+    "legend": {
+      "label": "Share of students sent home, 2024-25",
+      "steps": [
+        1,
+        2,
+        3,
+        5
+      ]
     },
     "county": {
-      "label": "Westchester County",
+      "label": "Westchester average",
       "sent_home": 2988,
       "enrolled": 138515,
       "rate": 2.2,
-      "gap_pooled": 6.7
+      "one_in": 46
     },
     "places": {
       "660101030000": {
@@ -412,45 +302,12 @@
         "enrolled": 2785,
         "sent_home": 21,
         "rate": 0.8,
+        "one_in": 133,
         "too_few": false,
         "in_school": 44,
         "in_school_none_reported": false,
         "days_sent_home": 89,
-        "days_per_100": 3.2,
-        "groups": {
-          "Black": {
-            "sent_home": null,
-            "enrolled": 39,
-            "rate": null,
-            "one_in": null,
-            "too_few": true,
-            "too_few_to_compare": true
-          },
-          "White": {
-            "sent_home": 15,
-            "enrolled": 2077,
-            "rate": 0.7,
-            "one_in": 138,
-            "too_few": false,
-            "too_few_to_compare": false
-          }
-        },
-        "gap": {
-          "value": null,
-          "too_few": true,
-          "counts": {
-            "Black": {
-              "sent_home": null,
-              "enrolled": 99,
-              "hidden_year": true
-            },
-            "White": {
-              "sent_home": 45,
-              "enrolled": 6339,
-              "hidden_year": false
-            }
-          }
-        }
+        "days_per_100": 3.2
       },
       "660102060000": {
         "name": "BEDFORD CSD",
@@ -460,45 +317,12 @@
         "enrolled": 3480,
         "sent_home": 51,
         "rate": 1.5,
+        "one_in": 68,
         "too_few": false,
         "in_school": 79,
         "in_school_none_reported": false,
         "days_sent_home": 274,
-        "days_per_100": 7.9,
-        "groups": {
-          "Black": {
-            "sent_home": 8,
-            "enrolled": 101,
-            "rate": 7.9,
-            "one_in": 13,
-            "too_few": false,
-            "too_few_to_compare": true
-          },
-          "White": {
-            "sent_home": 17,
-            "enrolled": 1703,
-            "rate": 1,
-            "one_in": 100,
-            "too_few": false,
-            "too_few_to_compare": false
-          }
-        },
-        "gap": {
-          "value": null,
-          "too_few": true,
-          "counts": {
-            "Black": {
-              "sent_home": null,
-              "enrolled": 305,
-              "hidden_year": true
-            },
-            "White": {
-              "sent_home": 61,
-              "enrolled": 5179,
-              "hidden_year": false
-            }
-          }
-        }
+        "days_per_100": 7.9
       },
       "660202030000": {
         "name": "CROTON-HARMON UFSD",
@@ -508,45 +332,12 @@
         "enrolled": 1553,
         "sent_home": 3,
         "rate": 0.2,
+        "one_in": 518,
         "too_few": false,
         "in_school": 13,
         "in_school_none_reported": false,
         "days_sent_home": 4,
-        "days_per_100": 0.3,
-        "groups": {
-          "Black": {
-            "sent_home": null,
-            "enrolled": 22,
-            "rate": null,
-            "one_in": null,
-            "too_few": true,
-            "too_few_to_compare": true
-          },
-          "White": {
-            "sent_home": 2,
-            "enrolled": 1073,
-            "rate": 0.2,
-            "one_in": 537,
-            "too_few": false,
-            "too_few_to_compare": true
-          }
-        },
-        "gap": {
-          "value": null,
-          "too_few": true,
-          "counts": {
-            "Black": {
-              "sent_home": null,
-              "enrolled": 62,
-              "hidden_year": true
-            },
-            "White": {
-              "sent_home": 10,
-              "enrolled": 3212,
-              "hidden_year": false
-            }
-          }
-        }
+        "days_per_100": 0.3
       },
       "660203060000": {
         "name": "HENDRICK HUDSON CSD",
@@ -556,45 +347,12 @@
         "enrolled": 2145,
         "sent_home": 47,
         "rate": 2.2,
+        "one_in": 46,
         "too_few": false,
         "in_school": 61,
         "in_school_none_reported": false,
         "days_sent_home": 258,
-        "days_per_100": 12.0,
-        "groups": {
-          "Black": {
-            "sent_home": 10,
-            "enrolled": 133,
-            "rate": 7.5,
-            "one_in": 13,
-            "too_few": false,
-            "too_few_to_compare": false
-          },
-          "White": {
-            "sent_home": 16,
-            "enrolled": 994,
-            "rate": 1.6,
-            "one_in": 62,
-            "too_few": false,
-            "too_few_to_compare": false
-          }
-        },
-        "gap": {
-          "value": 4.7,
-          "too_few": false,
-          "counts": {
-            "Black": {
-              "sent_home": 34,
-              "enrolled": 400,
-              "hidden_year": false
-            },
-            "White": {
-              "sent_home": 58,
-              "enrolled": 3187,
-              "hidden_year": false
-            }
-          }
-        }
+        "days_per_100": 12.0
       },
       "660301030000": {
         "name": "EASTCHESTER UFSD",
@@ -604,45 +362,12 @@
         "enrolled": 2920,
         "sent_home": 38,
         "rate": 1.3,
+        "one_in": 77,
         "too_few": false,
         "in_school": 67,
         "in_school_none_reported": false,
         "days_sent_home": 186,
-        "days_per_100": 6.4,
-        "groups": {
-          "Black": {
-            "sent_home": 2,
-            "enrolled": 57,
-            "rate": 3.5,
-            "one_in": 29,
-            "too_few": false,
-            "too_few_to_compare": true
-          },
-          "White": {
-            "sent_home": 29,
-            "enrolled": 1885,
-            "rate": 1.5,
-            "one_in": 65,
-            "too_few": false,
-            "too_few_to_compare": false
-          }
-        },
-        "gap": {
-          "value": null,
-          "too_few": true,
-          "counts": {
-            "Black": {
-              "sent_home": 8,
-              "enrolled": 184,
-              "hidden_year": false
-            },
-            "White": {
-              "sent_home": 79,
-              "enrolled": 5773,
-              "hidden_year": false
-            }
-          }
-        }
+        "days_per_100": 6.4
       },
       "660302030000": {
         "name": "TUCKAHOE UFSD",
@@ -652,45 +377,12 @@
         "enrolled": 1043,
         "sent_home": 15,
         "rate": 1.4,
+        "one_in": 70,
         "too_few": false,
         "in_school": 22,
         "in_school_none_reported": false,
         "days_sent_home": 58,
-        "days_per_100": 5.6,
-        "groups": {
-          "Black": {
-            "sent_home": 2,
-            "enrolled": 87,
-            "rate": 2.3,
-            "one_in": 44,
-            "too_few": false,
-            "too_few_to_compare": true
-          },
-          "White": {
-            "sent_home": 6,
-            "enrolled": 661,
-            "rate": 0.9,
-            "one_in": 110,
-            "too_few": false,
-            "too_few_to_compare": true
-          }
-        },
-        "gap": {
-          "value": null,
-          "too_few": true,
-          "counts": {
-            "Black": {
-              "sent_home": 5,
-              "enrolled": 270,
-              "hidden_year": false
-            },
-            "White": {
-              "sent_home": 26,
-              "enrolled": 2041,
-              "hidden_year": false
-            }
-          }
-        }
+        "days_per_100": 5.6
       },
       "660303030000": {
         "name": "BRONXVILLE UFSD",
@@ -700,45 +392,12 @@
         "enrolled": 1570,
         "sent_home": 17,
         "rate": 1.1,
+        "one_in": 92,
         "too_few": false,
         "in_school": 2,
         "in_school_none_reported": false,
         "days_sent_home": 69,
-        "days_per_100": 4.4,
-        "groups": {
-          "Black": {
-            "sent_home": null,
-            "enrolled": 4,
-            "rate": null,
-            "one_in": null,
-            "too_few": true,
-            "too_few_to_compare": true
-          },
-          "White": {
-            "sent_home": 13,
-            "enrolled": 1178,
-            "rate": 1.1,
-            "one_in": 91,
-            "too_few": false,
-            "too_few_to_compare": false
-          }
-        },
-        "gap": {
-          "value": null,
-          "too_few": true,
-          "counts": {
-            "Black": {
-              "sent_home": null,
-              "enrolled": 11,
-              "hidden_year": true
-            },
-            "White": {
-              "sent_home": 32,
-              "enrolled": 3543,
-              "hidden_year": false
-            }
-          }
-        }
+        "days_per_100": 4.4
       },
       "660401030000": {
         "name": "UFSD-TARRYTOWNS",
@@ -748,45 +407,12 @@
         "enrolled": 2624,
         "sent_home": 55,
         "rate": 2.1,
+        "one_in": 48,
         "too_few": false,
         "in_school": 51,
         "in_school_none_reported": false,
         "days_sent_home": 171,
-        "days_per_100": 6.5,
-        "groups": {
-          "Black": {
-            "sent_home": 6,
-            "enrolled": 69,
-            "rate": 8.7,
-            "one_in": 12,
-            "too_few": false,
-            "too_few_to_compare": true
-          },
-          "White": {
-            "sent_home": 9,
-            "enrolled": 783,
-            "rate": 1.1,
-            "one_in": 87,
-            "too_few": false,
-            "too_few_to_compare": true
-          }
-        },
-        "gap": {
-          "value": 4.9,
-          "too_few": false,
-          "counts": {
-            "Black": {
-              "sent_home": 12,
-              "enrolled": 198,
-              "hidden_year": false
-            },
-            "White": {
-              "sent_home": 29,
-              "enrolled": 2344,
-              "hidden_year": false
-            }
-          }
-        }
+        "days_per_100": 6.5
       },
       "660402020000": {
         "name": "IRVINGTON UFSD",
@@ -796,45 +422,12 @@
         "enrolled": 1698,
         "sent_home": 10,
         "rate": 0.6,
+        "one_in": 170,
         "too_few": false,
         "in_school": 8,
         "in_school_none_reported": false,
         "days_sent_home": 75,
-        "days_per_100": 4.4,
-        "groups": {
-          "Black": {
-            "sent_home": null,
-            "enrolled": 55,
-            "rate": null,
-            "one_in": null,
-            "too_few": true,
-            "too_few_to_compare": true
-          },
-          "White": {
-            "sent_home": 9,
-            "enrolled": 1143,
-            "rate": 0.8,
-            "one_in": 127,
-            "too_few": false,
-            "too_few_to_compare": true
-          }
-        },
-        "gap": {
-          "value": null,
-          "too_few": true,
-          "counts": {
-            "Black": {
-              "sent_home": null,
-              "enrolled": 173,
-              "hidden_year": true
-            },
-            "White": {
-              "sent_home": 17,
-              "enrolled": 3515,
-              "hidden_year": false
-            }
-          }
-        }
+        "days_per_100": 4.4
       },
       "660403030000": {
         "name": "DOBBS FERRY UFSD",
@@ -844,45 +437,12 @@
         "enrolled": 1480,
         "sent_home": 15,
         "rate": 1,
+        "one_in": 99,
         "too_few": false,
         "in_school": 19,
         "in_school_none_reported": false,
         "days_sent_home": 44,
-        "days_per_100": 3.0,
-        "groups": {
-          "Black": {
-            "sent_home": null,
-            "enrolled": 40,
-            "rate": null,
-            "one_in": null,
-            "too_few": true,
-            "too_few_to_compare": true
-          },
-          "White": {
-            "sent_home": 9,
-            "enrolled": 928,
-            "rate": 1,
-            "one_in": 103,
-            "too_few": false,
-            "too_few_to_compare": true
-          }
-        },
-        "gap": {
-          "value": null,
-          "too_few": true,
-          "counts": {
-            "Black": {
-              "sent_home": null,
-              "enrolled": 140,
-              "hidden_year": true
-            },
-            "White": {
-              "sent_home": 29,
-              "enrolled": 2817,
-              "hidden_year": false
-            }
-          }
-        }
+        "days_per_100": 3.0
       },
       "660404030000": {
         "name": "HASTINGS-ON-HUDSON UFSD",
@@ -892,45 +452,12 @@
         "enrolled": 1593,
         "sent_home": 5,
         "rate": 0.3,
+        "one_in": 319,
         "too_few": false,
         "in_school": 13,
         "in_school_none_reported": false,
         "days_sent_home": 40,
-        "days_per_100": 2.5,
-        "groups": {
-          "Black": {
-            "sent_home": 0,
-            "enrolled": 33,
-            "rate": 0,
-            "one_in": null,
-            "too_few": false,
-            "too_few_to_compare": true
-          },
-          "White": {
-            "sent_home": 3,
-            "enrolled": 1095,
-            "rate": 0.3,
-            "one_in": 365,
-            "too_few": false,
-            "too_few_to_compare": true
-          }
-        },
-        "gap": {
-          "value": null,
-          "too_few": true,
-          "counts": {
-            "Black": {
-              "sent_home": 0,
-              "enrolled": 95,
-              "hidden_year": false
-            },
-            "White": {
-              "sent_home": 9,
-              "enrolled": 3328,
-              "hidden_year": false
-            }
-          }
-        }
+        "days_per_100": 2.5
       },
       "660405030000": {
         "name": "ARDSLEY UFSD",
@@ -940,45 +467,12 @@
         "enrolled": 2317,
         "sent_home": 30,
         "rate": 1.3,
+        "one_in": 77,
         "too_few": false,
         "in_school": 16,
         "in_school_none_reported": false,
         "days_sent_home": 119,
-        "days_per_100": 5.1,
-        "groups": {
-          "Black": {
-            "sent_home": null,
-            "enrolled": 70,
-            "rate": null,
-            "one_in": null,
-            "too_few": true,
-            "too_few_to_compare": true
-          },
-          "White": {
-            "sent_home": 20,
-            "enrolled": 1201,
-            "rate": 1.7,
-            "one_in": 60,
-            "too_few": false,
-            "too_few_to_compare": false
-          }
-        },
-        "gap": {
-          "value": null,
-          "too_few": true,
-          "counts": {
-            "Black": {
-              "sent_home": null,
-              "enrolled": 220,
-              "hidden_year": true
-            },
-            "White": {
-              "sent_home": 45,
-              "enrolled": 3635,
-              "hidden_year": false
-            }
-          }
-        }
+        "days_per_100": 5.1
       },
       "660406030000": {
         "name": "EDGEMONT UFSD",
@@ -988,45 +482,12 @@
         "enrolled": 1827,
         "sent_home": 31,
         "rate": 1.7,
+        "one_in": 59,
         "too_few": false,
         "in_school": 6,
         "in_school_none_reported": false,
         "days_sent_home": 125,
-        "days_per_100": 6.8,
-        "groups": {
-          "Black": {
-            "sent_home": null,
-            "enrolled": 35,
-            "rate": null,
-            "one_in": null,
-            "too_few": true,
-            "too_few_to_compare": true
-          },
-          "White": {
-            "sent_home": 11,
-            "enrolled": 757,
-            "rate": 1.5,
-            "one_in": 69,
-            "too_few": false,
-            "too_few_to_compare": false
-          }
-        },
-        "gap": {
-          "value": null,
-          "too_few": true,
-          "counts": {
-            "Black": {
-              "sent_home": null,
-              "enrolled": 102,
-              "hidden_year": true
-            },
-            "White": {
-              "sent_home": 33,
-              "enrolled": 2360,
-              "hidden_year": false
-            }
-          }
-        }
+        "days_per_100": 6.8
       },
       "660407060000": {
         "name": "GREENBURGH CSD",
@@ -1036,45 +497,12 @@
         "enrolled": 1558,
         "sent_home": 33,
         "rate": 2.1,
+        "one_in": 47,
         "too_few": false,
         "in_school": 46,
         "in_school_none_reported": false,
         "days_sent_home": 144,
-        "days_per_100": 9.2,
-        "groups": {
-          "Black": {
-            "sent_home": 16,
-            "enrolled": 432,
-            "rate": 3.7,
-            "one_in": 27,
-            "too_few": false,
-            "too_few_to_compare": false
-          },
-          "White": {
-            "sent_home": 1,
-            "enrolled": 194,
-            "rate": 0.5,
-            "one_in": 194,
-            "too_few": false,
-            "too_few_to_compare": true
-          }
-        },
-        "gap": {
-          "value": null,
-          "too_few": true,
-          "counts": {
-            "Black": {
-              "sent_home": 80,
-              "enrolled": 1369,
-              "hidden_year": false
-            },
-            "White": {
-              "sent_home": 4,
-              "enrolled": 563,
-              "hidden_year": false
-            }
-          }
-        }
+        "days_per_100": 9.2
       },
       "660409020000": {
         "name": "ELMSFORD UFSD",
@@ -1084,45 +512,12 @@
         "enrolled": 999,
         "sent_home": 47,
         "rate": 4.7,
+        "one_in": 21,
         "too_few": false,
         "in_school": 70,
         "in_school_none_reported": false,
         "days_sent_home": 220,
-        "days_per_100": 22.0,
-        "groups": {
-          "Black": {
-            "sent_home": 27,
-            "enrolled": 221,
-            "rate": 12.2,
-            "one_in": 8,
-            "too_few": false,
-            "too_few_to_compare": false
-          },
-          "White": {
-            "sent_home": 1,
-            "enrolled": 59,
-            "rate": 1.7,
-            "one_in": 59,
-            "too_few": false,
-            "too_few_to_compare": true
-          }
-        },
-        "gap": {
-          "value": null,
-          "too_few": true,
-          "counts": {
-            "Black": {
-              "sent_home": 57,
-              "enrolled": 663,
-              "hidden_year": false
-            },
-            "White": {
-              "sent_home": 7,
-              "enrolled": 190,
-              "hidden_year": false
-            }
-          }
-        }
+        "days_per_100": 22.0
       },
       "660501060000": {
         "name": "HARRISON CSD",
@@ -1132,45 +527,12 @@
         "enrolled": 3788,
         "sent_home": 45,
         "rate": 1.2,
+        "one_in": 84,
         "too_few": false,
         "in_school": 64,
         "in_school_none_reported": false,
         "days_sent_home": 335,
-        "days_per_100": 8.8,
-        "groups": {
-          "Black": {
-            "sent_home": null,
-            "enrolled": 107,
-            "rate": null,
-            "one_in": null,
-            "too_few": true,
-            "too_few_to_compare": true
-          },
-          "White": {
-            "sent_home": 18,
-            "enrolled": 2162,
-            "rate": 0.8,
-            "one_in": 120,
-            "too_few": false,
-            "too_few_to_compare": false
-          }
-        },
-        "gap": {
-          "value": null,
-          "too_few": true,
-          "counts": {
-            "Black": {
-              "sent_home": null,
-              "enrolled": 280,
-              "hidden_year": true
-            },
-            "White": {
-              "sent_home": 55,
-              "enrolled": 6508,
-              "hidden_year": false
-            }
-          }
-        }
+        "days_per_100": 8.8
       },
       "660701030000": {
         "name": "MAMARONECK UFSD",
@@ -1180,45 +542,12 @@
         "enrolled": 5517,
         "sent_home": 34,
         "rate": 0.6,
+        "one_in": 162,
         "too_few": false,
         "in_school": 98,
         "in_school_none_reported": false,
         "days_sent_home": 240,
-        "days_per_100": 4.4,
-        "groups": {
-          "Black": {
-            "sent_home": 7,
-            "enrolled": 127,
-            "rate": 5.5,
-            "one_in": 18,
-            "too_few": false,
-            "too_few_to_compare": true
-          },
-          "White": {
-            "sent_home": 20,
-            "enrolled": 3543,
-            "rate": 0.6,
-            "one_in": 177,
-            "too_few": false,
-            "too_few_to_compare": false
-          }
-        },
-        "gap": {
-          "value": 6.6,
-          "too_few": false,
-          "counts": {
-            "Black": {
-              "sent_home": 10,
-              "enrolled": 370,
-              "hidden_year": false
-            },
-            "White": {
-              "sent_home": 44,
-              "enrolled": 10694,
-              "hidden_year": false
-            }
-          }
-        }
+        "days_per_100": 4.4
       },
       "660801060000": {
         "name": "MT PLEASANT CSD",
@@ -1228,45 +557,12 @@
         "enrolled": 1941,
         "sent_home": 21,
         "rate": 1.1,
+        "one_in": 92,
         "too_few": false,
         "in_school": 44,
         "in_school_none_reported": false,
         "days_sent_home": 103,
-        "days_per_100": 5.3,
-        "groups": {
-          "Black": {
-            "sent_home": null,
-            "enrolled": 22,
-            "rate": null,
-            "one_in": null,
-            "too_few": true,
-            "too_few_to_compare": true
-          },
-          "White": {
-            "sent_home": 18,
-            "enrolled": 1465,
-            "rate": 1.2,
-            "one_in": 81,
-            "too_few": false,
-            "too_few_to_compare": false
-          }
-        },
-        "gap": {
-          "value": null,
-          "too_few": true,
-          "counts": {
-            "Black": {
-              "sent_home": null,
-              "enrolled": 60,
-              "hidden_year": true
-            },
-            "White": {
-              "sent_home": 72,
-              "enrolled": 4387,
-              "hidden_year": false
-            }
-          }
-        }
+        "days_per_100": 5.3
       },
       "660802040000": {
         "name": "POCANTICO HILLS CSD",
@@ -1276,45 +572,12 @@
         "enrolled": 322,
         "sent_home": 1,
         "rate": 0.3,
+        "one_in": 322,
         "too_few": false,
         "in_school": 13,
         "in_school_none_reported": false,
         "days_sent_home": 10,
-        "days_per_100": 3.1,
-        "groups": {
-          "Black": {
-            "sent_home": null,
-            "enrolled": 22,
-            "rate": null,
-            "one_in": null,
-            "too_few": true,
-            "too_few_to_compare": true
-          },
-          "White": {
-            "sent_home": 0,
-            "enrolled": 125,
-            "rate": 0,
-            "one_in": null,
-            "too_few": false,
-            "too_few_to_compare": true
-          }
-        },
-        "gap": {
-          "value": null,
-          "too_few": true,
-          "counts": {
-            "Black": {
-              "sent_home": null,
-              "enrolled": 77,
-              "hidden_year": true
-            },
-            "White": {
-              "sent_home": 2,
-              "enrolled": 375,
-              "hidden_year": false
-            }
-          }
-        }
+        "days_per_100": 3.1
       },
       "660805030000": {
         "name": "VALHALLA UFSD",
@@ -1324,45 +587,12 @@
         "enrolled": 1425,
         "sent_home": 33,
         "rate": 2.3,
+        "one_in": 43,
         "too_few": false,
         "in_school": 2,
         "in_school_none_reported": false,
         "days_sent_home": 95,
-        "days_per_100": 6.7,
-        "groups": {
-          "Black": {
-            "sent_home": null,
-            "enrolled": 78,
-            "rate": null,
-            "one_in": null,
-            "too_few": true,
-            "too_few_to_compare": true
-          },
-          "White": {
-            "sent_home": 12,
-            "enrolled": 693,
-            "rate": 1.7,
-            "one_in": 58,
-            "too_few": false,
-            "too_few_to_compare": false
-          }
-        },
-        "gap": {
-          "value": null,
-          "too_few": true,
-          "counts": {
-            "Black": {
-              "sent_home": null,
-              "enrolled": 237,
-              "hidden_year": true
-            },
-            "White": {
-              "sent_home": 38,
-              "enrolled": 2097,
-              "hidden_year": false
-            }
-          }
-        }
+        "days_per_100": 6.7
       },
       "660809030000": {
         "name": "PLEASANTVILLE UFSD",
@@ -1372,45 +602,12 @@
         "enrolled": 1566,
         "sent_home": 11,
         "rate": 0.7,
+        "one_in": 142,
         "too_few": false,
         "in_school": 11,
         "in_school_none_reported": false,
         "days_sent_home": 29,
-        "days_per_100": 1.9,
-        "groups": {
-          "Black": {
-            "sent_home": null,
-            "enrolled": 27,
-            "rate": null,
-            "one_in": null,
-            "too_few": true,
-            "too_few_to_compare": true
-          },
-          "White": {
-            "sent_home": 3,
-            "enrolled": 1078,
-            "rate": 0.3,
-            "one_in": 359,
-            "too_few": false,
-            "too_few_to_compare": true
-          }
-        },
-        "gap": {
-          "value": null,
-          "too_few": true,
-          "counts": {
-            "Black": {
-              "sent_home": null,
-              "enrolled": 88,
-              "hidden_year": true
-            },
-            "White": {
-              "sent_home": 15,
-              "enrolled": 3328,
-              "hidden_year": false
-            }
-          }
-        }
+        "days_per_100": 1.9
       },
       "660900010000": {
         "name": "MT VERNON SCHOOL DISTRICT",
@@ -1420,45 +617,12 @@
         "enrolled": 6714,
         "sent_home": 428,
         "rate": 6.4,
+        "one_in": 16,
         "too_few": false,
         "in_school": 72,
         "in_school_none_reported": false,
         "days_sent_home": 4311,
-        "days_per_100": 64.2,
-        "groups": {
-          "Black": {
-            "sent_home": 319,
-            "enrolled": 4003,
-            "rate": 8,
-            "one_in": 13,
-            "too_few": false,
-            "too_few_to_compare": false
-          },
-          "White": {
-            "sent_home": 8,
-            "enrolled": 325,
-            "rate": 2.5,
-            "one_in": 41,
-            "too_few": false,
-            "too_few_to_compare": true
-          }
-        },
-        "gap": {
-          "value": 2.9,
-          "too_few": false,
-          "counts": {
-            "Black": {
-              "sent_home": 1041,
-              "enrolled": 12446,
-              "hidden_year": false
-            },
-            "White": {
-              "sent_home": 30,
-              "enrolled": 1041,
-              "hidden_year": false
-            }
-          }
-        }
+        "days_per_100": 64.2
       },
       "661004060000": {
         "name": "CHAPPAQUA CSD",
@@ -1468,45 +632,12 @@
         "enrolled": 3509,
         "sent_home": 30,
         "rate": 0.9,
+        "one_in": 117,
         "too_few": false,
         "in_school": 88,
         "in_school_none_reported": false,
         "days_sent_home": 117,
-        "days_per_100": 3.3,
-        "groups": {
-          "Black": {
-            "sent_home": null,
-            "enrolled": 42,
-            "rate": null,
-            "one_in": null,
-            "too_few": true,
-            "too_few_to_compare": true
-          },
-          "White": {
-            "sent_home": 18,
-            "enrolled": 2432,
-            "rate": 0.7,
-            "one_in": 135,
-            "too_few": false,
-            "too_few_to_compare": false
-          }
-        },
-        "gap": {
-          "value": null,
-          "too_few": true,
-          "counts": {
-            "Black": {
-              "sent_home": null,
-              "enrolled": 121,
-              "hidden_year": true
-            },
-            "White": {
-              "sent_home": 96,
-              "enrolled": 7362,
-              "hidden_year": false
-            }
-          }
-        }
+        "days_per_100": 3.3
       },
       "661100010000": {
         "name": "NEW ROCHELLE CITY SD",
@@ -1516,45 +647,12 @@
         "enrolled": 9848,
         "sent_home": 247,
         "rate": 2.5,
+        "one_in": 40,
         "too_few": false,
         "in_school": 133,
         "in_school_none_reported": false,
         "days_sent_home": 1689,
-        "days_per_100": 17.2,
-        "groups": {
-          "Black": {
-            "sent_home": 94,
-            "enrolled": 1807,
-            "rate": 5.2,
-            "one_in": 19,
-            "too_few": false,
-            "too_few_to_compare": false
-          },
-          "White": {
-            "sent_home": 24,
-            "enrolled": 2006,
-            "rate": 1.2,
-            "one_in": 84,
-            "too_few": false,
-            "too_few_to_compare": false
-          }
-        },
-        "gap": {
-          "value": 5.2,
-          "too_few": false,
-          "counts": {
-            "Black": {
-              "sent_home": 310,
-              "enrolled": 5532,
-              "hidden_year": false
-            },
-            "White": {
-              "sent_home": 68,
-              "enrolled": 6346,
-              "hidden_year": false
-            }
-          }
-        }
+        "days_per_100": 17.2
       },
       "661201060000": {
         "name": "BYRAM HILLS CSD",
@@ -1564,45 +662,12 @@
         "enrolled": 2332,
         "sent_home": 17,
         "rate": 0.7,
+        "one_in": 137,
         "too_few": false,
         "in_school": 32,
         "in_school_none_reported": false,
         "days_sent_home": 48,
-        "days_per_100": 2.1,
-        "groups": {
-          "Black": {
-            "sent_home": 0,
-            "enrolled": 13,
-            "rate": 0,
-            "one_in": null,
-            "too_few": true,
-            "too_few_to_compare": true
-          },
-          "White": {
-            "sent_home": 14,
-            "enrolled": 1861,
-            "rate": 0.8,
-            "one_in": 133,
-            "too_few": false,
-            "too_few_to_compare": false
-          }
-        },
-        "gap": {
-          "value": null,
-          "too_few": true,
-          "counts": {
-            "Black": {
-              "sent_home": null,
-              "enrolled": 40,
-              "hidden_year": true
-            },
-            "White": {
-              "sent_home": 42,
-              "enrolled": 5565,
-              "hidden_year": false
-            }
-          }
-        }
+        "days_per_100": 2.1
       },
       "661301040000": {
         "name": "NORTH SALEM CSD",
@@ -1612,45 +677,12 @@
         "enrolled": 923,
         "sent_home": 4,
         "rate": 0.4,
+        "one_in": 231,
         "too_few": false,
         "in_school": 22,
         "in_school_none_reported": false,
         "days_sent_home": 15,
-        "days_per_100": 1.6,
-        "groups": {
-          "Black": {
-            "sent_home": 0,
-            "enrolled": 22,
-            "rate": 0,
-            "one_in": null,
-            "too_few": true,
-            "too_few_to_compare": true
-          },
-          "White": {
-            "sent_home": 2,
-            "enrolled": 653,
-            "rate": 0.3,
-            "one_in": 327,
-            "too_few": false,
-            "too_few_to_compare": true
-          }
-        },
-        "gap": {
-          "value": null,
-          "too_few": true,
-          "counts": {
-            "Black": {
-              "sent_home": 2,
-              "enrolled": 64,
-              "hidden_year": false
-            },
-            "White": {
-              "sent_home": 15,
-              "enrolled": 2045,
-              "hidden_year": false
-            }
-          }
-        }
+        "days_per_100": 1.6
       },
       "661401030000": {
         "name": "OSSINING UFSD",
@@ -1660,45 +692,12 @@
         "enrolled": 4964,
         "sent_home": 142,
         "rate": 2.9,
+        "one_in": 35,
         "too_few": false,
         "in_school": 111,
         "in_school_none_reported": false,
         "days_sent_home": 1329,
-        "days_per_100": 26.8,
-        "groups": {
-          "Black": {
-            "sent_home": 28,
-            "enrolled": 384,
-            "rate": 7.3,
-            "one_in": 14,
-            "too_few": false,
-            "too_few_to_compare": false
-          },
-          "White": {
-            "sent_home": 12,
-            "enrolled": 864,
-            "rate": 1.4,
-            "one_in": 72,
-            "too_few": false,
-            "too_few_to_compare": false
-          }
-        },
-        "gap": {
-          "value": 5.4,
-          "too_few": false,
-          "counts": {
-            "Black": {
-              "sent_home": 99,
-              "enrolled": 1212,
-              "hidden_year": false
-            },
-            "White": {
-              "sent_home": 40,
-              "enrolled": 2649,
-              "hidden_year": false
-            }
-          }
-        }
+        "days_per_100": 26.8
       },
       "661402020000": {
         "name": "BRIARCLIFF MANOR UFSD",
@@ -1708,45 +707,12 @@
         "enrolled": 1333,
         "sent_home": 3,
         "rate": 0.2,
+        "one_in": 444,
         "too_few": false,
         "in_school": 7,
         "in_school_none_reported": false,
         "days_sent_home": 10,
-        "days_per_100": 0.8,
-        "groups": {
-          "Black": {
-            "sent_home": 2,
-            "enrolled": 30,
-            "rate": 6.7,
-            "one_in": 15,
-            "too_few": false,
-            "too_few_to_compare": true
-          },
-          "White": {
-            "sent_home": 1,
-            "enrolled": 827,
-            "rate": 0.1,
-            "one_in": 827,
-            "too_few": false,
-            "too_few_to_compare": true
-          }
-        },
-        "gap": {
-          "value": null,
-          "too_few": true,
-          "counts": {
-            "Black": {
-              "sent_home": null,
-              "enrolled": 82,
-              "hidden_year": true
-            },
-            "White": {
-              "sent_home": 9,
-              "enrolled": 2535,
-              "hidden_year": false
-            }
-          }
-        }
+        "days_per_100": 0.8
       },
       "661500010000": {
         "name": "PEEKSKILL CITY SD",
@@ -1756,45 +722,12 @@
         "enrolled": 3795,
         "sent_home": 169,
         "rate": 4.5,
+        "one_in": 22,
         "too_few": false,
         "in_school": 66,
         "in_school_none_reported": false,
         "days_sent_home": 1497,
-        "days_per_100": 39.4,
-        "groups": {
-          "Black": {
-            "sent_home": 60,
-            "enrolled": 487,
-            "rate": 12.3,
-            "one_in": 8,
-            "too_few": false,
-            "too_few_to_compare": false
-          },
-          "White": {
-            "sent_home": 11,
-            "enrolled": 211,
-            "rate": 5.2,
-            "one_in": 19,
-            "too_few": false,
-            "too_few_to_compare": false
-          }
-        },
-        "gap": {
-          "value": 3.5,
-          "too_few": false,
-          "counts": {
-            "Black": {
-              "sent_home": 210,
-              "enrolled": 1528,
-              "hidden_year": false
-            },
-            "White": {
-              "sent_home": 25,
-              "enrolled": 640,
-              "hidden_year": false
-            }
-          }
-        }
+        "days_per_100": 39.4
       },
       "661601030000": {
         "name": "PELHAM UFSD",
@@ -1804,45 +737,12 @@
         "enrolled": 2823,
         "sent_home": 32,
         "rate": 1.1,
+        "one_in": 88,
         "too_few": false,
         "in_school": 119,
         "in_school_none_reported": false,
         "days_sent_home": 282,
-        "days_per_100": 10.0,
-        "groups": {
-          "Black": {
-            "sent_home": null,
-            "enrolled": 134,
-            "rate": null,
-            "one_in": null,
-            "too_few": true,
-            "too_few_to_compare": true
-          },
-          "White": {
-            "sent_home": 15,
-            "enrolled": 1777,
-            "rate": 0.8,
-            "one_in": 118,
-            "too_few": false,
-            "too_few_to_compare": false
-          }
-        },
-        "gap": {
-          "value": null,
-          "too_few": true,
-          "counts": {
-            "Black": {
-              "sent_home": null,
-              "enrolled": 429,
-              "hidden_year": true
-            },
-            "White": {
-              "sent_home": 53,
-              "enrolled": 5312,
-              "hidden_year": false
-            }
-          }
-        }
+        "days_per_100": 10.0
       },
       "661800010000": {
         "name": "RYE CITY SD",
@@ -1852,45 +752,12 @@
         "enrolled": 2791,
         "sent_home": 8,
         "rate": 0.3,
+        "one_in": 349,
         "too_few": false,
         "in_school": 10,
         "in_school_none_reported": false,
         "days_sent_home": 22,
-        "days_per_100": 0.8,
-        "groups": {
-          "Black": {
-            "sent_home": 0,
-            "enrolled": 26,
-            "rate": 0,
-            "one_in": null,
-            "too_few": true,
-            "too_few_to_compare": true
-          },
-          "White": {
-            "sent_home": 6,
-            "enrolled": 2133,
-            "rate": 0.3,
-            "one_in": 356,
-            "too_few": false,
-            "too_few_to_compare": true
-          }
-        },
-        "gap": {
-          "value": null,
-          "too_few": true,
-          "counts": {
-            "Black": {
-              "sent_home": null,
-              "enrolled": 87,
-              "hidden_year": true
-            },
-            "White": {
-              "sent_home": 48,
-              "enrolled": 6523,
-              "hidden_year": false
-            }
-          }
-        }
+        "days_per_100": 0.8
       },
       "661901030000": {
         "name": "RYE NECK UFSD",
@@ -1900,45 +767,12 @@
         "enrolled": 1424,
         "sent_home": 14,
         "rate": 1,
+        "one_in": 102,
         "too_few": false,
         "in_school": 14,
         "in_school_none_reported": false,
         "days_sent_home": 42,
-        "days_per_100": 2.9,
-        "groups": {
-          "Black": {
-            "sent_home": 0,
-            "enrolled": 36,
-            "rate": 0,
-            "one_in": null,
-            "too_few": false,
-            "too_few_to_compare": true
-          },
-          "White": {
-            "sent_home": 7,
-            "enrolled": 852,
-            "rate": 0.8,
-            "one_in": 122,
-            "too_few": false,
-            "too_few_to_compare": true
-          }
-        },
-        "gap": {
-          "value": null,
-          "too_few": true,
-          "counts": {
-            "Black": {
-              "sent_home": null,
-              "enrolled": 107,
-              "hidden_year": true
-            },
-            "White": {
-              "sent_home": 29,
-              "enrolled": 2660,
-              "hidden_year": false
-            }
-          }
-        }
+        "days_per_100": 2.9
       },
       "661904030000": {
         "name": "PORT CHESTER-RYE UFSD",
@@ -1948,45 +782,12 @@
         "enrolled": 4377,
         "sent_home": 139,
         "rate": 3.2,
+        "one_in": 31,
         "too_few": false,
         "in_school": 81,
         "in_school_none_reported": false,
         "days_sent_home": 2425,
-        "days_per_100": 55.4,
-        "groups": {
-          "Black": {
-            "sent_home": 8,
-            "enrolled": 113,
-            "rate": 7.1,
-            "one_in": 14,
-            "too_few": false,
-            "too_few_to_compare": true
-          },
-          "White": {
-            "sent_home": 5,
-            "enrolled": 394,
-            "rate": 1.3,
-            "one_in": 79,
-            "too_few": false,
-            "too_few_to_compare": true
-          }
-        },
-        "gap": {
-          "value": 3.7,
-          "too_few": false,
-          "counts": {
-            "Black": {
-              "sent_home": 27,
-              "enrolled": 359,
-              "hidden_year": false
-            },
-            "White": {
-              "sent_home": 26,
-              "enrolled": 1287,
-              "hidden_year": false
-            }
-          }
-        }
+        "days_per_100": 55.4
       },
       "661905020000": {
         "name": "BLIND BROOK-RYE UFSD",
@@ -1996,45 +797,12 @@
         "enrolled": 1288,
         "sent_home": 6,
         "rate": 0.5,
+        "one_in": 215,
         "too_few": false,
         "in_school": 12,
         "in_school_none_reported": false,
         "days_sent_home": 17,
-        "days_per_100": 1.3,
-        "groups": {
-          "Black": {
-            "sent_home": 0,
-            "enrolled": 18,
-            "rate": 0,
-            "one_in": null,
-            "too_few": true,
-            "too_few_to_compare": true
-          },
-          "White": {
-            "sent_home": 5,
-            "enrolled": 943,
-            "rate": 0.5,
-            "one_in": 189,
-            "too_few": false,
-            "too_few_to_compare": true
-          }
-        },
-        "gap": {
-          "value": null,
-          "too_few": true,
-          "counts": {
-            "Black": {
-              "sent_home": 0,
-              "enrolled": 45,
-              "hidden_year": false
-            },
-            "White": {
-              "sent_home": 15,
-              "enrolled": 2844,
-              "hidden_year": false
-            }
-          }
-        }
+        "days_per_100": 1.3
       },
       "662001030000": {
         "name": "SCARSDALE UFSD",
@@ -2044,45 +812,12 @@
         "enrolled": 4690,
         "sent_home": 4,
         "rate": 0.1,
+        "one_in": 1173,
         "too_few": false,
         "in_school": 33,
         "in_school_none_reported": false,
         "days_sent_home": 10,
-        "days_per_100": 0.2,
-        "groups": {
-          "Black": {
-            "sent_home": null,
-            "enrolled": 51,
-            "rate": null,
-            "one_in": null,
-            "too_few": true,
-            "too_few_to_compare": true
-          },
-          "White": {
-            "sent_home": 2,
-            "enrolled": 2571,
-            "rate": 0.1,
-            "one_in": 1286,
-            "too_few": false,
-            "too_few_to_compare": true
-          }
-        },
-        "gap": {
-          "value": null,
-          "too_few": true,
-          "counts": {
-            "Black": {
-              "sent_home": null,
-              "enrolled": 143,
-              "hidden_year": true
-            },
-            "White": {
-              "sent_home": 20,
-              "enrolled": 7939,
-              "hidden_year": false
-            }
-          }
-        }
+        "days_per_100": 0.2
       },
       "662101060000": {
         "name": "SOMERS CSD",
@@ -2092,45 +827,12 @@
         "enrolled": 2469,
         "sent_home": 25,
         "rate": 1,
+        "one_in": 99,
         "too_few": false,
         "in_school": 25,
         "in_school_none_reported": false,
         "days_sent_home": 80,
-        "days_per_100": 3.2,
-        "groups": {
-          "Black": {
-            "sent_home": null,
-            "enrolled": 33,
-            "rate": null,
-            "one_in": null,
-            "too_few": true,
-            "too_few_to_compare": true
-          },
-          "White": {
-            "sent_home": 18,
-            "enrolled": 1858,
-            "rate": 1,
-            "one_in": 103,
-            "too_few": false,
-            "too_few_to_compare": false
-          }
-        },
-        "gap": {
-          "value": null,
-          "too_few": true,
-          "counts": {
-            "Black": {
-              "sent_home": null,
-              "enrolled": 88,
-              "hidden_year": true
-            },
-            "White": {
-              "sent_home": 91,
-              "enrolled": 5859,
-              "hidden_year": false
-            }
-          }
-        }
+        "days_per_100": 3.2
       },
       "662200010000": {
         "name": "WHITE PLAINS CITY SD",
@@ -2140,45 +842,12 @@
         "enrolled": 6782,
         "sent_home": 134,
         "rate": 2,
+        "one_in": 51,
         "too_few": false,
         "in_school": 41,
         "in_school_none_reported": false,
         "days_sent_home": 1332,
-        "days_per_100": 19.6,
-        "groups": {
-          "Black": {
-            "sent_home": 42,
-            "enrolled": 744,
-            "rate": 5.6,
-            "one_in": 18,
-            "too_few": false,
-            "too_few_to_compare": false
-          },
-          "White": {
-            "sent_home": 11,
-            "enrolled": 1427,
-            "rate": 0.8,
-            "one_in": 130,
-            "too_few": false,
-            "too_few_to_compare": false
-          }
-        },
-        "gap": {
-          "value": 6.5,
-          "too_few": false,
-          "counts": {
-            "Black": {
-              "sent_home": 106,
-              "enrolled": 2214,
-              "hidden_year": false
-            },
-            "White": {
-              "sent_home": 32,
-              "enrolled": 4314,
-              "hidden_year": false
-            }
-          }
-        }
+        "days_per_100": 19.6
       },
       "662300010000": {
         "name": "YONKERS CITY SD",
@@ -2188,45 +857,12 @@
         "enrolled": 23724,
         "sent_home": 704,
         "rate": 3,
+        "one_in": 34,
         "too_few": false,
         "in_school": 0,
         "in_school_none_reported": true,
         "days_sent_home": 2724,
-        "days_per_100": 11.5,
-        "groups": {
-          "Black": {
-            "sent_home": 202,
-            "enrolled": 3632,
-            "rate": 5.6,
-            "one_in": 18,
-            "too_few": false,
-            "too_few_to_compare": false
-          },
-          "White": {
-            "sent_home": 41,
-            "enrolled": 3142,
-            "rate": 1.3,
-            "one_in": 77,
-            "too_few": false,
-            "too_few_to_compare": false
-          }
-        },
-        "gap": {
-          "value": 3.7,
-          "too_few": false,
-          "counts": {
-            "Black": {
-              "sent_home": 819,
-              "enrolled": 11121,
-              "hidden_year": false
-            },
-            "White": {
-              "sent_home": 195,
-              "enrolled": 9823,
-              "hidden_year": false
-            }
-          }
-        }
+        "days_per_100": 11.5
       },
       "662401060000": {
         "name": "LAKELAND CSD",
@@ -2236,45 +872,12 @@
         "enrolled": 5220,
         "sent_home": 122,
         "rate": 2.3,
+        "one_in": 43,
         "too_few": false,
         "in_school": 233,
         "in_school_none_reported": false,
         "days_sent_home": 954,
-        "days_per_100": 18.3,
-        "groups": {
-          "Black": {
-            "sent_home": 19,
-            "enrolled": 359,
-            "rate": 5.3,
-            "one_in": 19,
-            "too_few": false,
-            "too_few_to_compare": false
-          },
-          "White": {
-            "sent_home": 51,
-            "enrolled": 2691,
-            "rate": 1.9,
-            "one_in": 53,
-            "too_few": false,
-            "too_few_to_compare": false
-          }
-        },
-        "gap": {
-          "value": 3.8,
-          "too_few": false,
-          "counts": {
-            "Black": {
-              "sent_home": 66,
-              "enrolled": 1114,
-              "hidden_year": false
-            },
-            "White": {
-              "sent_home": 133,
-              "enrolled": 8545,
-              "hidden_year": false
-            }
-          }
-        }
+        "days_per_100": 18.3
       },
       "662402060000": {
         "name": "YORKTOWN CSD",
@@ -2284,78 +887,19 @@
         "enrolled": 3454,
         "sent_home": 73,
         "rate": 2.1,
+        "one_in": 47,
         "too_few": false,
         "in_school": 59,
         "in_school_none_reported": false,
         "days_sent_home": 486,
-        "days_per_100": 14.1,
-        "groups": {
-          "Black": {
-            "sent_home": null,
-            "enrolled": 79,
-            "rate": null,
-            "one_in": null,
-            "too_few": true,
-            "too_few_to_compare": true
-          },
-          "White": {
-            "sent_home": 48,
-            "enrolled": 2492,
-            "rate": 1.9,
-            "one_in": 52,
-            "too_few": false,
-            "too_few_to_compare": false
-          }
-        },
-        "gap": {
-          "value": null,
-          "too_few": true,
-          "counts": {
-            "Black": {
-              "sent_home": null,
-              "enrolled": 259,
-              "hidden_year": true
-            },
-            "White": {
-              "sent_home": 107,
-              "enrolled": 7432,
-              "hidden_year": false
-            }
-          }
-        }
+        "days_per_100": 14.1
       }
-    },
-    "ranked_by_gap": [
-      "660701030000",
-      "662200010000",
-      "661401030000",
-      "661100010000",
-      "660401030000",
-      "660203060000",
-      "662401060000",
-      "661904030000",
-      "662300010000",
-      "661500010000",
-      "660900010000"
-    ],
-    "gap_summary": {
-      "count": 11,
-      "highest": {
-        "label": "Mamaroneck",
-        "value": 6.6
-      },
-      "lowest": {
-        "label": "Mount Vernon",
-        "value": 2.9
-      },
-      "all_more_often": true
     },
     "no_data": {
       "480503040000": "Putnam Valley: almost all of this district is in Putnam County; the piece shown here has no Westchester data."
     },
     "count_public": 40,
-    "count_comparable": 11,
-    "source": "CUR-0001 (by race) and CUR-0013 (days), public school districts; county from CUR-0012"
+    "source": "CUR-0001 (students sent home) and CUR-0013 (days), public school districts; the average from CUR-0012"
   },
   "lost": {
     "year": "2024-25",

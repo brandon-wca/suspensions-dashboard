@@ -13,8 +13,9 @@ Ask Claude first; do it yourself as the fallback. Claude will name the kind of c
 | To change… | Edit |
 |---|---|
 | Words: titles, commentary, captions, the bill's cards, "What you can do", "About the data" | `index.html`. Numbers inside sentences are `<span data-fill="…">` tags that `charts.js` fills from `data/data.json`; don't type numbers from the data into the text. |
-| A chart | `charts.js`, the function for that chart (`drawRaceVsState`, `drawOtherGroups`, `drawDistrictGaps`, `drawDaysByRace`, `drawPathSteps`). Which groups a chart shows is set in `../update_data_here/build_data.py`. |
-| The map, its pop-up panel, the district table | `charts.js`, sections 4 and 5. The map's color steps are set in the script (`RATE_STEPS`, `GAP_STEPS`). |
+| A chart | `charts.js`, the function for that chart (`drawGroups`, `drawDaysByRace`, `drawPathSteps`). Which groups a chart shows is set in `../update_data_here/build_data.py`. |
+| The map and its side panel | `charts.js`, section 4. The map's color steps are set in the script (`RATE_STEPS`). |
+| Part 1's drawings (the children, the school, the home) | `index.html`, the Drawings block at the top. They were drawn for this dashboard; their colors are in `styles.css`. |
 | Colors, font, spacing, layout | `styles.css`. WCA's colors and font are defined once at the top (part A), this dashboard's colors right under them (part A2); everything else refers to them by name. |
 
 ## The scenarios

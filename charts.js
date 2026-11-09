@@ -10,13 +10,13 @@
      2. Fill in the numbers written inside sentences (the <span data-fill> tags
         in index.html).
      3. Draw the four headline tiles.
-     4. Part 1: the race chart, the other-groups chart, the district map (its
-        switch, district list, legend, hover box and side panel), the ranked
-        district chart and the table of every district.
+     4. Part 1: the chart of student groups against the average (rows of child
+        figures) and the district map (its district list, legend, hover box
+        and side panel).
      5. Part 2: the school-days chart. Part 3: the steps chart.
         Part 4: the $50 million bar.
-     Charts are drawn with Chart.js (resources/vendor/chart.umd.js); the map is
-     plain SVG drawn here.
+     Parts 2 and 3's charts are drawn with Chart.js (resources/vendor/chart.umd.js).
+     Part 1's chart and the map are plain HTML and SVG written here.
 
    Nothing here defines a color; every color is read from styles.css
    (WCA.colors for the brand, SNS for this dashboard's own colors).
@@ -37,13 +37,12 @@
      0. Settings
      1. Start-up
      2. Headline tiles
-     3. Part 1 charts: race against the state, other groups
+     3. Part 1 chart: student groups against the Westchester average
      4. The district map
-     5. The ranked district chart and the table of every district
-     6. Part 2 chart: school days lost
-     7. Part 3 chart: the share at each step
-     8. Part 4: the $50 million bar
-     9. Small helpers (formats, the reference-line add-on, map geometry)
+     5. Part 2 chart: school days lost
+     6. Part 3 chart: the share at each step
+     7. Part 4: the $50 million bar
+     8. Small helpers (formats, the reference-line add-on, map geometry)
    ========================================================================== */
 
 /* ##########################################################################
@@ -355,7 +354,6 @@ var SNS = {
   state:      WCA.cssVar("--sns-state"),
   accent:     WCA.cssVar("--wca-accent"),
   rateRamp:   [1, 2, 3, 4, 5].map(function (i) { return WCA.cssVar("--sns-rate-" + i); }),
-  gapRamp:    [1, 2, 3, 4].map(function (i) { return WCA.cssVar("--sns-gap-" + i); }),
 };
 
 /* The map's drawing box (also in index.html's <svg viewBox>): Westchester is taller than wide */
@@ -379,14 +377,12 @@ Promise.all([
 
   WCA.applyChartDefaults();
   WCA.fillNumbers(data);
+  showIf(data);
 
   drawHeadlines(data);
 
-  drawRaceVsState(data);
-  drawOtherGroups(data);
+  drawGroups(data);
   drawMap(data, geography);
-  drawDistrictGaps(data);
-  drawDistrictTable(data);
 
   drawDaysByRace(data);
   drawPathSteps(data);
@@ -421,78 +417,77 @@ function drawHeadlines(data) {
 
 
 /* --------------------------------------------------------------------------
-   3. PART 1 CHARTS
-   -------------------------------------------------------------------------- */
+   3. PART 1 CHART  ·  student groups against the Westchester average
+   --------------------------------------------------------------------------
+   One row per group, the group sent home most first, then the average. Each row
+   is a line of child figures: one figure for each 1 of every 100 students in the
+   group who was sent home (whole figures, worked out by the script). A dashed
+   orange line marks the average in every row.
+     * Which groups, their labels and their order come from data.json "who"
+       (set in the script's CHART_GROUPS).
+     * The figures are three of the drawings at the top of index.html.
+     * Each group's color is set in styles.css, by the group's id.
+   No chart library here: the rows are plain HTML, laid out by styles.css. */
 
-/* Share of students sent home, by race: Westchester (green, as everywhere) next to the state (gray).
-   Groups with too few students to compare are left out and named in a note under the chart. */
-function drawRaceVsState(data) {
+var KID_DRAWINGS = ["kid-a", "kid-b", "kid-c"];
+
+function drawGroups(data) {
   var who = data.who;
-  var rows = who.race.filter(function (r) { return !r.westchester.too_few_to_compare && !r.state.too_few_to_compare; });
-  sizeBox("chart-race", rows.length, 54);
+  var chart = document.getElementById("chart-groups");
 
-  WCA.legend("#legend-race", [
-    { label: "Westchester", color: WCA.colors.green },
-    { label: "New York State", color: SNS.state },
-  ]);
+  /* The two numbers the layout needs: how many figures fit in a row, and where the average falls.
+     One figure is 1 in 100, so the average rate (2.2%) sits 2.2 figures along. */
+  chart.style.setProperty("--slots", who.figures_in_longest_row);
+  chart.style.setProperty("--average", who.average.rate);
 
-  new Chart(document.getElementById("chart-race"), {
-    type: "bar",
-    data: {
-      labels: rows.map(function (r) { return r.label; }),
-      datasets: [
-        { label: "Westchester",    data: rows.map(function (r) { return r.westchester.rate; }), backgroundColor: WCA.colors.green },
-        { label: "New York State", data: rows.map(function (r) { return r.state.rate; }),       backgroundColor: SNS.state },
-      ],
-    },
-    options: horizontalBarOptions({
-      valueLabels: { datasets: [0, 1], format: WCA.fmt.pct },
-      tooltip: { callbacks: {
-        title: function (items) { return rows[items[0].dataIndex].label + " students, " + who.year; },
-        label: function (item) {
-          var place = item.datasetIndex === 0 ? rows[item.dataIndex].westchester : rows[item.dataIndex].state;
-          return item.dataset.label + ": " + WCA.fmt.pct(place.rate) + " sent home (" +
-                 WCA.fmt.count(place.sent_home) + " of " + WCA.fmt.count(place.enrolled) + ")";
-        },
-      } },
-    }),
-    plugins: [WCA.plugins.valueLabels],
+  var rows = who.groups.map(function (g) { return { id: g.id, entry: g }; });
+  rows.push({ id: "average", entry: who.average });
+
+  chart.innerHTML = rows.map(function (row, i) { return groupRow(row.entry, row.id, i); }).join("");
+
+  /* Hover (or tap) a row for its counts and how it compares with the average */
+  Array.prototype.forEach.call(chart.querySelectorAll(".kidrow"), function (el, i) {
+    el.addEventListener("mousemove", function (e) {
+      WCA.tooltip.show(groupTooltip(rows[i].entry, rows[i].id, who.year), e.clientX, e.clientY);
+    });
+    el.addEventListener("mouseleave", WCA.tooltip.hide);
   });
 
-  var left = who.too_few_note_groups;
-  document.getElementById("note-race").textContent = left.length
-    ? "Not shown, too few students to compare: " + listWords(left) + " students."
+  /* Groups the small-number rule holds back are named under the chart */
+  document.getElementById("note-groups").textContent = who.left_out.length
+    ? "Not shown, too few students to compare: " + listWords(who.left_out) + "."
     : "";
 }
 
-/* Other groups: the share of each group sent home, with a dashed line at all students. */
-function drawOtherGroups(data) {
-  var who = data.who;
-  var rows = who.other_groups.filter(function (r) { return !r.too_few_to_compare; });
-  sizeBox("chart-groups", rows.length, NARROW ? 50 : 44, 40);
+/* One row: the group's name and counts, its line of figures, then "1 in N" and the rate.
+   The first row also carries the "Westchester average" tag above the dashed line; the
+   average's own row carries the same words beside the line (styles.css shows one or the
+   other, depending on the width of the screen). */
+function groupRow(entry, id, rowIndex) {
+  var kids = "";
+  for (var k = 0; k < entry.per_100; k++) {
+    var drawing = KID_DRAWINGS[(k * 2 + rowIndex) % KID_DRAWINGS.length];     /* mix the three children */
+    kids += '<svg class="kid" viewBox="0 0 120 220"><use href="#' + drawing + '"></use></svg>';
+  }
+  var counts = WCA.fmt.count(entry.sent_home) + " of " + WCA.fmt.count(entry.enrolled) + " students";
+  return '<li class="kidrow" data-group="' + id + '">' +
+    '<div class="who"><div class="name">' + entry.label + "</div>" +
+      '<div class="counts">' + (entry.small ? "A small group: " : "") + counts + "</div></div>" +
+    '<div class="kids" aria-hidden="true">' + kids +
+      (rowIndex === 0 ? '<span class="average-tag">Westchester average</span>' : "") +
+      (id === "average" ? '<span class="average-note">Westchester average</span>' : "") + "</div>" +
+    '<div class="value"><span class="one-in">1 in ' + WCA.fmt.count(entry.one_in) + "</span> " +
+      '<span class="pct">' + WCA.fmt.pct(entry.rate) + "</span></div>" +
+  "</li>";
+}
 
-  new Chart(document.getElementById("chart-groups"), {
-    type: "bar",
-    data: {
-      labels: rows.map(function (r) { return wrap(r.label, LABEL_WIDTH); }),
-      datasets: [{ data: rows.map(function (r) { return r.rate; }), backgroundColor: SNS.steel }],
-    },
-    options: horizontalBarOptions({
-      valueLabels: { datasets: [0], format: WCA.fmt.pct },
-      refLine: { value: who.all_students.rate, label: "All students " + WCA.fmt.pct(who.all_students.rate), color: SNS.ink },
-      tooltip: { callbacks: {
-        title: function (items) { return rows[items[0].dataIndex].label + ", " + who.year; },
-        label: function (item) {
-          var r = rows[item.dataIndex];
-          return [
-            WCA.fmt.pct(r.rate) + " sent home: 1 in " + r.one_in + " (" + WCA.fmt.count(r.sent_home) + " of " + WCA.fmt.count(r.enrolled) + ")",
-            fmtTimes(r.times_everyone_else) + " the rate of all other students (" + WCA.fmt.pct(r.everyone_else_rate) + ")",
-          ];
-        },
-      } },
-    }, { top: 22 }),
-    plugins: [WCA.plugins.valueLabels, refLine],
-  });
+/* The hover box for a row */
+function groupTooltip(entry, id, year) {
+  var html = "<strong>" + entry.label + "</strong><br>" +
+    WCA.fmt.count(entry.sent_home) + " of " + WCA.fmt.count(entry.enrolled) + " students were sent home at least once in " +
+    year + " (" + WCA.fmt.pct(entry.rate) + ")";
+  if (id !== "average") html += "<br>" + Number(entry.times_average).toFixed(1) + " times the Westchester average";
+  return html;
 }
 
 
@@ -502,29 +497,28 @@ function drawOtherGroups(data) {
    How it works:
      a. Each district's outline comes as longitude/latitude points. makeProjection()
         turns them into x/y on the drawing, scaled to fit the SVG box.
-     b. One SVG <path> is drawn per district (once). The switch above the map only
-        changes each path's fill color.
-     c. Two measures, each with its own fixed color steps from data.json:
-          rate  the share of students sent home (5 steel-blue steps)
-          gap   how many times as often Black students are sent home as White
-                students (4 orange steps); districts with too few students to
-                compare are hatched
-        A district with no data (the sliver of Putnam Valley) is plain gray.
-     d. Hovering shows a small box; tapping or clicking a district, or picking it
-        from the list, fills the side panel. The panel starts on Westchester as a whole.
+     b. One SVG <path> is drawn per district, colored by the share of its students
+        sent home: five steel-blue steps, fixed in data.json so a color means the
+        same thing every year. A district with too few students to show is hatched;
+        an outline with no data (the sliver of Putnam Valley) is plain gray.
+     c. Hovering shows a small box; tapping or clicking a district, or picking it
+        from the list, fills the side panel with the district next to the
+        Westchester average. The panel starts on Westchester as a whole.
    -------------------------------------------------------------------------- */
 
 var map = {
   data: null,             /* data.json "districts" */
   group: null,            /* the <g> that holds the district paths */
   paths: {},              /* district code -> its <path> */
-  measureKey: null,       /* which measure is showing: "rate" or "gap" */
   selected: null,         /* district code shown in the side panel (null = Westchester as a whole) */
+  highestRate: 0,         /* the highest district rate: the full length of the side panel's small bars */
 };
 
 function drawMap(data, geography) {
   map.data = data.districts;
   map.group = document.getElementById("map-districts");
+  var places = map.data.places;
+  var codes = Object.keys(places);
 
   /* a. Fit the outlines into the SVG box with a little margin */
   var project = makeProjection(geography.features, MAP_WIDTH, MAP_HEIGHT, 8);
@@ -535,6 +529,7 @@ function drawMap(data, geography) {
     var path = document.createElementNS("http://www.w3.org/2000/svg", "path");
     path.setAttribute("d", pathFor(feature.geometry, project));
     path.setAttribute("class", "district");
+    path.setAttribute("fill", fillFor(code));
     path.addEventListener("mousemove", function (e) { showDistrictTooltip(code, e.clientX, e.clientY); });
     path.addEventListener("mouseleave", WCA.tooltip.hide);
     path.addEventListener("click", function () { selectDistrict(code); });
@@ -542,82 +537,55 @@ function drawMap(data, geography) {
     map.paths[code] = path;
   });
 
-  /* The two-button switch */
-  var buttons = document.querySelectorAll(".switch button[data-measure]");
-  Array.prototype.forEach.call(buttons, function (button) {
-    button.addEventListener("click", function () { showMeasure(button.getAttribute("data-measure")); });
-  });
+  /* The legend: the color steps, then "too few" (only if a district is hatched) and "no data" */
+  var legend = stepLabels(map.data.legend.steps).map(function (label, i) { return { label: label, color: SNS.rateRamp[i] }; });
+  if (codes.some(function (code) { return tooFew(places[code]); })) {
+    legend.push({ label: "Too few students to show", pattern: "repeating-linear-gradient(45deg, #B5B5B5 0 1px, #F4F4F4 1px 5px)" });
+  }
+  if (Object.keys(map.data.no_data).length) legend.push({ label: "No data", color: WCA.colors.noData });
+  WCA.legend("#map-legend", legend);
 
-  /* The "Find your district" list: Westchester as a whole first, then every district A to Z */
+  map.highestRate = Math.max.apply(null, codes.map(function (code) { return places[code].rate || 0; }));
+
+  /* The district list: Westchester as a whole first, then every district A to Z */
   var select = document.getElementById("district-select");
   var first = document.createElement("option");
   first.value = "";
   first.textContent = "All of Westchester";
   select.appendChild(first);
-  Object.keys(map.data.places)
-    .sort(function (a, b) { return map.data.places[a].label.localeCompare(map.data.places[b].label); })
+  codes
+    .sort(function (a, b) { return places[a].label.localeCompare(places[b].label); })
     .forEach(function (code) {
       var option = document.createElement("option");
       option.value = code;
-      option.textContent = map.data.places[code].label;
+      option.textContent = places[code].label;
       select.appendChild(option);
     });
   select.addEventListener("change", function () { selectDistrict(select.value || null); });
 
-  showMeasure(map.data.default_measure);
   selectDistrict(null);
 }
 
-/* Color every district for one measure, and rewrite the legend and the note under the map */
-function showMeasure(key) {
-  map.measureKey = key;
-  var measure = map.data.measures[key];
-  var ramp = key === "gap" ? SNS.gapRamp : SNS.rateRamp;
-
-  Object.keys(map.paths).forEach(function (code) {
-    map.paths[code].setAttribute("fill", fillFor(code));
-  });
-
-  Array.prototype.forEach.call(document.querySelectorAll(".switch button[data-measure]"), function (button) {
-    button.setAttribute("aria-pressed", button.getAttribute("data-measure") === key ? "true" : "false");
-  });
-
-  var legend = stepLabels(measure.steps, measure.unit).map(function (label, i) { return { label: label, color: ramp[i] }; });
-  if (key === "gap") legend.push({ label: "Too few students to compare", pattern: "repeating-linear-gradient(45deg, #B5B5B5 0 1px, #F4F4F4 1px 5px)" });
-  legend.push({ label: "No data", color: WCA.colors.noData });
-  WCA.legend("#map-legend", legend);
-  document.getElementById("map-measure-note").textContent = measure.label + ". " + measure.description;
-
-  WCA.tooltip.hide();
-  fillSidePanel(map.selected);
+/* True when a district's rate can't be shown (the small-number rule, or no rate in the table) */
+function tooFew(place) {
+  return place.too_few || place.rate === null;
 }
 
-/* The fill color for one district under the current measure */
+/* The fill color for one district */
 function fillFor(code) {
   var place = map.data.places[code];
   if (!place) return WCA.colors.noData;                       /* an outline with no Westchester data */
-  var measure = map.data.measures[map.measureKey];
-  if (map.measureKey === "gap") {
-    if (place.gap.too_few) return "url(#hatch)";
-    return stepColor(place.gap.value, measure.steps, SNS.gapRamp);
-  }
-  if (place.too_few || place.rate === null) return "url(#hatch)";
-  return stepColor(place.rate, measure.steps, SNS.rateRamp);
+  if (tooFew(place)) return "url(#hatch)";
+  return stepColor(place.rate, map.data.legend.steps, SNS.rateRamp);
 }
 
 /* The hover box for a district */
 function showDistrictTooltip(code, x, y) {
   var place = map.data.places[code];
   var html;
-  if (!place) {
-    html = map.data.no_data[code] || "No data";
-  } else if (map.measureKey === "gap") {
-    html = "<strong>" + place.label + "</strong><br>" + (place.gap.too_few
-      ? "Too few students to compare"
-      : "Black students sent home " + fmtTimes(place.gap.value) + " as often as White students, " + map.data.pooled_label);
-  } else {
-    html = "<strong>" + place.label + "</strong><br>" + WCA.fmt.pct(place.rate) + " of students sent home, " + map.data.year;
-  }
+  if (!place) html = map.data.no_data[code] || "No data";
+  else if (tooFew(place)) html = "<strong>" + place.label + "</strong><br>Too few students to show";
+  else html = "<strong>" + place.label + "</strong><br>" + WCA.fmt.pct(place.rate) + " of students sent home, " + map.data.year;
   WCA.tooltip.show(html, x, y);
 }
 
@@ -634,41 +602,41 @@ function selectDistrict(code) {
   fillSidePanel(map.selected);
 }
 
-/* The side panel: the chosen district (or Westchester as a whole), with the county beside it */
+/* The side panel: the chosen district next to the Westchester average, as two big numbers
+   with a small bar under each (both bars drawn against the highest district rate). */
 function fillSidePanel(code) {
   var county = map.data.county;
   var panel = document.getElementById("side-panel");
-  var gapName = "Black–White gap, " + map.data.pooled_label;
+
+  function number(name, rate, kind) {
+    var width = rate === null ? 0 : Math.max(2, rate / map.highestRate * 100);
+    return '<div class="versus-item ' + kind + '">' +
+      '<div class="versus-number">' + (rate === null ? "Too few" : WCA.fmt.pct(rate)) + "</div>" +
+      '<div class="versus-name">' + name + "</div>" +
+      '<div class="versus-bar"><span style="width:' + width + '%"></span></div></div>';
+  }
+  function sentence(p) {
+    var counts = " (" + WCA.fmt.count(p.sent_home) + " of " + WCA.fmt.count(p.enrolled) + ")";
+    if (!p.sent_home) return "No students were sent home in " + map.data.year + counts + ".";
+    return "<strong>1 in " + WCA.fmt.count(p.one_in) + "</strong> students was sent home at least once in " +
+           map.data.year + counts + ".";
+  }
 
   if (!code) {
     panel.innerHTML =
       "<h3>All of Westchester</h3>" +
       '<div class="towns">Every school in the county, including special act districts and charter schools</div>' +
-      '<div class="big">' + WCA.fmt.pct(county.rate) + "</div>" +
-      '<div class="big-label">of students were sent home at least once in ' + map.data.year + " (" +
-        WCA.fmt.count(county.sent_home) + " of " + WCA.fmt.count(county.enrolled) + ")</div>" +
-      "<dl><dt>" + gapName + "</dt><dd>" + fmtTimes(county.gap_pooled) + "</dd></dl>" +
-      '<div class="hint">Tap a district on the map, or pick one from the list, to see its numbers.</div>';
+      '<div class="versus one">' + number(county.label, county.rate, "average") + "</div>" +
+      '<p class="versus-text">' + sentence(county) + "</p>";
     return;
   }
 
   var p = map.data.places[code];
-  var a = p.groups.Black, b = p.groups.White;
-  var rows = [
-    ["Suspended in school", p.in_school_none_reported ? "none reported" : WCA.fmt.count(p.in_school) + " students"],
-    ["School days sent home", WCA.fmt.count(p.days_sent_home) + " (" + WCA.fmt.count(p.days_per_100) + " per 100 students)"],
-    ["Black students sent home", a.too_few ? "too few to show" : WCA.fmt.pct(a.rate)],
-    ["White students sent home", b.too_few ? "too few to show" : WCA.fmt.pct(b.rate)],
-    [gapName, p.gap.too_few ? "too few students to compare" : fmtTimes(p.gap.value) + " (Westchester: " + fmtTimes(county.gap_pooled) + ")"],
-  ];
   panel.innerHTML =
     "<h3>" + p.label + "</h3>" +
     '<div class="towns">Serves ' + servesText(p.municipalities) + "</div>" +
-    '<div class="big">' + (p.too_few ? "Too few" : WCA.fmt.pct(p.rate)) + "</div>" +
-    '<div class="big-label">of students were sent home at least once in ' + map.data.year + " (" +
-      WCA.fmt.count(p.sent_home) + " of " + WCA.fmt.count(p.enrolled) + "). Westchester: " + WCA.fmt.pct(county.rate) + ".</div>" +
-    "<dl>" + rows.map(function (r) { return "<dt>" + r[0] + "</dt><dd>" + r[1] + "</dd>"; }).join("") + "</dl>" +
-    '<div class="hint">Tap another district, or pick one from the list.</div>';
+    '<div class="versus">' + number(p.label, tooFew(p) ? null : p.rate, "district") + number(county.label, county.rate, "average") + "</div>" +
+    '<p class="versus-text">' + (tooFew(p) ? "Too few students to show a share." : sentence(p)) + "</p>";
 }
 
 /* "Village of Ardsley (45%); Town of Greenburgh (outside villages) (39%)" -> "Village of Ardsley, Town of Greenburgh (outside villages)" */
@@ -679,68 +647,7 @@ function servesText(municipalities) {
 
 
 /* --------------------------------------------------------------------------
-   5. THE RANKED DISTRICT CHART AND THE TABLE OF EVERY DISTRICT
-   -------------------------------------------------------------------------- */
-
-/* The gap in each district with enough students to compare, highest first,
-   with a dashed line at Westchester's gap over the same years. Orange = the gap, as on the map. */
-function drawDistrictGaps(data) {
-  var d = data.districts;
-  var codes = d.ranked_by_gap;
-  var places = codes.map(function (c) { return d.places[c]; });
-
-  sizeBox("chart-districts", codes.length, 34, 40);
-
-  new Chart(document.getElementById("chart-districts"), {
-    type: "bar",
-    data: {
-      labels: places.map(function (p) { return p.label; }),
-      datasets: [{ data: places.map(function (p) { return p.gap.value; }), backgroundColor: SNS.gapRamp[2] }],
-    },
-    options: horizontalBarOptions({
-      insideLabels: { format: fmtTimes },             /* values inside the bars, clear of the dashed line */
-      refLine: { value: d.county.gap_pooled, label: "Westchester " + fmtTimes(d.county.gap_pooled), color: SNS.ink },
-      tooltip: { callbacks: {
-        title: function (items) { return places[items[0].dataIndex].label + ", " + d.pooled_label; },
-        label: function (item) {
-          var c = places[item.dataIndex].gap.counts;
-          return [
-            "Black students sent home: " + WCA.fmt.count(c.Black.sent_home) + " of " + WCA.fmt.count(c.Black.enrolled),
-            "White students sent home: " + WCA.fmt.count(c.White.sent_home) + " of " + WCA.fmt.count(c.White.enrolled),
-          ];
-        },
-      } },
-    }, { top: 22, right: 12 }, function (v) { return v + "×"; }),
-    plugins: [insideLabels, refLine],
-  });
-}
-
-/* Every district's numbers, A to Z, in a table folded away under the chart */
-function drawDistrictTable(data) {
-  var d = data.districts;
-  var codes = Object.keys(d.places).sort(function (a, b) { return d.places[a].label.localeCompare(d.places[b].label); });
-  function rate(entry) { return entry.too_few ? "too few" : WCA.fmt.pct(entry.rate); }
-
-  var html = "<table><caption class=\"visually-hidden\">Out-of-school suspensions by school district</caption><thead><tr>" +
-    "<th scope=\"col\">District</th><th scope=\"col\">Students, " + d.year + "</th><th scope=\"col\">Sent home</th>" +
-    "<th scope=\"col\">Share sent home</th><th scope=\"col\">Black students sent home</th><th scope=\"col\">White students sent home</th>" +
-    "<th scope=\"col\">Black–White gap, " + d.pooled_label + "</th></tr></thead><tbody>";
-  html += "<tr><th scope=\"row\">All of Westchester</th><td>" + WCA.fmt.count(d.county.enrolled) + "</td><td>" +
-    WCA.fmt.count(d.county.sent_home) + "</td><td>" + WCA.fmt.pct(d.county.rate) + "</td><td></td><td></td><td>" +
-    fmtTimes(d.county.gap_pooled) + "</td></tr>";
-  codes.forEach(function (code) {
-    var p = d.places[code];
-    html += "<tr><th scope=\"row\">" + p.label + "</th><td>" + WCA.fmt.count(p.enrolled) + "</td><td>" + WCA.fmt.count(p.sent_home) +
-      "</td><td>" + (p.too_few ? "too few" : WCA.fmt.pct(p.rate)) + "</td><td>" + rate(p.groups.Black) + "</td><td>" +
-      rate(p.groups.White) + "</td><td>" + (p.gap.too_few ? "too few" : fmtTimes(p.gap.value)) + "</td></tr>";
-  });
-  html += "</tbody></table>";
-  document.getElementById("district-table").innerHTML = html;
-}
-
-
-/* --------------------------------------------------------------------------
-   6. PART 2 CHART  ·  school days lost per 100 students, by race
+   5. PART 2 CHART  ·  school days lost per 100 students, by race
    -------------------------------------------------------------------------- */
 
 /* The first group of the gap (Black students) in dark steel, the others in light steel. */
@@ -776,7 +683,7 @@ function drawDaysByRace(data) {
 
 
 /* --------------------------------------------------------------------------
-   7. PART 3 CHART  ·  the Black share at each step
+   6. PART 3 CHART  ·  the Black share at each step
    -------------------------------------------------------------------------- */
 
 /* One bar per step. The first bar (students enrolled) is the comparison, in gray, and the
@@ -817,7 +724,7 @@ function drawPathSteps(data) {
 
 
 /* --------------------------------------------------------------------------
-   8. PART 4  ·  the $50 million as one bar split three ways
+   7. PART 4  ·  the $50 million as one bar split three ways
    --------------------------------------------------------------------------
    The amounts are typed in index.html (data-amount, in millions) because they come
    from the coalition's budget letter, not from the data. This only sizes the pieces. */
@@ -833,8 +740,16 @@ function drawMoneyBar() {
 
 
 /* --------------------------------------------------------------------------
-   9. SMALL HELPERS
+   8. SMALL HELPERS
    -------------------------------------------------------------------------- */
+
+/* Hide any element marked data-show-if="path" when that value in data.json is false or missing.
+   For a sentence that is only true while the data says so. */
+function showIf(data) {
+  Array.prototype.forEach.call(document.querySelectorAll("[data-show-if]"), function (el) {
+    el.hidden = !WCA.get(data, el.getAttribute("data-show-if"));
+  });
+}
 
 /* 6.7 -> "6.7×" (how many times as often) */
 function fmtTimes(n) {
@@ -861,15 +776,14 @@ function stepColor(value, steps, ramp) {
   return ramp[i];
 }
 
-/* Legend words for the steps: [1, 2, 3, 5] with "%" -> "Under 1%", "1–1.9%", "2–2.9%", "3–4.9%", "5% or more".
+/* Legend words for the map's steps: [1, 2, 3, 5] -> "Under 1%", "1–1.9%", "2–2.9%", "3–4.9%", "5% or more".
    Values on the page have one decimal, so each step ends 0.1 below the next one. */
-function stepLabels(steps, unit) {
-  var mark = unit === "times" ? "×" : "%";
-  var labels = ["Under " + steps[0] + mark];
+function stepLabels(steps) {
+  var labels = ["Under " + steps[0] + "%"];
   for (var i = 0; i < steps.length - 1; i++) {
-    labels.push(steps[i] + "–" + (Math.round((steps[i + 1] - 0.1) * 10) / 10) + mark);
+    labels.push(steps[i] + "–" + (Math.round((steps[i + 1] - 0.1) * 10) / 10) + "%");
   }
-  labels.push(steps[steps.length - 1] + mark + " or more");
+  labels.push(steps[steps.length - 1] + "% or more");
   return labels;
 }
 
@@ -924,29 +838,6 @@ function horizontalBarOptions(plugins, padding, tickFormat) {
 function sizeBox(canvasId, bars, perBar, extra) {
   document.getElementById(canvasId).parentNode.style.height = ((extra || 40) + bars * perBar) + "px";
 }
-
-/* insideLabels: write each bar's value inside its end, in white (used where a dashed line runs
-   just past the bar ends and labels outside would collide with it).
-   Turn on per chart with:  plugins: { insideLabels: { format: fmtTimes } } */
-var insideLabels = {
-  id: "insideLabels",
-  afterDatasetsDraw: function (chart, args, options) {
-    if (!options || !options.format) return;
-    var ctx = chart.ctx;
-    var meta = chart.getDatasetMeta(0);
-    var values = chart.data.datasets[0].data;
-    ctx.save();
-    ctx.font = "600 13px " + WCA.font;
-    ctx.fillStyle = WCA.cssVar("--white");
-    ctx.textAlign = "right";
-    ctx.textBaseline = "middle";
-    meta.data.forEach(function (bar, i) {
-      if (values[i] === null || values[i] === undefined) return;
-      ctx.fillText(options.format(values[i]), bar.x - 8, bar.y);
-    });
-    ctx.restore();
-  },
-};
 
 /* Break text into lines of about `width` characters, at spaces (a bar label on two lines) */
 function wrap(text, width) {
