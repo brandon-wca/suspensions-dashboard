@@ -1,0 +1,462 @@
+/* ==========================================================================
+   suspensions/styles.css
+   ==========================================================================
+   All the styling for the Suspensions Dashboard, in five parts:
+     A.  WCA's brand: colors and font, exactly as in the Youth Justice
+         Dashboard. Defined once here; the JavaScript reads the same values.
+     A2. This dashboard's own colors (steel blue, with WCA orange for the
+         Black-White gap). Also defined once here; charts.js reads them.
+     B.  Page basics and the pieces every section uses, as in the Youth
+         Justice Dashboard: headings, headline tiles, chart cards, legends,
+         the hover tooltip, "About the data".
+     C.  The map section: layout, how districts look, the map legend.
+     D.  This dashboard's own pieces: the banner, the jump links, the part
+         headings with icons, the map switch, the district table, the bill
+         cards, the $50 million bar, the panels.
+   Parts A and B are copied unchanged from the Youth Justice Dashboard;
+   change them there and here together, or not at all.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   A. BRAND  ·  from WCA's 2024 Quick Reference Style Guide
+   --------------------------------------------------------------------------
+   Use these names in CSS as var(--wca-blue) and so on. charts.js reads the
+   same values, so there is one source of truth. */
+
+:root {
+  /* Primary */
+  --wca-blue:        #314F9E;   /* titles, section heads, the main data series */
+  --wca-green:       #098342;   /* stat numbers, links, and Westchester in every chart */
+
+  /* Blue steps for maps and stacked bars (light to dark; checked for color-blind readers) */
+  --wca-blue-100:    #A3B3DC;
+  --wca-blue-200:    #7A91C8;
+  --wca-blue-300:    #5673B5;
+  --wca-blue-500:    #314F9E;   /* same as --wca-blue */
+  --wca-blue-700:    #22366E;
+
+  /* Tertiary: the brand allows ONE per piece, used sparingly.
+     Orange is used only for "fewer than before" on diverging map scales. */
+  --wca-orange:      #D14905;
+  --wca-orange-100:  #E8A07A;
+
+  /* Tints for card fills (never flat gray: gray reads as "sources") */
+  --wca-blue-tint:   #EAEEF7;
+  --wca-green-tint:  #E7F2EC;
+
+  /* Neutrals */
+  --ink:             #111111;   /* headings */
+  --body:            #333333;   /* body text */
+  --fine:            #555555;   /* fine print */
+  --muted:           #767676;   /* captions, sources */
+  --rule:            #DCDCDC;   /* hairlines */
+  --panel:           #EFEFEF;   /* panels */
+  --white:           #FFFFFF;
+
+  /* Map helpers */
+  --map-no-data:     #E6E6E6;   /* counties with nothing to show */
+  --map-stroke:      #FFFFFF;   /* lines between counties */
+
+  /* Font */
+  --font: "Lexend", "Segoe UI", Arial, sans-serif;
+
+  /* Layout */
+  --page-width: 1100px;
+  --gutter: 16px;
+  --radius: 8px;
+}
+
+/* Lexend, served from the project so the page never calls out to another site. */
+@font-face { font-family: "Lexend"; font-weight: 400; font-style: normal; font-display: swap;
+             src: url("resources/fonts/lexend-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Lexend"; font-weight: 600; font-style: normal; font-display: swap;
+             src: url("resources/fonts/lexend-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "Lexend"; font-weight: 700; font-style: normal; font-display: swap;
+             src: url("resources/fonts/lexend-latin-700-normal.woff2") format("woff2"); }
+
+/* --------------------------------------------------------------------------
+   A2. THIS DASHBOARD'S COLORS  ·  steel blue
+   --------------------------------------------------------------------------
+   The Suspensions Dashboard's own scheme, built from the Solutions Not
+   Suspensions colors in WCA's asset library. Both map scales passed the
+   dataviz color check (one hue, light to dark, steps far enough apart, light
+   end visible on white), 2026-11-09. charts.js reads these by name. */
+
+:root {
+  --sns-ink:          #183A50;   /* titles and headings; the banner's first color; darkest map step */
+  --sns-steel:        #2E5F7F;   /* the main data series; kickers and icons */
+  --sns-steel-light:  #9AB3C6;   /* the other bars beside a highlighted one */
+  --sns-tint:         #E9EFF4;   /* panels: the map's side panel, "What you can do" */
+  --sns-state:        #8A8F96;   /* New York State, the comparison in every chart */
+
+  /* Map, share of students sent home: 5 steps, light to dark */
+  --sns-rate-1:       #9AB3C6;
+  --sns-rate-2:       #7192AE;
+  --sns-rate-3:       #4D7493;
+  --sns-rate-4:       #2E5F7F;
+  --sns-rate-5:       #183A50;
+
+  /* Map, Black-White gap: 4 steps of WCA orange (the brand's one tertiary color) */
+  --sns-gap-1:        #E8A07A;   /* same as --wca-orange-100 */
+  --sns-gap-2:        #DD7440;
+  --sns-gap-3:        #D14905;   /* same as --wca-orange */
+  --sns-gap-4:        #9C3604;
+
+  /* The second color of the two-color icons from the asset library (their "accent" parts),
+     and the color of call-outs and benchmark lines */
+  --wca-accent:       var(--wca-orange);
+}
+
+
+/* --------------------------------------------------------------------------
+   B. PAGE BASICS
+   -------------------------------------------------------------------------- */
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--body);
+  background: var(--white);
+  overflow-wrap: break-word;   /* a long word (a file or column name) can't push the page wider than the screen */
+}
+
+.page {
+  max-width: var(--page-width);
+  margin: 0 auto;
+  padding: 0 var(--gutter) 48px;
+}
+
+h1, h2, h3 { color: var(--ink); line-height: 1.25; margin: 0 0 8px; }
+h1 { font-size: 32px; font-weight: 700; color: var(--wca-blue); }
+h2 { font-size: 22px; font-weight: 600; color: var(--wca-blue); }
+h3 { font-size: 17px; font-weight: 600; }
+
+p  { margin: 0 0 12px; }
+a  { color: var(--wca-green); }
+small, .muted { color: var(--muted); font-size: 14px; }
+.fine { color: var(--fine); font-size: 14px; }
+
+/* Brand motif: a thin blue-to-green rule under the page title */
+.rule-gradient {
+  height: 4px; border: 0; margin: 12px 0 24px;
+  background: linear-gradient(90deg, var(--wca-blue), var(--wca-green));
+}
+
+/* Page header */
+.page-header { padding-top: 28px; }
+.page-header .kicker {
+  color: var(--wca-green); font-weight: 600; font-size: 14px;
+  letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 6px;
+}
+.page-header .subtitle { font-size: 18px; color: var(--fine); max-width: 60ch; }
+
+/* Section spacing */
+section { margin: 36px 0; }
+section > h2 { margin-bottom: 4px; }
+.section-intro { color: var(--fine); max-width: 70ch; }
+
+
+/* --------------------------------------------------------------------------
+   B (continued). PIECES EVERY SECTION USES
+   -------------------------------------------------------------------------- */
+
+/* Headline tiles: a row of big numbers at the top of the page */
+.tiles {
+  display: grid; gap: 16px;
+  grid-template-columns: repeat(4, 1fr);
+}
+.tile {
+  border: 1px solid var(--rule); border-radius: var(--radius);
+  padding: 16px 18px; background: var(--white);
+}
+.tile .value {
+  font-size: 40px; font-weight: 700; line-height: 1.1;
+  color: var(--wca-green);              /* brand rule: stat numbers are green */
+}
+.tile .label { color: var(--body); font-size: 15px; margin-top: 6px; }
+.tile .compare { color: var(--muted); font-size: 14px; margin-top: 6px; }
+
+/* Chart cards: one per story chart. Kicker (number), heading (the finding),
+   commentary, the chart, then its source line. */
+.card { border-top: 1px solid var(--rule); padding: 28px 0 8px; }
+.card .kicker {
+  color: var(--wca-green); font-weight: 600; font-size: 14px;
+  letter-spacing: 0.04em; text-transform: uppercase;
+}
+.card h2 { margin-top: 2px; }
+.card .commentary { max-width: 70ch; }
+.card .source { color: var(--muted); font-size: 13px; margin-top: 8px; }
+
+/* The box a chart draws into. Chart.js fills it; the height is set here. */
+.chart-box { position: relative; height: 300px; }
+.chart-box.short { height: 220px; }
+
+/* Two charts side by side (chart 1). Stacks on phones. */
+.chart-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.chart-pair h3 { font-size: 15px; color: var(--fine); font-weight: 600; margin-bottom: 4px; }
+
+/* Chart legend written in HTML (clearer than a drawn one) */
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 8px 0 4px; font-size: 14px; color: var(--fine); }
+.legend .swatch {
+  display: inline-block; width: 14px; height: 14px; border-radius: 3px;
+  vertical-align: -2px; margin-right: 6px;
+}
+
+/* Hover tooltip (one per page, moved to where the mouse is by charts.js) */
+.tooltip {
+  position: fixed; z-index: 10; pointer-events: none;
+  max-width: 260px; padding: 8px 10px; border-radius: 6px;
+  background: var(--ink); color: var(--white);
+  font-size: 13px; line-height: 1.4;
+  opacity: 0; transition: opacity 0.1s;
+}
+.tooltip.show { opacity: 1; }
+.tooltip strong { color: var(--white); }
+
+/* "About the data" */
+.about { border-top: 1px solid var(--rule); padding-top: 24px; }
+.about p { max-width: 75ch; font-size: 15px; }
+
+/* Footer */
+.page-footer { border-top: 1px solid var(--rule); margin-top: 36px; padding-top: 16px; color: var(--muted); font-size: 14px; }
+
+/* Hidden-but-readable text for screen readers */
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+
+/* --------------------------------------------------------------------------
+   PHONES AND NARROW WINDOWS
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 900px) {
+  .tiles { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  h1 { font-size: 26px; }
+  .tiles { grid-template-columns: 1fr; }
+  .tile .value { font-size: 34px; }
+  .chart-pair { grid-template-columns: 1fr; }
+  .chart-box { height: 260px; }
+}
+
+/* --------------------------------------------------------------------------
+   C. MAP SECTION LAYOUT  ·  adapted from the Youth Justice Dashboard
+   -------------------------------------------------------------------------- */
+
+/* The row of controls above the map: the two-button switch and the district list */
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin: 12px 0 16px; font-size: 15px; }
+.controls label { color: var(--fine); }
+.controls select {
+  font: inherit; color: var(--ink);
+  padding: 6px 10px; border: 1px solid var(--rule); border-radius: 6px; background: var(--white);
+  flex: 0 1 auto; min-width: 0; max-width: 100%;   /* shrinks on phones instead of widening the page */
+}
+
+/* Map on the left (3 parts), side panel on the right (2 parts) */
+.map-layout {
+  display: grid; grid-template-columns: 3fr 2fr; gap: 24px; align-items: start;
+}
+
+.map { width: 100%; height: auto; display: block; max-height: 640px; }
+
+/* The side panel: the chosen district next to Westchester as a whole */
+.side-panel {
+  background: var(--sns-tint); border-radius: var(--radius); padding: 18px 20px;
+  font-size: 15px;
+}
+.side-panel h3 { margin-bottom: 2px; color: var(--sns-ink); }
+.side-panel .towns { color: var(--fine); font-size: 13px; margin-bottom: 14px; }
+.side-panel .big { font-size: 34px; font-weight: 700; line-height: 1.1; color: var(--sns-ink); }
+.side-panel .big-label { color: var(--body); font-size: 14px; margin-bottom: 12px; }
+.side-panel dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 6px 12px; font-size: 14px; }
+.side-panel dt { color: var(--fine); }
+.side-panel dd { margin: 0; font-weight: 600; color: var(--ink); }
+.side-panel .note { color: var(--fine); font-size: 13px; margin-top: 14px; }
+.side-panel .hint { color: var(--muted); font-size: 13px; margin-top: 14px; }
+
+
+/* --------------------------------------------------------------------------
+   C (continued). DISTRICTS
+   -------------------------------------------------------------------------- */
+
+.district { stroke: var(--map-stroke); stroke-width: 0.8; cursor: pointer; }
+.district:hover { stroke: var(--ink); stroke-width: 1.4; }
+.district:focus { outline: none; stroke: var(--ink); stroke-width: 2; }
+
+/* The district that was chosen (charts.js also moves it to the top so its outline shows in full) */
+.district.selected { stroke: var(--ink); stroke-width: 2.4; }
+
+
+/* --------------------------------------------------------------------------
+   C (continued). MAP LEGEND
+   -------------------------------------------------------------------------- */
+
+.map-legend { margin-top: 10px; }
+.map-legend .swatch { border: 1px solid var(--rule); }
+
+
+/* --------------------------------------------------------------------------
+   PHONES AND NARROW WINDOWS
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 800px) {
+  .map-layout { grid-template-columns: 1fr; }
+}
+
+
+/* --------------------------------------------------------------------------
+   D. THIS DASHBOARD'S OWN PIECES
+   -------------------------------------------------------------------------- */
+
+/* Headings and stat numbers take this dashboard's ink instead of WCA blue and green.
+   (Westchester stays WCA green in every chart.) */
+h1, h2 { color: var(--sns-ink); }
+.tile .value { color: var(--sns-ink); }
+.card .kicker { color: var(--sns-steel); }
+a { color: var(--sns-steel); }
+
+/* The banner at the top: the Data Bulletin's band, in this dashboard's colors */
+.banner {
+  background: linear-gradient(90deg, var(--sns-ink), var(--wca-green));
+  color: var(--white);
+}
+.banner-inner { max-width: var(--page-width); margin: 0 auto; padding: 28px var(--gutter) 24px; }
+.banner .kicker {
+  font-weight: 600; font-size: 14px; letter-spacing: 0.04em; text-transform: uppercase;
+  color: var(--white); opacity: 0.9; margin-bottom: 6px;
+}
+.banner h1 { color: var(--white); margin-bottom: 6px; }
+.banner .subtitle { font-size: 18px; max-width: 62ch; margin: 0; color: var(--white); }
+
+/* The four links that jump to each part. Stays at the top of the screen while scrolling. */
+.jump {
+  position: sticky; top: 0; z-index: 5; background: var(--white);
+  display: flex; flex-wrap: wrap; gap: 4px 18px; padding: 10px 0; border-bottom: 1px solid var(--rule);
+  font-size: 14px; font-weight: 600;
+}
+.jump a { text-decoration: none; color: var(--sns-steel); }
+.jump a:hover, .jump a:focus { text-decoration: underline; }
+html { scroll-padding-top: 56px; }   /* so a jumped-to heading isn't hidden under the links */
+
+/* Each part opens with its icon, number and title, underlined like a Data Bulletin chart title */
+.part { margin-top: 44px; }
+.part-head {
+  display: flex; align-items: center; gap: 16px;
+  border-bottom: 2px solid var(--sns-ink); padding-bottom: 10px; margin-bottom: 12px;
+}
+.part-head .icon { flex: none; height: 56px; width: auto; color: var(--sns-steel); }
+.part-head .kicker {
+  color: var(--sns-steel); font-weight: 600; font-size: 14px;
+  letter-spacing: 0.04em; text-transform: uppercase;
+}
+.part-head h2 { margin: 0; font-size: 26px; }
+.part .card:first-of-type { border-top: 0; }
+.card h3.finding { font-size: 20px; color: var(--sns-ink); margin-top: 2px; }
+.card .note { color: var(--fine); font-size: 14px; margin-top: 6px; }
+
+/* Small tiles inside a part (part 2): three in a row */
+.tiles.small { grid-template-columns: repeat(3, 1fr); margin: 8px 0 8px; }
+.tiles.small .value { font-size: 32px; }
+
+/* Number blocks: a big number beside its sentence (part 2) */
+.facts { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 12px; }
+.fact { background: var(--sns-tint); border-radius: var(--radius); padding: 16px 18px; }
+.fact .value { font-size: 34px; font-weight: 700; line-height: 1.1; color: var(--sns-ink); }
+.fact p { margin: 6px 0 0; font-size: 15px; }
+
+/* The two-button switch above the map */
+.switch { display: inline-flex; border: 1px solid var(--sns-steel); border-radius: 6px; overflow: hidden; }
+.switch button {
+  font: inherit; font-size: 14px; padding: 7px 12px; border: 0; cursor: pointer;
+  background: var(--white); color: var(--sns-steel);
+}
+.switch button + button { border-left: 1px solid var(--sns-steel); }
+.switch button[aria-pressed="true"] { background: var(--sns-steel); color: var(--white); }
+.switch button:focus-visible { outline: 2px solid var(--sns-ink); outline-offset: -3px; }
+
+/* "Every district's numbers": a table folded away under the map */
+details.table-view { margin-top: 16px; }
+details.table-view summary { cursor: pointer; font-weight: 600; color: var(--sns-steel); }
+.table-wrap { overflow-x: auto; margin-top: 10px; }   /* the table scrolls sideways on phones; the page doesn't */
+.table-wrap table { border-collapse: collapse; font-size: 14px; min-width: 640px; width: 100%; }
+.table-wrap th, .table-wrap td { padding: 6px 8px; border-bottom: 1px solid var(--rule); text-align: right; }
+.table-wrap th:first-child, .table-wrap td:first-child { text-align: left; }
+.table-wrap th { color: var(--fine); font-weight: 600; vertical-align: bottom; }
+
+/* Two short research cards side by side (part 3) */
+.research { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 8px; }
+.research .item { border-left: 4px solid var(--wca-accent); padding: 4px 0 4px 14px; }
+.research .item p { margin: 0 0 6px; }
+.research .item .cite { color: var(--muted); font-size: 13px; }
+
+/* A caution line (part 3) */
+.caution { border-left: 4px solid var(--sns-steel-light); padding-left: 14px; color: var(--fine); max-width: 75ch; }
+
+/* The bill's provisions, each beside its Westchester number (part 4) */
+.provisions { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 16px; margin-top: 12px; }
+.provision { border: 1px solid var(--rule); border-top: 4px solid var(--sns-steel); border-radius: var(--radius); padding: 14px 16px; }
+.provision .rule-text { font-weight: 600; color: var(--sns-ink); margin-bottom: 8px; }
+.provision .value { font-size: 30px; font-weight: 700; line-height: 1.1; color: var(--sns-ink); }
+.provision .what { font-size: 14px; color: var(--body); margin-top: 4px; }
+.provision .unknown { font-size: 15px; color: var(--fine); }
+
+/* The $50 million as one bar split three ways (part 4); widths are set by charts.js from the amounts */
+.money { margin-top: 24px; }
+.money h3 { color: var(--sns-ink); }
+.money .source { color: var(--muted); font-size: 13px; margin-top: 8px; }
+.nowrap { white-space: nowrap; }
+.money-bar { display: flex; height: 44px; border-radius: 6px; overflow: hidden; gap: 2px; background: var(--white); }
+.money-bar span { display: block; height: 100%; }
+.money-bar span:nth-child(1) { background: var(--sns-ink); }
+.money-bar span:nth-child(2) { background: var(--sns-steel); }
+.money-bar span:nth-child(3) { background: var(--sns-steel-light); }
+.money-legend { display: flex; flex-wrap: wrap; gap: 6px 20px; margin-top: 8px; font-size: 14px; }
+.money-legend .swatch { display: inline-block; width: 14px; height: 14px; border-radius: 3px; vertical-align: -2px; margin-right: 6px; }
+.money-legend .swatch.m1 { background: var(--sns-ink); }
+.money-legend .swatch.m2 { background: var(--sns-steel); }
+.money-legend .swatch.m3 { background: var(--sns-steel-light); }
+
+/* "What you can do" */
+.act { background: var(--sns-tint); border-radius: var(--radius); padding: 18px 20px; margin-top: 24px; }
+.act h3 { color: var(--sns-ink); }
+.act ul { margin: 0; padding-left: 20px; }
+
+.page-footer .credits { display: block; margin-top: 6px; font-size: 12px; }
+
+
+/* --------------------------------------------------------------------------
+   PHONES AND NARROW WINDOWS
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 600px) {
+  .banner-inner { padding: 20px var(--gutter) 18px; }
+  .banner .subtitle { font-size: 16px; }
+  .tiles { grid-template-columns: 1fr 1fr; gap: 10px; }      /* two tiles a row instead of one: less scrolling */
+  .tile { padding: 12px 12px; }
+  .tile .value { font-size: 26px; }
+  .tile .label { font-size: 13px; }
+  .tile .compare { font-size: 12px; }
+  .part-head .icon { height: 40px; }
+  .part-head h2 { font-size: 22px; }
+  .card h3.finding { font-size: 18px; }
+  .facts, .research { grid-template-columns: 1fr; }
+  /* Part 2's small tiles: one per row, the number beside its words */
+  .tiles.small { grid-template-columns: 1fr; }
+  .tiles.small .tile { display: flex; align-items: center; gap: 14px; }
+  .tiles.small .value { font-size: 26px; min-width: 78px; }
+  .tiles.small .label { margin-top: 0; }
+  /* The side panel's numbers: each label above its value */
+  .side-panel dl { grid-template-columns: 1fr; gap: 0; }
+  .side-panel dd { margin-bottom: 8px; }
+  /* The jump links stay on one line and scroll sideways, so they take less of the screen */
+  .jump { flex-wrap: nowrap; overflow-x: auto; white-space: nowrap; gap: 4px 16px; }
+}

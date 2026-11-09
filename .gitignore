@@ -1,0 +1,7 @@
+# Raw inputs (never published)
+update_data_here/
+
+# OS clutter
+Thumbs.db
+desktop.ini
+.DS_Store

@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>School Suspensions in Westchester · Westchester Children's Association</title>
+<meta name="description" content="Who is sent home from school in Westchester, what it costs them, and what the Solutions Not Suspensions Act would change. A Westchester Children's Association dashboard built from New York State Education Department data.">
+
+<!-- Styles: everything is in styles.css (WCA colors, this dashboard's colors and the font included). -->
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+<!--
+  HOW THIS PAGE IS BUILT
+  ======================
+  Every number from the data comes from data/data.json; nothing from the tables is typed in by hand.
+    * The headline tiles, the charts, the map and the district table are drawn by charts.js.
+    * Numbers inside sentences use <span data-fill="..."> and are filled in by charts.js,
+      so the words can never disagree with the data. The path inside data-fill points
+      into data.json, e.g. "who.gap_pair.a.westchester.one_in".
+  The words themselves (titles, commentary, captions) live here and are edited here.
+  Text marked [PLACEHOLDER] is a first draft for Brandon and the team to rewrite.
+
+  FIXED FACTS TYPED ON PURPOSE (not from the tables, so they are allowed in the text):
+    * The bill: the Judith S. Kaye Solutions Not Suspensions Act, S.134 (Jackson) / A.118 (Solages); a 20-school-day
+      cap on suspensions (now up to 180); no suspensions in pre-K to grade 3 unless federal law requires one; no
+      suspensions for minor infractions such as lateness, dress code and insubordination; instruction during a
+      suspension; restorative options in codes of conduct; charter schools under the same rules
+      (New York State Bar Association memorandum in support)
+    * The money: $50 million for school climate = $31.2M grants to districts + $16.2M staff training
+      + $2.6M technical assistance; signed by 125 organizations, WCA among them
+      (the Solutions Not Suspensions Coalition's FY2027-28 budget letter)
+    * The research: 15-20% more likely to be arrested and jailed as adults (Bacher-Hicks, Billings & Deming, 2024);
+      a discretionary suspension or expulsion nearly tripled the chance of juvenile justice contact the next
+      year (Council of State Governments Justice Center, Breaking Schools' Rules, 2011)
+    * The FOIL request number, <span class="nowrap">FL-EM-25-1398</span>
+    * Schools closed in March 2020 and 2020-21 was mostly remote (the COVID years)
+    * The Yonkers caveat in part 3: the state's counts of under-18 arrests by police department show none by
+      Yonkers Police from 2021 on (warehouse table CUR-0040, 2020-2024). Re-check when that table is updated.
+    * "What you can do" (part 4): campaign actions and dates. WCA keeps them current; remove past dates.
+  The small-group thresholds (30 students; 10 sent home) and the number of years added together for districts
+  come from data.json "meta.settings", not typed here.
+
+  CLAIMS TO RE-CHECK AFTER EVERY DATA UPDATE. The numbers refill themselves; these words don't.
+    * Part 1, race card: "about the same as across the state" (Black students' 1-in-N, Westchester vs. the state);
+      "The gap here is wider because White students in Westchester are rarely sent home"; "It isn't new"
+    * Part 1, groups card: the heading names children in foster care as sent home most (first in the chart);
+      "also sent home far more often"
+    * Part 1, ranked card: "In all ... districts with enough students to compare, Black students are sent home
+      more often" (data.json districts.gap_summary.all_more_often must be true)
+    * Part 2: "Some students are sent home for weeks, and some are in pre-K"
+    * Part 3: "Their share grows at every step"; "The White share falls at every step"
+    * Headline tiles, map, charts and the district table are numbers only; nothing to re-check.
+  PATHS THAT DEPEND ON THE ORDER OF THE SCRIPT'S SETTINGS (update_data_here/build_data.py):
+    * who.other_groups.0 = the first of OTHER_GROUPS (children in foster care)
+    * path.steps.0 to path.steps.4 = PATH_STEPS in order (enrolled ... felony arrests)
+    * lost.young_children.grades.0 to .2 = YOUNG_GRADES in order (pre-K, kindergarten, grades 1-3)
+    * headlines.0 to headlines.3 = the four headlines in build_headlines()
+
+  PAGE SECTIONS, top to bottom
+    1. Banner
+    2. Jump links to the four parts
+    3. Headline numbers (four tiles)
+    4. Part 1 · Who gets sent home: race and the state, other groups, the district map, the district gaps and table
+    5. Part 2 · What's lost: school days, long suspensions, young children
+    6. Part 3 · Where the path can lead: the share at each step, the research
+    7. Part 4 · What SNS would change: the bill beside Westchester's numbers, the $50 million, what you can do
+    8. About the data
+    9. Footer
+-->
+
+<!-- ===================================================================
+     1. BANNER
+     =================================================================== -->
+<header class="banner">
+  <div class="banner-inner">
+    <div class="kicker">Westchester Children's Association · Data dashboard</div>
+    <h1>[PLACEHOLDER] School suspensions in Westchester</h1>
+    <p class="subtitle">
+      [PLACEHOLDER] Who is sent home from school, what it costs them, and what the Solutions Not Suspensions Act
+      would change. New York State Education Department data through the <span data-fill="meta.latest_year" data-format="raw"></span> school year.
+    </p>
+  </div>
+</header>
+
+<div class="page">
+
+  <!-- ===================================================================
+       2. JUMP LINKS  ·  stay at the top of the screen while scrolling
+       =================================================================== -->
+  <nav class="jump" aria-label="Parts of this page">
+    <a href="#part-1">1 · Who gets sent home</a>
+    <a href="#part-2">2 · What's lost</a>
+    <a href="#part-3">3 · Where the path can lead</a>
+    <a href="#part-4">4 · What SNS would change</a>
+  </nav>
+
+
+  <!-- ===================================================================
+       3. HEADLINE NUMBERS
+       charts.js fills this row from data.json "headlines". One tile per entry.
+       =================================================================== -->
+  <section id="headlines" aria-label="Headline numbers">
+    <div class="tiles" id="tiles"></div>
+  </section>
+
+
+  <!-- ===================================================================
+       4. PART 1 · WHO GETS SENT HOME
+       =================================================================== -->
+  <section class="part" id="part-1" aria-labelledby="part-1-title">
+    <div class="part-head">
+      <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 262 120" fill="currentColor" aria-hidden="true" focusable="false"><title>Student sent home (out-of-school suspension)</title><!--! Built from Font Awesome Free 7.3.1 (CC BY 4.0, https://fontawesome.com/license/free), Material Symbols (Apache-2.0) and Phosphor (MIT) glyphs. --><g transform="translate(-1.7 6.7) scale(0.2083)"><path d="M248 24a56 56 0 1 0 -112 0 56 56 0 1 0 112 0zm24 212.7l46.3 62.4c10.5 14.2 30.6 17.2 44.8 6.6s17.2-30.6 6.6-44.8l-70.5-95C274 132 234.3 112 192 112s-82 20-107.2 53.9l-70.5 95c-10.5 14.2-7.6 34.2 6.6 44.8s34.2 7.6 44.8-6.6L112 236.7 112 512c0 17.7 14.3 32 32 32s32-14.3 32-32l0-160c0-8.8 7.2-16 16-16s16 7.2 16 16l0 160c0 17.7 14.3 32 32 32s32-14.3 32-32l0-275.3z"/></g><polygon points="88.66666666666667,66.0 150.66666666666669,66.0 150.66666666666669,57.4 168.66666666666669,70 150.66666666666669,82.6 150.66666666666669,74.0 88.66666666666667,74.0" style="fill:var(--wca-accent,currentColor)"/><g transform="translate(152.9 136.3) scale(0.1362)"><path d="M160-180v-390q0-14.25 6.38-27 6.37-12.75 17.62-21l260-195q15.68-12 35.84-12Q500-825 516-813l260 195q11.25 8.25 17.63 21 6.37 12.75 6.37 27v390q0 24.75-17.62 42.37Q764.75-120 740-120H590q-12.75 0-21.37-8.63Q560-137.25 560-150v-220q0-12.75-8.62-21.38Q542.75-400 530-400H430q-12.75 0-21.37 8.62Q400-382.75 400-370v220q0 12.75-8.62 21.37Q382.75-120 370-120H220q-24.75 0-42.37-17.63Q160-155.25 160-180Z"/></g></svg>
+      <div>
+        <div class="kicker">Part 1</div>
+        <h2 id="part-1-title">Who gets sent home</h2>
+      </div>
+    </div>
+    <p class="section-intro">
+      [PLACEHOLDER] "Sent home" means an out-of-school suspension: a student is told not to come to school for a
+      day or more. In <span data-fill="meta.latest_year" data-format="raw"></span>,
+      <span data-fill="headlines.0.value"></span> Westchester students were sent home at least once.
+    </p>
+
+    <!-- Race and ethnicity: Westchester next to the state -->
+    <article class="card" id="card-race">
+      <div class="kicker">By race and ethnicity</div>
+      <h3 class="finding">
+        Black students are sent home <span data-fill="headlines.3.value" data-format="raw"></span> times as often as
+        White students. Across New York State, the gap is <span data-fill="headlines.3.compare.value" data-format="raw"></span> times.
+      </h3>
+      <p class="commentary">
+        [PLACEHOLDER] In <span data-fill="who.year" data-format="raw"></span>, 1 in
+        <span data-fill="who.gap_pair.a.westchester.one_in"></span> Black students in Westchester was sent home at least
+        once, about the same as across the state (1 in <span data-fill="who.gap_pair.a.state.one_in"></span>). For White
+        students it was 1 in <span data-fill="who.gap_pair.b.westchester.one_in"></span>, against 1 in
+        <span data-fill="who.gap_pair.b.state.one_in"></span> statewide. The gap here is wider because White students in
+        Westchester are rarely sent home. It isn't new: in <span data-fill="who.trend.first_year" data-format="raw"></span>,
+        Black students were sent home <span data-fill="who.trend.gap_first_year" data-format="raw"></span> times as often.
+      </p>
+      <div class="legend" id="legend-race"></div>
+      <div class="chart-box"><canvas id="chart-race" aria-label="Bar chart: share of students sent home by race, Westchester and New York State" role="img"></canvas></div>
+      <p class="note" id="note-race"></p>
+      <p class="source">Source: New York State Education Department (NYSED), out-of-school suspensions by race,
+        <span data-fill="who.year" data-format="raw"></span>, released through a Freedom of Information Law request
+        (<span class="nowrap">FL-EM-25-1398</span>) and shared with WCA by a partner organization. Students sent home at least once, divided by
+        students enrolled in October.</p>
+    </article>
+
+    <!-- Other groups, each against all other students -->
+    <article class="card" id="card-groups">
+      <div class="kicker">Other students</div>
+      <h3 class="finding">
+        1 in <span data-fill="who.other_groups.0.one_in"></span> children in foster care was sent home,
+        <span data-fill="who.other_groups.0.times_everyone_else" data-format="raw"></span> times the rate of other students
+      </h3>
+      <p class="commentary">
+        [PLACEHOLDER] Students who are homeless, students with disabilities and students from low-income families are
+        also sent home far more often than other students. Across all Westchester students, it was 1 in
+        <span data-fill="who.all_students.one_in"></span>.
+      </p>
+      <div class="chart-box short"><canvas id="chart-groups" aria-label="Bar chart: share of students sent home in other student groups" role="img"></canvas></div>
+      <p class="source">Source: NYSED (FOIL <span class="nowrap">FL-EM-25-1398</span>), <span data-fill="who.year" data-format="raw"></span>.
+        Each group is compared with all other Westchester students.</p>
+    </article>
+
+    <!-- The district map: two measures, a district list, a side panel -->
+    <article class="card" id="card-map">
+      <div class="kicker">District by district</div>
+      <h3 class="finding">[PLACEHOLDER] How often each school district sends students home</h3>
+      <p class="commentary">
+        [PLACEHOLDER] Choose what the map shows, then tap a district or pick it from the list to see its numbers.
+        Hatched districts have too few students to compare.
+      </p>
+      <div class="controls">
+        <div class="switch" role="group" aria-label="What the map shows">
+          <button type="button" data-measure="rate" aria-pressed="true">Share sent home</button>
+          <button type="button" data-measure="gap" aria-pressed="false">Black–White gap</button>
+        </div>
+        <label for="district-select">Find your district</label>
+        <select id="district-select"></select>
+      </div>
+      <div class="map-layout">
+        <div class="map-column">
+          <svg id="map" class="map" viewBox="0 0 520 700" role="img" aria-labelledby="map-title">
+            <title id="map-title">Map of Westchester's public school districts</title>
+            <defs>
+              <!-- Hatching for "too few students to compare": thin gray diagonal lines -->
+              <pattern id="hatch" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)">
+                <rect width="6" height="6" fill="#F4F4F4"></rect>
+                <line x1="0" y1="0" x2="0" y2="6" stroke="#B5B5B5" stroke-width="1.2"></line>
+              </pattern>
+            </defs>
+            <g id="map-districts"></g>
+          </svg>
+          <div class="legend map-legend" id="map-legend"></div>
+          <p class="note" id="map-measure-note"></p>
+        </div>
+        <aside class="side-panel" id="side-panel" aria-live="polite">
+          <!-- Filled by charts.js: the chosen district, or Westchester as a whole -->
+        </aside>
+      </div>
+      <p class="source">Source: NYSED (FOIL <span class="nowrap">FL-EM-25-1398</span>), the <span data-fill="districts.count_public"></span> public
+        school districts. Special act districts and charter schools have no boundaries to map; their students count in
+        Westchester's totals. District outlines: Westchester County GIS.</p>
+    </article>
+
+    <!-- The gap in each district, ranked, and every district's numbers -->
+    <article class="card" id="card-districts">
+      <div class="kicker">The gap, district by district</div>
+      <h3 class="finding">
+        In all <span data-fill="districts.gap_summary.count"></span> districts with enough students to compare, Black
+        students are sent home more often than White students
+      </h3>
+      <p class="commentary">
+        [PLACEHOLDER] From <span data-fill="districts.gap_summary.lowest.value" data-format="raw"></span> times as often in
+        <span data-fill="districts.gap_summary.lowest.label" data-format="raw"></span> to
+        <span data-fill="districts.gap_summary.highest.value" data-format="raw"></span> times in
+        <span data-fill="districts.gap_summary.highest.label" data-format="raw"></span>, with the school years
+        <span data-fill="districts.pooled_label" data-format="raw"></span> added together so that a few students
+        don't swing the result.
+      </p>
+      <div class="chart-box" id="box-districts"><canvas id="chart-districts" aria-label="Bar chart: Black-White gap in each school district with enough students to compare" role="img"></canvas></div>
+      <details class="table-view">
+        <summary>Every district's numbers</summary>
+        <div class="table-wrap" id="district-table"></div>
+      </details>
+      <p class="source">Source: NYSED (FOIL <span class="nowrap">FL-EM-25-1398</span>), <span data-fill="districts.pooled_label" data-format="raw"></span>.
+        Districts are compared only when Black and White students each had at least
+        <span data-fill="meta.settings.min_sent_home_to_compare"></span> students sent home over those years and NYSED
+        hid no year's count.</p>
+    </article>
+  </section>
+
+
+  <!-- ===================================================================
+       5. PART 2 · WHAT'S LOST
+       =================================================================== -->
+  <section class="part" id="part-2" aria-labelledby="part-2-title">
+    <div class="part-head">
+      <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 146 120" fill="currentColor" aria-hidden="true" focusable="false"><title>Student with a calendar X (school days lost)</title><!--! Built from Font Awesome Free 7.3.1 (CC BY 4.0, https://fontawesome.com/license/free), Material Symbols (Apache-2.0) and Phosphor (MIT) glyphs. --><g transform="translate(-1.7 6.7) scale(0.2083)"><path d="M248 24a56 56 0 1 0 -112 0 56 56 0 1 0 112 0zm24 212.7l46.3 62.4c10.5 14.2 30.6 17.2 44.8 6.6s17.2-30.6 6.6-44.8l-70.5-95C274 132 234.3 112 192 112s-82 20-107.2 53.9l-70.5 95c-10.5 14.2-7.6 34.2 6.6 44.8s34.2 7.6 44.8-6.6L112 236.7 112 512c0 17.7 14.3 32 32 32s32-14.3 32-32l0-160c0-8.8 7.2-16 16-16s16 7.2 16 16l0 160c0 17.7 14.3 32 32 32s32-14.3 32-32l0-275.3z"/></g><g transform="translate(76.8 51.1) scale(0.3077)" style="fill:var(--wca-accent,currentColor)"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM157.66,170.34a8,8,0,0,1-11.32,11.32L128,163.31l-18.34,18.35a8,8,0,0,1-11.32-11.32L116.69,152,98.34,133.66a8,8,0,0,1,11.32-11.32L128,140.69l18.34-18.35a8,8,0,0,1,11.32,11.32L139.31,152ZM208,80H48V48H72v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24Z"/></g></svg>
+      <div>
+        <div class="kicker">Part 2</div>
+        <h2 id="part-2-title">What's lost</h2>
+      </div>
+    </div>
+    <p class="section-intro">
+      [PLACEHOLDER] Every day sent home is a school day lost, and lost days add up. In
+      <span data-fill="lost.year" data-format="raw"></span>, Westchester students spent
+      <span data-fill="lost.days.sent_home"></span> school days sent home.
+    </p>
+    <div class="tiles small">
+      <div class="tile"><div class="value" data-fill="lost.days.per_school_day"></div><div class="label">students home on suspension on an average school day</div></div>
+      <div class="tile"><div class="value" data-fill="lost.days.per_student_sent_home" data-format="raw"></div><div class="label">school days, on average, for each student sent home</div></div>
+      <div class="tile"><div class="value" data-fill="lost.days.in_school"></div><div class="label">more school days spent in in-school suspension</div></div>
+    </div>
+
+    <article class="card" id="card-days">
+      <div class="kicker">School days lost</div>
+      <h3 class="finding">
+        For every 100 students, Black students lost <span data-fill="lost.days_pair.a.per_100"></span> school days to being
+        sent home; White students lost <span data-fill="lost.days_pair.b.per_100"></span>
+      </h3>
+      <p class="commentary">
+        [PLACEHOLDER] That is <span data-fill="lost.days_times" data-format="raw"></span> times as many days per student.
+        Black students are <span data-fill="lost.days_share.students" data-format="pct"></span> of Westchester's students
+        but lost <span data-fill="lost.days_share.days" data-format="pct"></span> of all the school days spent sent home.
+      </p>
+      <div class="chart-box short"><canvas id="chart-days" aria-label="Bar chart: school days sent home per 100 students, by race" role="img"></canvas></div>
+      <p class="source">Source: NYSED (FOIL <span class="nowrap">FL-EM-25-1398</span>), <span data-fill="lost.year" data-format="raw"></span>. Days of
+        out-of-school suspension per 100 students enrolled in October.</p>
+    </article>
+
+    <article class="card" id="card-long">
+      <div class="kicker">Long suspensions and young children</div>
+      <h3 class="finding">[PLACEHOLDER] Some students are sent home for weeks, and some are in pre-K</h3>
+      <div class="facts">
+        <div class="fact">
+          <div class="value" data-fill="lost.twenty_plus.total"></div>
+          <p>students were suspended 20 or more school days in <span data-fill="lost.year" data-format="raw"></span>.
+            <span data-fill="lost.twenty_plus.share" data-format="pct"></span> of them were Black.</p>
+        </div>
+        <div class="fact">
+          <div class="value" data-fill="lost.young_children.total"></div>
+          <p>children in pre-K to grade 3 were suspended: <span data-fill="lost.young_children.grades.0.suspended"></span>
+            in pre-K, <span data-fill="lost.young_children.grades.1.suspended"></span> in kindergarten and
+            <span data-fill="lost.young_children.grades.2.suspended"></span> in grades 1 to 3.
+            <span data-fill="lost.young_children.sent_home"></span> of them were sent home, for
+            <span data-fill="lost.young_children.days_sent_home"></span> school days in all.</p>
+        </div>
+      </div>
+      <p class="source">Source: NYSED (FOIL <span class="nowrap">FL-EM-25-1398</span>), <span data-fill="lost.year" data-format="raw"></span>.
+        "Suspended" here counts in-school suspensions too.</p>
+    </article>
+  </section>
+
+
+  <!-- ===================================================================
+       6. PART 3 · WHERE THE PATH CAN LEAD
+       =================================================================== -->
+  <section class="part" id="part-3" aria-labelledby="part-3-title">
+    <div class="part-head">
+      <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 318 120" fill="currentColor" aria-hidden="true" focusable="false"><title>School to prison pipeline</title><!--! Built from Font Awesome Free 7.3.1 (CC BY 4.0, https://fontawesome.com/license/free), Material Symbols (Apache-2.0) and Phosphor (MIT) glyphs. --><g transform="translate(-11.4 140.0) scale(0.1562)"><path d="M860-313v-252L508-375q-14 8-29 7.5t-29-8.5L88-574q-8-5-11.5-11.5T73-600q0-8 3.5-14.5T88-626l362-198q7-4 14-6t15-2q8 0 15 2t14 6l396 215q8 4 12 11.5t4 15.5v269q0 13-8.5 21.5T890-283q-13 0-21.5-8.5T860-313ZM450-136 220-262q-14-8-22.5-22t-8.5-31v-174l261 143q14 8 29 8t29-8l261-143v174q0 17-8.5 31T738-262L508-136q-7 4-14 6t-15 2q-8 0-15-2t-14-6Z"/></g><polygon points="140.34375,68.0 192.34375,68.0 192.34375,59.4 210.34375,72 192.34375,84.6 192.34375,76.0 140.34375,76.0" style="fill:var(--wca-accent,currentColor)"/><g transform="translate(212.5 20.0) scale(0.1838)" style="fill:var(--wca-accent,currentColor)"><path d="M32 64C32 28.7 60.7 0 96 0L352 0c35.3 0 64 28.7 64 64l0 121.3c-46.9 19-80 65-80 118.7l0 24.4c-19.6 17.6-32 43.1-32 71.5l0 96c0 5.5 .5 10.9 1.3 16.1L96 512c-35.3 0-64-28.7-64-64L32 64zM176 384l0 80 80 0 0-64.1c0-13.7 1.9-27 5.5-39.6-5.7-5.2-13.2-8.3-21.5-8.3l-32 0c-17.7 0-32 14.3-32 32zM307 224.3c-1-.2-2-.3-3-.3l-32 0c-8.8 0-16 7.2-16 16l0 32c0 8.8 7.2 16 16 16l16.7 0c2.1-22.8 8.4-44.3 18.3-63.7zM144 96c-8.8 0-16 7.2-16 16l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0zm112 16l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0c-8.8 0-16 7.2-16 16zM144 224c-8.8 0-16 7.2-16 16l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0zm352 80.1c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 47.9 64 0 0-47.9zM352 400c0-20.9 13.4-38.7 32-45.3l0-50.6c0-44.2 35.8-80 80-80s80 35.8 80 80l0 50.6c18.6 6.6 32 24.4 32 45.3l0 96c0 26.5-21.5 48-48 48l-128 0c-26.5 0-48-21.5-48-48l0-96z"/></g></svg>
+      <div>
+        <div class="kicker">Part 3</div>
+        <h2 id="part-3-title">Where the path can lead</h2>
+      </div>
+    </div>
+    <p class="section-intro">
+      [PLACEHOLDER] Youth justice starts in school, long before anyone reaches a courtroom. The groups sent home most
+      are also the groups arrested most.
+    </p>
+
+    <article class="card" id="card-steps">
+      <div class="kicker">At each step</div>
+      <h3 class="finding">
+        Black young people are <span data-fill="path.steps.0.shares.Black" data-format="pct"></span> of Westchester's
+        students but <span data-fill="path.steps.4.shares.Black" data-format="pct"></span> of under-18 felony arrests
+      </h3>
+      <p class="commentary">
+        [PLACEHOLDER] Their share grows at every step: <span data-fill="path.steps.1.shares.Black" data-format="pct"></span>
+        of students suspended, <span data-fill="path.steps.2.shares.Black" data-format="pct"></span> of those sent home,
+        <span data-fill="path.steps.3.shares.Black" data-format="pct"></span> of those suspended 20 days or more. The White
+        share falls at every step, from <span data-fill="path.steps.0.shares.White" data-format="pct"></span> of students to
+        <span data-fill="path.steps.4.shares.White" data-format="pct"></span> of felony arrests. Statewide,
+        <span data-fill="path.arrests.state.share" data-format="pct"></span> of under-18 felony arrests were of Black youth.
+      </p>
+      <div class="chart-box"><canvas id="chart-steps" aria-label="Bar chart: the Black share of students, suspensions and felony arrests" role="img"></canvas></div>
+      <p class="caution">These are different young people counted at each step, not one group followed over time. No
+        public data follows a child from school to court; research does that work (below).</p>
+      <p class="source">Sources: NYSED (FOIL <span class="nowrap">FL-EM-25-1398</span>), <span data-fill="meta.latest_year" data-format="raw"></span>,
+        for the school steps; NYS Division of Criminal Justice Services (DCJS), felony arrests of people under 18,
+        <span data-fill="path.arrests.period" data-format="raw"></span> added together, shared with a youth justice
+        coalition WCA belongs to. Arrests are counted, not people, and a share of arrests is not an arrest rate.</p>
+    </article>
+
+    <article class="card" id="card-research">
+      <div class="kicker">What research shows</div>
+      <h3 class="finding">[PLACEHOLDER] Suspensions are linked to later arrests</h3>
+      <div class="research">
+        <div class="item">
+          <p>[PLACEHOLDER] Students assigned to schools with much higher suspension rates were 15 to 20 percent more
+            likely to be arrested and jailed as adults.</p>
+          <p class="cite">North Carolina. Bacher-Hicks, Billings and Deming, 2024.</p>
+        </div>
+        <div class="item">
+          <p>[PLACEHOLDER] A discretionary suspension or expulsion nearly tripled a student's chance of contact with the
+            juvenile justice system the following year.</p>
+          <p class="cite">Texas, about 1 million students. Council of State Governments Justice Center, <cite>Breaking Schools' Rules</cite>, 2011.</p>
+        </div>
+      </div>
+      <p class="note">[PLACEHOLDER] A limit in the state's data: its counts of under-18 arrests by police department show
+        none by Yonkers Police from 2021 on, most likely because reports are missing, so counts by police department
+        leave out Yonkers' arrested youth. The felony arrest figures on this page come from a different DCJS data system.</p>
+    </article>
+  </section>
+
+
+  <!-- ===================================================================
+       7. PART 4 · WHAT SNS WOULD CHANGE
+       =================================================================== -->
+  <section class="part" id="part-4" aria-labelledby="part-4-title">
+    <div class="part-head">
+      <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" fill="currentColor" aria-hidden="true" focusable="false"><title>Bill or contract</title><!--! Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc. --><path fill="currentColor" d="M0 64C0 28.7 28.7 0 64 0L213.5 0c17 0 33.3 6.7 45.3 18.7L365.3 125.3c12 12 18.7 28.3 18.7 45.3L384 448c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 64zm208-5.5l0 93.5c0 13.3 10.7 24 24 24L325.5 176 208 58.5zM88 64C74.7 64 64 74.7 64 88s10.7 24 24 24l48 0c13.3 0 24-10.7 24-24s-10.7-24-24-24L88 64zm0 96c-13.3 0-24 10.7-24 24s10.7 24 24 24l48 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-48 0zm70.3 160c-11.3 0-21.9 5.1-28.9 13.9L69.3 409c-8.3 10.3-6.6 25.5 3.7 33.7s25.5 6.6 33.7-3.8l47.1-58.8 15.2 50.7c3 10.2 12.4 17.1 23 17.1l104 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-86.1 0-16.1-53.6c-4.7-15.7-19.1-26.4-35.5-26.4z"/></svg>
+      <div>
+        <div class="kicker">Part 4</div>
+        <h2 id="part-4-title">What SNS would change</h2>
+      </div>
+    </div>
+    <p class="section-intro">
+      [PLACEHOLDER] The Judith S. Kaye Solutions Not Suspensions Act (S.134 / A.118) would change how New York's schools
+      suspend students. Here is each part of the bill beside the Westchester number it would change.
+    </p>
+    <div class="provisions">
+      <div class="provision">
+        <div class="rule-text">Caps a suspension at 20 school days (today it can run up to 180)</div>
+        <div class="value" data-fill="lost.twenty_plus.total"></div>
+        <div class="what">students were suspended 20 or more days in <span data-fill="lost.year" data-format="raw"></span></div>
+      </div>
+      <div class="provision">
+        <div class="rule-text">Ends suspensions in pre-K to grade 3, unless federal law requires one</div>
+        <div class="value" data-fill="lost.young_children.total"></div>
+        <div class="what">children in pre-K to grade 3 were suspended in <span data-fill="lost.year" data-format="raw"></span></div>
+      </div>
+      <div class="provision">
+        <div class="rule-text">Requires instruction while a student is suspended</div>
+        <div class="value" data-fill="lost.days.sent_home"></div>
+        <div class="what">school days students spent sent home in <span data-fill="lost.year" data-format="raw"></span></div>
+      </div>
+      <div class="provision">
+        <div class="rule-text">Bars suspensions for minor infractions such as lateness, dress code and insubordination</div>
+        <div class="unknown">Not known for Westchester: NYSED doesn't report why students are suspended.</div>
+      </div>
+      <div class="provision">
+        <div class="rule-text">Adds restorative options to every code of conduct, and holds charter schools to the same rules</div>
+        <div class="unknown">[PLACEHOLDER] One sentence on what this means for Westchester's schools.</div>
+      </div>
+    </div>
+
+    <div class="money">
+      <h3>[PLACEHOLDER] And $50 million to make it work</h3>
+      <p class="commentary">[PLACEHOLDER] The coalition's budget request, signed by 125 organizations including WCA, asks
+        the state for $50 million for school climate.</p>
+      <div class="money-bar" id="money-bar" role="img" aria-label="$50 million: $31.2 million in grants to districts, $16.2 million for staff training, $2.6 million for technical assistance">
+        <span data-amount="31.2"></span><span data-amount="16.2"></span><span data-amount="2.6"></span>
+      </div>
+      <div class="money-legend">
+        <span><i class="swatch m1"></i>$31.2 million in grants to school districts</span>
+        <span><i class="swatch m2"></i>$16.2 million for staff training</span>
+        <span><i class="swatch m3"></i>$2.6 million for technical assistance</span>
+      </div>
+      <p class="source">Sources: the Solutions Not Suspensions Coalition's FY2027-28 budget letter; the New York State
+        Bar Association's memorandum in support of S.134 / A.118.</p>
+    </div>
+
+    <div class="act" id="act">
+      <h3>What you can do</h3>
+      <ul>
+        <li>[PLACEHOLDER] Join the coalition's online campaign kickoff on December 10 at 6 PM. [link to confirm with Angel]</li>
+        <li>[PLACEHOLDER] Add your voice to the coalition's letter to the Board of Regents. [link to confirm with Angel]</li>
+        <li>[PLACEHOLDER] Learn more about the Solutions Not Suspensions Coalition. [link]</li>
+      </ul>
+      <p class="fine">WCA updates this list as the campaign moves.</p>
+    </div>
+  </section>
+
+
+  <!-- ===================================================================
+       8. ABOUT THE DATA
+       =================================================================== -->
+  <section class="about" id="about">
+    <h2>About the data</h2>
+    <p>
+      <strong>Sources.</strong> Suspension figures are from the New York State Education Department (NYSED), released
+      through a Freedom of Information Law request (<span class="nowrap">FL-EM-25-1398</span>) filed by a partner organization and shared with WCA.
+      They cover every Westchester school district from <span data-fill="meta.first_year" data-format="raw"></span> to
+      <span data-fill="meta.latest_year" data-format="raw"></span>. Felony arrest figures are from the NYS Division of
+      Criminal Justice Services (DCJS), shared with a youth justice coalition WCA belongs to. District outlines are from
+      Westchester County GIS.
+    </p>
+    <p>
+      <strong>How to read the numbers.</strong> "Sent home" means an out-of-school suspension; "suspended in school"
+      means a student was taken out of class but kept in the building. A rate is the number of students suspended at
+      least once during the school year, divided by the students enrolled on NYSED's October count day. "Times as often"
+      is one group's rate divided by the other's. Westchester's totals include the county's special act districts and
+      charter schools. Districts that report no in-school suspensions at all are marked "none reported".
+    </p>
+    <p>
+      <strong>Small numbers.</strong> A group's rate isn't shown when fewer than 30 students are in it. Two groups are
+      compared only when each had at least <span data-fill="meta.settings.min_sent_home_to_compare"></span> students sent
+      home; for school districts, the latest <span data-fill="meta.settings.pooled_years"></span> school years are added
+      together first.
+    </p>
+    <p>
+      <strong>Years.</strong> School years run from September to June. Schools closed in March 2020 and taught mostly
+      remotely in 2020-21, so those two years had far fewer suspensions.
+    </p>
+    <p>
+      <strong>What the data can't show.</strong> It can't follow one child from a suspension to an arrest; it doesn't say
+      why students were suspended; and it has no arrests or police referrals at school.
+    </p>
+    <p class="muted">Data file built <span data-fill="meta.generated" data-format="raw"></span>.</p>
+  </section>
+
+
+  <!-- ===================================================================
+       9. FOOTER
+       =================================================================== -->
+  <footer class="page-footer">
+    Westchester Children's Association · <a href="https://wca4kids.org">wca4kids.org</a>
+    · [PLACEHOLDER: contact, licence]
+    <span class="credits">Icons from WCA's asset library, built from Font Awesome Free (CC BY 4.0), Material Symbols (Apache 2.0) and Phosphor (MIT).</span>
+  </footer>
+
+</div>
+
+<!-- Scripts: the chart library first, then this page's code. -->
+<script src="resources/vendor/chart.umd.js"></script>
+<script src="charts.js"></script>
+</body>
+</html>
