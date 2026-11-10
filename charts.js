@@ -348,12 +348,10 @@ var GEOGRAPHY_FILE = "data/Geography.json";
 
 /* This dashboard's own colors, read from part A2 of styles.css */
 var SNS = {
-  ink:        WCA.cssVar("--sns-ink"),
-  steel:      WCA.cssVar("--sns-steel"),
-  steelLight: WCA.cssVar("--sns-steel-light"),
-  state:      WCA.cssVar("--sns-state"),
-  accent:     WCA.cssVar("--wca-accent"),
-  rateRamp:   [1, 2, 3, 4, 5].map(function (i) { return WCA.cssVar("--sns-rate-" + i); }),
+  data:       WCA.cssVar("--sns-data"),            /* the data: bars */
+  dataLight:  WCA.cssVar("--sns-data-light"),      /* the other bars beside the one picked out */
+  compare:    WCA.cssVar("--sns-compare"),         /* what the data is compared with: a bar and its dashed line */
+  rateRamp:   [1, 2, 3, 4, 5].map(function (i) { return WCA.cssVar("--sns-rate-" + i); }),   /* the map's five steps */
 };
 
 /* The map's drawing box (also in index.html's <svg viewBox>): Westchester is taller than wide */
@@ -498,7 +496,7 @@ function groupTooltip(entry, id, year) {
      a. Each district's outline comes as longitude/latitude points. makeProjection()
         turns them into x/y on the drawing, scaled to fit the SVG box.
      b. One SVG <path> is drawn per district, colored by the share of its students
-        sent home: five steel-blue steps, fixed in data.json so a color means the
+        sent home: five blue steps, fixed in data.json so a color means the
         same thing every year. A district with too few students to show is hatched;
         an outline with no data (the sliver of Putnam Valley) is plain gray.
      c. Hovering shows a small box; tapping or clicking a district, or picking it
@@ -650,7 +648,7 @@ function servesText(municipalities) {
    5. PART 2 CHART  ·  school days lost per 100 students, by race
    -------------------------------------------------------------------------- */
 
-/* The first group of the gap (Black students) in dark steel, the others in light steel. */
+/* The first group of the gap (Black students) in indigo, the others in a paler blue. */
 function drawDaysByRace(data) {
   var lost = data.lost;
   var highlight = lost.days_pair.a.group;
@@ -663,7 +661,7 @@ function drawDaysByRace(data) {
       labels: rows.map(function (r) { return r.label; }),
       datasets: [{
         data: rows.map(function (r) { return r.per_100; }),
-        backgroundColor: rows.map(function (r) { return r.group === highlight ? SNS.ink : SNS.steelLight; }),
+        backgroundColor: rows.map(function (r) { return r.group === highlight ? SNS.data : SNS.dataLight; }),
       }],
     },
     options: horizontalBarOptions({
@@ -686,8 +684,8 @@ function drawDaysByRace(data) {
    6. PART 3 CHART  ·  the Black share at each step
    -------------------------------------------------------------------------- */
 
-/* One bar per step. The first bar (students enrolled) is the comparison, in gray, and the
-   dashed line repeats it down the chart: a bar past the line is more than the group's share. */
+/* One bar per step. The first bar (students enrolled) is the comparison, in orange, and the
+   dashed orange line repeats it down the chart: a bar past the line is more than the group's share. */
 function drawPathSteps(data) {
   var path = data.path;
   var group = path.groups[0];
@@ -704,12 +702,12 @@ function drawPathSteps(data) {
       labels: steps.map(function (s) { return wrap(stepLabel(s), LABEL_WIDTH); }),
       datasets: [{
         data: steps.map(function (s) { return s.shares[group]; }),
-        backgroundColor: steps.map(function (s, i) { return i === 0 ? SNS.state : SNS.steel; }),
+        backgroundColor: steps.map(function (s, i) { return i === 0 ? SNS.compare : SNS.data; }),
       }],
     },
     options: horizontalBarOptions({
       valueLabels: { datasets: [0], format: WCA.fmt.pct },
-      refLine: { value: base, label: group + " share of students", color: SNS.accent },
+      refLine: { value: base, label: group + " share of students", color: SNS.compare },
       tooltip: { callbacks: {
         title: function (items) { return steps[items[0].dataIndex].label + ", " + steps[items[0].dataIndex].period; },
         label: function (item) {
