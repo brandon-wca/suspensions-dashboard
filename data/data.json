@@ -1,7 +1,7 @@
 {
   "meta": {
     "dashboard": "Suspensions Dashboard",
-    "generated": "2026-11-09 18:33 (local time)",
+    "generated": "2026-11-10 12:21 (local time)",
     "built_by": "build_data.py",
     "latest_year": "2024-25",
     "first_year": "2018-19",
@@ -52,52 +52,30 @@
       "label": "students sent home at least once (out-of-school suspension), 2024-25",
       "value": 2988,
       "unit": "count",
-      "compare": {
-        "label": "of all students",
-        "value": 2.2,
-        "unit": "%"
-      },
-      "source": "CUR-0012, students_suspended_out_of_school and pct_suspended_out_of_school, Westchester County"
-    },
-    {
-      "id": "in_school",
-      "label": "students suspended in school, 2024-25",
-      "value": 2010,
-      "unit": "count",
-      "compare": {
-        "label": "of all students",
-        "value": 1.5,
-        "unit": "%"
-      },
-      "source": "CUR-0012, students_suspended_in_school and pct_suspended_in_school, Westchester County"
+      "one_in": 46,
+      "source": "CUR-0012, students_suspended_out_of_school over enrollment_beds_day, Westchester County"
     },
     {
       "id": "days",
       "label": "school days students spent sent home, 2024-25",
       "value": 20512,
       "unit": "count",
-      "compare": {
-        "label": "students home on an average school day",
-        "value": 114,
-        "unit": "count"
-      },
+      "per_school_day": 114,
       "source": "CUR-0012, days_out_of_school_suspension, Westchester County; divided by a 180-day school year"
     },
     {
-      "id": "gap",
-      "label": "how many times as often Black students are sent home as White students, 2024-25",
-      "value": 6.7,
-      "unit": "times",
-      "compare": {
-        "label": "New York State",
-        "value": 2.5,
-        "unit": "times"
-      },
-      "source": "CUR-0012, students_suspended_out_of_school / enrollment_beds_day, Black and White, Westchester and NYS"
+      "id": "arrests",
+      "label": "share of under-18 felony arrests that were of Black young people, 2023-2025",
+      "value": 52.2,
+      "unit": "%",
+      "one_in": 2,
+      "students_in_10": 1,
+      "source": "CUR-0011, Westchester, years added together; the share of students from CUR-0012"
     }
   ],
   "who": {
     "year": "2024-25",
+    "first_year": "2018-19",
     "average": {
       "sent_home": 2988,
       "enrolled": 138515,
@@ -108,38 +86,185 @@
       "label": "The average: all students",
       "per_100": 2
     },
-    "groups": [
-      {
-        "sent_home": 48,
-        "enrolled": 245,
-        "rate": 19.6,
-        "one_in": 5,
-        "too_few": false,
-        "too_few_to_compare": false,
-        "id": "foster_care",
-        "group": "In Foster Care",
-        "label": "Children in foster care",
-        "words": "children in foster care",
-        "per_100": 20,
-        "times_average": 9.1,
-        "small": true
+    "views": {
+      "race": {
+        "id": "race",
+        "button": "Race and ethnicity",
+        "groups": [
+          {
+            "sent_home": 975,
+            "enrolled": 14782,
+            "rate": 6.6,
+            "one_in": 15,
+            "too_few": false,
+            "too_few_to_compare": false,
+            "id": "black",
+            "group": "Black",
+            "label": "Black students",
+            "words": "Black students",
+            "per_100": 7,
+            "times_average": 3.1,
+            "small": false
+          },
+          {
+            "sent_home": 1335,
+            "enrolled": 53671,
+            "rate": 2.5,
+            "one_in": 40,
+            "too_few": false,
+            "too_few_to_compare": false,
+            "id": "hispanic",
+            "group": "Hispanic",
+            "label": "Hispanic students",
+            "words": "Hispanic students",
+            "per_100": 2,
+            "times_average": 1.2,
+            "small": false
+          },
+          {
+            "sent_home": 88,
+            "enrolled": 6054,
+            "rate": 1.5,
+            "one_in": 69,
+            "too_few": false,
+            "too_few_to_compare": false,
+            "id": "multiracial",
+            "group": "Multiracial",
+            "label": "Multiracial students",
+            "words": "multiracial students",
+            "per_100": 1,
+            "times_average": 0.7,
+            "small": false
+          },
+          {
+            "sent_home": 532,
+            "enrolled": 54334,
+            "rate": 1,
+            "one_in": 102,
+            "too_few": false,
+            "too_few_to_compare": false,
+            "id": "white",
+            "group": "White",
+            "label": "White students",
+            "words": "White students",
+            "per_100": 1,
+            "times_average": 0.5,
+            "small": false
+          },
+          {
+            "sent_home": 53,
+            "enrolled": 9312,
+            "rate": 0.6,
+            "one_in": 176,
+            "too_few": false,
+            "too_few_to_compare": false,
+            "id": "asian",
+            "group": "Asian",
+            "label": "Asian students",
+            "words": "Asian students",
+            "per_100": 1,
+            "times_average": 0.3,
+            "small": false
+          }
+        ],
+        "left_out": [
+          "American Indian or Alaska Native students",
+          "Native Hawaiian or Pacific Islander students"
+        ],
+        "title": {
+          "names": "Black students",
+          "times": "about 3 times"
+        },
+        "also": {
+          "show": true,
+          "lead": "",
+          "subject": "Black students"
+        }
       },
-      {
-        "sent_home": 149,
-        "enrolled": 2154,
-        "rate": 6.9,
-        "one_in": 14,
-        "too_few": false,
-        "too_few_to_compare": false,
-        "id": "homeless",
-        "group": "Homeless/McKinney-Vento",
-        "label": "Homeless students",
-        "words": "homeless students",
-        "per_100": 7,
-        "times_average": 3.2,
-        "small": false
-      },
-      {
+      "groups": {
+        "id": "groups",
+        "button": "Other student groups",
+        "groups": [
+          {
+            "sent_home": 48,
+            "enrolled": 245,
+            "rate": 19.6,
+            "one_in": 5,
+            "too_few": false,
+            "too_few_to_compare": false,
+            "id": "foster_care",
+            "group": "In Foster Care",
+            "label": "Children in foster care",
+            "words": "children in foster care",
+            "per_100": 20,
+            "times_average": 9.1,
+            "small": true
+          },
+          {
+            "sent_home": 149,
+            "enrolled": 2154,
+            "rate": 6.9,
+            "one_in": 14,
+            "too_few": false,
+            "too_few_to_compare": false,
+            "id": "homeless",
+            "group": "Homeless/McKinney-Vento",
+            "label": "Homeless students",
+            "words": "homeless students",
+            "per_100": 7,
+            "times_average": 3.2,
+            "small": false
+          },
+          {
+            "sent_home": 1032,
+            "enrolled": 23569,
+            "rate": 4.4,
+            "one_in": 23,
+            "too_few": false,
+            "too_few_to_compare": false,
+            "id": "disabilities",
+            "group": "Students with Disabilities",
+            "label": "Students with disabilities",
+            "words": "students with disabilities",
+            "per_100": 4,
+            "times_average": 2.0,
+            "small": false
+          },
+          {
+            "sent_home": 2038,
+            "enrolled": 54607,
+            "rate": 3.7,
+            "one_in": 27,
+            "too_few": false,
+            "too_few_to_compare": false,
+            "id": "low_income",
+            "group": "Economically Disadvantaged",
+            "label": "Students from low-income families",
+            "words": "students from low-income families",
+            "per_100": 4,
+            "times_average": 1.7,
+            "small": false
+          }
+        ],
+        "left_out": [],
+        "title": {
+          "names": "Children in foster care, homeless students and students with disabilities",
+          "times": "2 to 9 times"
+        },
+        "also": {
+          "show": true,
+          "lead": "The ",
+          "subject": "same four groups"
+        }
+      }
+    },
+    "view_order": [
+      "race",
+      "groups"
+    ],
+    "default_view": "race",
+    "by_id": {
+      "black": {
         "sent_home": 975,
         "enrolled": 14782,
         "rate": 6.6,
@@ -154,38 +279,96 @@
         "times_average": 3.1,
         "small": false
       },
-      {
-        "sent_home": 1032,
-        "enrolled": 23569,
-        "rate": 4.4,
-        "one_in": 23,
+      "hispanic": {
+        "sent_home": 1335,
+        "enrolled": 53671,
+        "rate": 2.5,
+        "one_in": 40,
         "too_few": false,
         "too_few_to_compare": false,
-        "id": "disabilities",
-        "group": "Students with Disabilities",
-        "label": "Students with disabilities",
-        "words": "students with disabilities",
-        "per_100": 4,
-        "times_average": 2.0,
+        "id": "hispanic",
+        "group": "Hispanic",
+        "label": "Hispanic students",
+        "words": "Hispanic students",
+        "per_100": 2,
+        "times_average": 1.2,
         "small": false
       },
-      {
-        "sent_home": 2038,
-        "enrolled": 54607,
-        "rate": 3.7,
-        "one_in": 27,
+      "multiracial": {
+        "sent_home": 88,
+        "enrolled": 6054,
+        "rate": 1.5,
+        "one_in": 69,
         "too_few": false,
         "too_few_to_compare": false,
-        "id": "low_income",
-        "group": "Economically Disadvantaged",
-        "label": "Students from low-income families",
-        "words": "students from low-income families",
-        "per_100": 4,
-        "times_average": 1.7,
+        "id": "multiracial",
+        "group": "Multiracial",
+        "label": "Multiracial students",
+        "words": "multiracial students",
+        "per_100": 1,
+        "times_average": 0.7,
         "small": false
-      }
-    ],
-    "by_id": {
+      },
+      "white": {
+        "sent_home": 532,
+        "enrolled": 54334,
+        "rate": 1,
+        "one_in": 102,
+        "too_few": false,
+        "too_few_to_compare": false,
+        "id": "white",
+        "group": "White",
+        "label": "White students",
+        "words": "White students",
+        "per_100": 1,
+        "times_average": 0.5,
+        "small": false
+      },
+      "asian": {
+        "sent_home": 53,
+        "enrolled": 9312,
+        "rate": 0.6,
+        "one_in": 176,
+        "too_few": false,
+        "too_few_to_compare": false,
+        "id": "asian",
+        "group": "Asian",
+        "label": "Asian students",
+        "words": "Asian students",
+        "per_100": 1,
+        "times_average": 0.3,
+        "small": false
+      },
+      "american_indian": {
+        "sent_home": 3,
+        "enrolled": 236,
+        "rate": 1.3,
+        "one_in": 79,
+        "too_few": false,
+        "too_few_to_compare": true,
+        "id": "american_indian",
+        "group": "American Indian/Alaska Native",
+        "label": "American Indian or Alaska Native students",
+        "words": "American Indian or Alaska Native students",
+        "per_100": null,
+        "times_average": null,
+        "small": true
+      },
+      "pacific_islander": {
+        "sent_home": 2,
+        "enrolled": 126,
+        "rate": 1.6,
+        "one_in": 63,
+        "too_few": false,
+        "too_few_to_compare": true,
+        "id": "pacific_islander",
+        "group": "Native Hawaiian/Other Pacific Islander",
+        "label": "Native Hawaiian or Pacific Islander students",
+        "words": "Native Hawaiian or Pacific Islander students",
+        "per_100": null,
+        "times_average": null,
+        "small": true
+      },
       "foster_care": {
         "sent_home": 48,
         "enrolled": 245,
@@ -214,21 +397,6 @@
         "words": "homeless students",
         "per_100": 7,
         "times_average": 3.2,
-        "small": false
-      },
-      "black": {
-        "sent_home": 975,
-        "enrolled": 14782,
-        "rate": 6.6,
-        "one_in": 15,
-        "too_few": false,
-        "too_few_to_compare": false,
-        "id": "black",
-        "group": "Black",
-        "label": "Black students",
-        "words": "Black students",
-        "per_100": 7,
-        "times_average": 3.1,
         "small": false
       },
       "disabilities": {
@@ -262,17 +430,7 @@
         "small": false
       }
     },
-    "left_out": [],
-    "title": {
-      "names": "Children in foster care, homeless students and Black students",
-      "times": "3 to 9 times"
-    },
     "figures_in_longest_row": 20,
-    "trend": {
-      "first_year": "2018-19",
-      "count_word": "five",
-      "same_top_groups": true
-    },
     "source": "CUR-0012, Westchester County (out-of-school suspensions over October enrollment)"
   },
   "districts": {
@@ -905,139 +1063,152 @@
     "year": "2024-25",
     "days": {
       "sent_home": 20512,
-      "in_school": 3642,
       "per_school_day": 114,
-      "per_student_sent_home": 6.9,
+      "per_student_sent_home": 7,
       "school_days": 180
     },
-    "days_by_race": [
+    "average": {
+      "label": "The average: all students",
+      "days": 20512,
+      "enrolled": 138515,
+      "per_100": 14.8,
+      "per_100_whole": 15
+    },
+    "groups": [
       {
+        "id": "foster_care",
+        "group": "In Foster Care",
+        "label": "Children in foster care",
+        "words": "children in foster care",
+        "days": 566,
+        "enrolled": 245,
+        "per_100": 231.0,
+        "per_100_whole": 231,
+        "times_average": 15.6,
+        "small": true,
+        "too_few_to_compare": false
+      },
+      {
+        "id": "homeless",
+        "group": "Homeless/McKinney-Vento",
+        "label": "Homeless students",
+        "words": "homeless students",
+        "days": 1984,
+        "enrolled": 2154,
+        "per_100": 92.1,
+        "per_100_whole": 92,
+        "times_average": 6.2,
+        "small": false,
+        "too_few_to_compare": false
+      },
+      {
+        "id": "black",
         "group": "Black",
-        "label": "Black",
+        "label": "Black students",
+        "words": "Black students",
         "days": 7828,
         "enrolled": 14782,
         "per_100": 53.0,
+        "per_100_whole": 53,
+        "times_average": 3.6,
+        "small": false,
         "too_few_to_compare": false
       },
       {
-        "group": "Hispanic",
-        "label": "Hispanic",
-        "days": 9172,
-        "enrolled": 53671,
-        "per_100": 17.1,
+        "id": "disabilities",
+        "group": "Students with Disabilities",
+        "label": "Students with disabilities",
+        "words": "students with disabilities",
+        "days": 8075,
+        "enrolled": 23569,
+        "per_100": 34.3,
+        "per_100_whole": 34,
+        "times_average": 2.3,
+        "small": false,
         "too_few_to_compare": false
       },
       {
-        "group": "Multiracial",
-        "label": "Multiracial",
-        "days": 622,
-        "enrolled": 6054,
-        "per_100": 10.3,
+        "id": "low_income",
+        "group": "Economically Disadvantaged",
+        "label": "Students from low-income families",
+        "words": "students from low-income families",
+        "days": 14975,
+        "enrolled": 54607,
+        "per_100": 27.4,
+        "per_100_whole": 27,
+        "times_average": 1.9,
+        "small": false,
         "too_few_to_compare": false
-      },
-      {
-        "group": "White",
-        "label": "White",
-        "days": 2672,
-        "enrolled": 54334,
-        "per_100": 4.9,
-        "too_few_to_compare": false
-      },
-      {
-        "group": "Asian",
-        "label": "Asian",
-        "days": 206,
-        "enrolled": 9312,
-        "per_100": 2.2,
-        "too_few_to_compare": false
-      },
-      {
-        "group": "American Indian/Alaska Native",
-        "label": "American Indian or Alaska Native",
-        "days": 8,
-        "enrolled": 236,
-        "per_100": 3.4,
-        "too_few_to_compare": true
-      },
-      {
-        "group": "Native Hawaiian/Other Pacific Islander",
-        "label": "Native Hawaiian or Pacific Islander",
-        "days": 4,
-        "enrolled": 126,
-        "per_100": 3.2,
-        "too_few_to_compare": true
       }
     ],
-    "days_pair": {
-      "a": {
-        "group": "Black",
-        "label": "Black",
-        "days": 7828,
-        "enrolled": 14782,
-        "per_100": 53.0,
-        "too_few_to_compare": false
+    "left_out": [],
+    "title": {
+      "names": "Children in foster care, homeless students and Black students",
+      "times": "4 to 16 times"
+    },
+    "longest_bar": 231.0,
+    "week": 5,
+    "source": "CUR-0012, Westchester County (days_out_of_school_suspension over October enrollment)"
+  },
+  "path": {
+    "group": "Black",
+    "word": "Black",
+    "steps": [
+      {
+        "id": "enrolled",
+        "label": "Students",
+        "counted": "students",
+        "period": "2024-25",
+        "total": 138515,
+        "count": 14782,
+        "share": 10.7,
+        "in_10": 1
       },
-      "b": {
-        "group": "White",
-        "label": "White",
-        "days": 2672,
-        "enrolled": 54334,
-        "per_100": 4.9,
-        "too_few_to_compare": false
+      {
+        "id": "sent_home",
+        "label": "Sent home",
+        "counted": "students sent home",
+        "period": "2024-25",
+        "total": 2988,
+        "count": 975,
+        "share": 32.6,
+        "in_10": 3
+      },
+      {
+        "id": "twenty_plus",
+        "label": "Suspended 20 days or more",
+        "counted": "students suspended that long",
+        "period": "2024-25",
+        "total": 183,
+        "count": 70,
+        "share": 38.3,
+        "in_10": 4
+      },
+      {
+        "id": "arrests",
+        "label": "Under-18 felony arrests",
+        "counted": "arrests",
+        "period": "2023-2025",
+        "total": 475,
+        "count": 248,
+        "share": 52.2,
+        "in_10": 5
       }
+    ],
+    "grows_at_every_step": true,
+    "line": {
+      "students": "1 in 10",
+      "arrests": "half"
     },
-    "days_times": 10.8,
-    "days_share": {
-      "days": 38.2,
-      "students": 10.7,
-      "group": "Black"
-    },
-    "twenty_plus": {
-      "total": 183,
-      "by_race": [
-        {
-          "group": "Black",
-          "label": "Black",
-          "count": 70
-        },
-        {
-          "group": "Hispanic",
-          "label": "Hispanic",
-          "count": 82
-        },
-        {
-          "group": "Multiracial",
-          "label": "Multiracial",
-          "count": 8
-        },
-        {
-          "group": "White",
-          "label": "White",
-          "count": 22
-        },
-        {
-          "group": "Asian",
-          "label": "Asian",
-          "count": 1
-        },
-        {
-          "group": "American Indian/Alaska Native",
-          "label": "American Indian or Alaska Native",
-          "count": 0
-        },
-        {
-          "group": "Native Hawaiian/Other Pacific Islander",
-          "label": "Native Hawaiian or Pacific Islander",
-          "count": 0
-        }
-      ],
-      "share": 38.3,
-      "group": "Black"
-    },
+    "arrests_period": "2023-2025",
+    "arrests_too_few": false,
+    "source": "CUR-0012 (school steps) and CUR-0011 (felony arrests, years added together)"
+  },
+  "bill": {
+    "year": "2024-25",
+    "twenty_plus": 183,
     "young_children": {
       "total": 206,
-      "sent_home": 173,
-      "days_sent_home": 861,
       "grades": [
         {
           "label": "Pre-K",
@@ -1054,99 +1225,6 @@
       ],
       "floor": false
     },
-    "source": "CUR-0012, Westchester County"
-  },
-  "path": {
-    "groups": [
-      "Black",
-      "White"
-    ],
-    "steps": [
-      {
-        "id": "enrolled",
-        "label": "Students enrolled",
-        "period": "2024-25",
-        "total": 138515,
-        "counts": {
-          "Black": 14782,
-          "White": 54334
-        },
-        "shares": {
-          "Black": 10.7,
-          "White": 39.2
-        }
-      },
-      {
-        "id": "suspended",
-        "label": "Suspended (in school or sent home)",
-        "period": "2024-25",
-        "total": 4463,
-        "counts": {
-          "Black": 1205,
-          "White": 1065
-        },
-        "shares": {
-          "Black": 27.0,
-          "White": 23.9
-        }
-      },
-      {
-        "id": "sent_home",
-        "label": "Sent home",
-        "period": "2024-25",
-        "total": 2988,
-        "counts": {
-          "Black": 975,
-          "White": 532
-        },
-        "shares": {
-          "Black": 32.6,
-          "White": 17.8
-        }
-      },
-      {
-        "id": "twenty_plus",
-        "label": "Suspended 20 days or more",
-        "period": "2024-25",
-        "total": 183,
-        "counts": {
-          "Black": 70,
-          "White": 22
-        },
-        "shares": {
-          "Black": 38.3,
-          "White": 12.0
-        }
-      },
-      {
-        "id": "arrests",
-        "label": "Under-18 felony arrests",
-        "period": "2023-2025",
-        "total": 475,
-        "counts": {
-          "Black": 248,
-          "White": 45
-        },
-        "shares": {
-          "Black": 52.2,
-          "White": 9.5
-        }
-      }
-    ],
-    "arrests": {
-      "period": "2023-2025",
-      "westchester": {
-        "felony_arrests": 475,
-        "count": 248,
-        "share": 52.2,
-        "too_few": false
-      },
-      "state": {
-        "felony_arrests": 17821,
-        "count": 10049,
-        "share": 56.4
-      }
-    },
-    "source": "CUR-0012 (school steps) and CUR-0011 (felony arrests, years added together)"
+    "source": "CUR-0012, Westchester County (students_suspended_20plus_days; students_suspended_any by grade)"
   }
 }
