@@ -15,17 +15,14 @@
   HOW THIS PAGE IS BUILT
   ======================
   Every number from the data comes from data/data.json; nothing from the tables is typed in by hand.
-    * The charts and the map are drawn by charts.js.
+    * The headline tiles, the charts and the map are drawn by charts.js.
     * Numbers inside sentences use <span data-fill="..."> and are filled in by charts.js,
       so the words can never disagree with the data. The path inside data-fill points
       into data.json, e.g. "who.average.one_in".
-  The words themselves (titles, opening lines, captions) live here and are edited here. They follow
-  the plan Brandon approved on Nov 10, 2026; no text is marked [PLACEHOLDER] any more.
-  The page shows one part at a time, as the Data Bulletin dashboard does. The menu under the four
-  numbers switches parts, and each part ends with a button to the next (charts.js, section 2).
-  A link that ends in #part-3 opens the page on part 3. (The parts' own ids are panel-part-1 to
-  panel-part-4, on purpose: if an id matched the address, the browser would jump down the page on its own.)
-  class="nowrap" keeps a year or a short term with a hyphen on one line (2024-25, under-18, pre-K).
+    * A sentence marked data-show-if="..." shows only while that value in data.json is true.
+  The words themselves (titles, commentary, captions) live here and are edited here.
+  Text marked [PLACEHOLDER] is a first draft for Brandon and the team to rewrite. Part 1 has none:
+  its words were approved on Nov 9, 2026.
 
   FIXED FACTS TYPED ON PURPOSE (not from the tables, so they are allowed in the text):
     * The bill: the Judith S. Kaye Solutions Not Suspensions Act, S.134 (Jackson) / A.118 (Solages); a 20-school-day
@@ -36,56 +33,51 @@
     * The money: $50 million for school climate = $31.2M grants to districts + $16.2M staff training
       + $2.6M technical assistance; signed by 125 organizations, WCA among them
       (the Solutions Not Suspensions Coalition's FY2027-28 budget letter)
-    * The research: 15-20% more likely to be arrested and jailed as adults (Bacher-Hicks, Billings & Deming, 2024)
-    * The FOIL request number, FL-EM-25-1398
+    * The research: 15-20% more likely to be arrested and jailed as adults (Bacher-Hicks, Billings & Deming, 2024);
+      a discretionary suspension or expulsion nearly tripled the chance of juvenile justice contact the next
+      year (Council of State Governments Justice Center, Breaking Schools' Rules, 2011)
+    * The FOIL request number, <span class="nowrap">FL-EM-25-1398</span>
+    * Schools closed in March 2020 and 2020-21 was mostly remote (the COVID years)
     * The Yonkers caveat in part 3: the state's counts of under-18 arrests by police department show none by
       Yonkers Police from 2021 on (warehouse table CUR-0040, 2020-2024). Re-check when that table is updated.
     * "What you can do" (part 4): campaign actions and dates. WCA keeps them current; remove past dates.
-      They have no links yet: the links are to be confirmed with Angel.
-    * WCA's address in the footer (as in the Data Bulletin dashboard mockup)
   The small-group thresholds (30 students; 10 sent home) come from data.json "meta.settings", not typed here.
 
   CLAIMS TO RE-CHECK AFTER EVERY DATA UPDATE. The numbers refill themselves; these words don't.
-  The script prints a NOTE when it sees one of them stop being true.
-    * Part 1, opening line: it names Black students and children in foster care.
-    * Part 1 and part 2, charts: nothing is typed. The script builds each title's group names and
-      "3 to 9 times" from the groups furthest above the average; the sentence under part 1's chart
-      hides itself when it stops being true.
-    * Part 3: the opening line, the third number at the top and the chart follow Black young people
-      (PATH_GROUP in the script). The chart's title says their share "grows at every step".
-    * Part 4: the bill's rules are fixed facts. If NYSED hides a young grade's count, the number of young
-      children becomes a floor: say "at least".
+    * Part 1, opening line: it names Black students and children in foster care. Both must still be in
+      the chart below it (the script prints a NOTE if the small-group rule leaves a group out).
+    * Part 1, chart: nothing is typed. The script builds the title's group names and "3 to 9 times" from
+      the groups sent home most, and the sentence under the chart ("The same five groups ...") hides
+      itself when it stops being true. If the script prints a NOTE about the chart, read it.
+    * Part 2: "Some students are sent home for weeks, and some are in pre-K"
+    * Part 3: "Their share grows at every step"; "The White share falls at every step"
+    * Headline tiles, the map and the charts are numbers only; nothing to re-check.
   PATHS THAT DEPEND ON THE SCRIPT'S SETTINGS (update_data_here/build_data.py):
-    * headlines.0, .1, .2 = the three entries of build_headlines(), in order (sent home, school days, arrests)
-    * who.by_id.black and who.by_id.foster_care = two of the ids in GROUPS (part 1's opening line)
-    * lost.groups.0 = the first row of part 2's chart, the group that lost most days ("How to read it")
-    * path.steps.0 and path.steps.3 = the first and last of PATH_STEPS (students; under-18 felony arrests)
-    * bill.young_children.grades.0 to .2 = YOUNG_GRADES in order (pre-K, kindergarten, grades 1-3)
+    * who.by_id.black and who.by_id.foster_care = two of the ids in CHART_GROUPS (part 1's opening line)
+    * who.groups.0 = the first row of part 1's chart, the group sent home most (the "How to read it" line)
+    * path.steps.0 to path.steps.4 = PATH_STEPS in order (enrolled ... felony arrests)
+    * lost.young_children.grades.0 to .2 = YOUNG_GRADES in order (pre-K, kindergarten, grades 1-3)
 
   PAGE SECTIONS, top to bottom
-    0. Drawings (nothing shows there; the parts use them)
-    1. Banner: the title and one sentence
-    2. Four numbers, one for each part
-    3. The menu: four tabs, one part on screen at a time
+    0. Drawings (nothing shows there; part 1 uses them)
+    1. Banner
+    2. Jump links to the four parts
+    3. Headline numbers (four tiles)
     4. Part 1 · Who gets sent home: the opening line and its picture, the chart of student groups
-       against the average (two views), the district map
-    5. Part 2 · What's lost: the opening line and its picture, the chart of school days lost
-    6. Part 3 · Where the path can lead: the opening line and its picture, the four steps, the research
-    7. Part 4 · What SNS would change: the opening line and its picture, three rules of the bill beside
-       Westchester's numbers, the $50 million, what you can do
+       against the average, the district map
+    5. Part 2 · What's lost: school days, long suspensions, young children
+    6. Part 3 · Where the path can lead: the share at each step, the research
+    7. Part 4 · What SNS would change: the bill beside Westchester's numbers, the $50 million, what you can do
     8. About the data
     9. Footer
 -->
 
 <!-- ===================================================================
-     DRAWINGS  ·  made for this dashboard
+     DRAWINGS  ·  made for this dashboard, used by part 1
      Nothing shows here; the page uses each drawing by its name.
-       #kid-a, #kid-b, #kid-c    three children with backpacks: the figures in the charts of parts 1 and 3
-                                 (charts.js), and the child who walks back to school in part 4's picture
-       #kid-leaving              a child walking away, head down: the pictures of parts 1, 2 and 3
-       #art-school, #art-home    the school and the home (parts 1, 3 and 4)
-       #art-seated, #art-desk    a classmate and a desk (part 2)
-       #art-court                the courthouse (part 3)
+       #kid-a, #kid-b, #kid-c    three children with backpacks: the figures in part 1's chart (charts.js)
+       #kid-leaving              a child walking away, head down: the opening picture
+       #art-school, #art-home    the school and the home in the opening picture
      A drawing takes the text color of whatever holds it. The lit windows and the dark
      parts take their colors from styles.css (.art-lit and .art-dark).
      =================================================================== -->
@@ -215,100 +207,50 @@
       <rect class="art-lit" x="18" y="43" width="11" height="11" rx="1"/>
       <rect class="art-lit" x="55" y="43" width="11" height="11" rx="1"/>
     </symbol>
-
-    <!-- A classmate at a desk, seen from the front (part 2's picture) -->
-    <symbol id="art-seated" viewBox="0 0 80 70" overflow="visible">
-      <circle cx="40" cy="-22" r="15"/><path d="M18 22c0-20 9-28 22-28s22 8 22 28z"/>
-    </symbol>
-
-    <!-- A school desk (part 2's picture) -->
-    <symbol id="art-desk" viewBox="0 0 80 70" overflow="visible">
-      <rect x="4" y="22" width="72" height="9" rx="2" fill="currentColor" opacity=".55"/>
-      <path d="M12 31v39M68 31v39" stroke="currentColor" stroke-width="5" opacity=".4" stroke-linecap="round"/>
-    </symbol>
-
-    <!-- The courthouse (part 3's picture): steps and columns, and no lit windows -->
-    <symbol id="art-court" viewBox="0 0 200 190" overflow="visible">
-      <rect x="22" y="74" width="156" height="84" fill="currentColor" opacity=".17"/>
-      <path d="M8 62 100 12l92 50z" fill="currentColor" opacity=".32"/>
-      <circle cx="100" cy="43" r="8" fill="currentColor" opacity=".45"/>
-      <rect x="14" y="62" width="172" height="12" fill="currentColor" opacity=".45"/>
-      <path d="M30 74h13v84H30zM66 74h13v84H66zM121 74h13v84h-13zM157 74h13v84h-13z" fill="currentColor" opacity=".4"/>
-      <rect class="art-dark" x="88" y="106" width="24" height="52" rx="1" opacity=".6"/>
-      <rect x="10" y="158" width="180" height="10" fill="currentColor" opacity=".32"/>
-      <rect x="0" y="168" width="200" height="11" fill="currentColor" opacity=".42"/>
-      <rect x="-10" y="179" width="220" height="11" fill="currentColor" opacity=".32"/>
-    </symbol>
   </defs>
 </svg>
 
 <!-- ===================================================================
-     1. BANNER  ·  the title and one sentence that says where the page goes
+     1. BANNER
      =================================================================== -->
 <header class="banner">
   <div class="banner-inner">
     <div class="kicker">Westchester Children's Association · Data dashboard</div>
-    <h1>School suspensions in Westchester</h1>
+    <h1>[PLACEHOLDER] School suspensions in Westchester</h1>
     <p class="subtitle">
-      Follow the line from the school door to the courtroom: who is sent home, what it costs, where it can lead,
-      and what the Solutions Not Suspensions Act would change.
+      [PLACEHOLDER] Who is sent home from school, what it costs them, and what the Solutions Not Suspensions Act
+      would change. New York State Education Department data through the <span data-fill="meta.latest_year" data-format="raw"></span> school year.
     </p>
   </div>
 </header>
 
-<!-- ===================================================================
-     2. FOUR NUMBERS  ·  one for each part
-     The first three are filled from data.json "headlines". The fourth is a fixed fact.
-     =================================================================== -->
-<div class="page top">
-  <section id="headlines" aria-label="Four numbers, one for each part">
-    <div class="tiles">
-      <div class="tile">
-        <div class="value">1 in <span data-fill="headlines.0.one_in"></span></div>
-        <div class="label">Westchester students was sent home from school in <span class="nowrap" data-fill="meta.latest_year" data-format="raw"></span></div>
-        <div class="compare"><span data-fill="headlines.0.value"></span> students</div>
-      </div>
-      <div class="tile">
-        <div class="value" data-fill="headlines.1.value"></div>
-        <div class="label">school days lost to being sent home in <span class="nowrap" data-fill="meta.latest_year" data-format="raw"></span></div>
-        <div class="compare"><span data-fill="headlines.1.per_school_day"></span> students home on an average school day</div>
-      </div>
-      <div class="tile">
-        <div class="value">1 in <span data-fill="headlines.2.one_in"></span></div>
-        <div class="label"><span class="nowrap">under-18</span> felony arrests are of Black young people (<span class="nowrap" data-fill="meta.arrests_period" data-format="raw"></span>)</div>
-        <div class="compare">Black students are about <span data-fill="headlines.2.students_in_10"></span> in 10 students</div>
-      </div>
-      <div class="tile">
-        <div class="value words">$50 million</div>
-        <div class="label">and the bill: what the Solutions Not Suspensions Coalition asks of New York State</div>
-      </div>
-    </div>
-    <p class="fine" id="load-error" hidden></p>
-  </section>
-</div>
-
-<!-- ===================================================================
-     3. THE MENU  ·  four tabs, as in the Data Bulletin dashboard
-     One part is on screen at a time; charts.js (section 2) switches them.
-     The menu stays at the top of the screen while scrolling.
-     =================================================================== -->
-<div id="menu-top"></div>
-<nav class="tabbar" aria-label="The four parts">
-  <div class="inner" role="tablist">
-    <button class="tab" role="tab" type="button" id="tab-part-1" data-tab="part-1" aria-controls="panel-part-1" aria-selected="true"><span class="n">1</span>Who gets sent home</button>
-    <button class="tab" role="tab" type="button" id="tab-part-2" data-tab="part-2" aria-controls="panel-part-2" aria-selected="false" tabindex="-1"><span class="n">2</span>What's lost</button>
-    <button class="tab" role="tab" type="button" id="tab-part-3" data-tab="part-3" aria-controls="panel-part-3" aria-selected="false" tabindex="-1"><span class="n">3</span>Where the path can lead</button>
-    <button class="tab" role="tab" type="button" id="tab-part-4" data-tab="part-4" aria-controls="panel-part-4" aria-selected="false" tabindex="-1"><span class="n">4</span>What SNS would change</button>
-  </div>
-</nav>
-
 <div class="page">
 
   <!-- ===================================================================
-       4. PART 1 · WHO GETS SENT HOME
-       One opening line with its picture, one chart (two views), one sentence, the map.
+       2. JUMP LINKS  ·  stay at the top of the screen while scrolling
        =================================================================== -->
-  <section class="part tabpanel" id="panel-part-1" role="tabpanel" aria-labelledby="tab-part-1">
+  <nav class="jump" aria-label="Parts of this page">
+    <a href="#part-1">1 · Who gets sent home</a>
+    <a href="#part-2">2 · What's lost</a>
+    <a href="#part-3">3 · Where the path can lead</a>
+    <a href="#part-4">4 · What SNS would change</a>
+  </nav>
+
+
+  <!-- ===================================================================
+       3. HEADLINE NUMBERS
+       charts.js fills this row from data.json "headlines". One tile per entry.
+       =================================================================== -->
+  <section id="headlines" aria-label="Headline numbers">
+    <div class="tiles" id="tiles"></div>
+  </section>
+
+
+  <!-- ===================================================================
+       4. PART 1 · WHO GETS SENT HOME
+       One opening line with its picture, one chart, one sentence, the map.
+       =================================================================== -->
+  <section class="part" id="part-1" aria-labelledby="part-1-title">
 
     <!-- The opening panel: the part's title, one line, and the picture of a child sent home -->
     <div class="opener">
@@ -316,7 +258,7 @@
         <div class="kicker">Part 1</div>
         <h2 id="part-1-title">Who gets sent home</h2>
         <p class="statement">
-          <span class="line">In <span class="nowrap" data-fill="who.year" data-format="raw"></span>,
+          <span class="line">In <span data-fill="who.year" data-format="raw"></span>,
             <strong class="big">1 in <span data-fill="who.average.one_in"></span></strong>
             Westchester students was sent home from school.</span>
           <span class="line">For <strong>Black students</strong> it was
@@ -338,29 +280,26 @@
       </div>
     </div>
 
-    <!-- The chart: each student group against the Westchester average, in two views.
-         It opens on race and ethnicity; the two buttons switch to the other student groups and back.
-         charts.js writes the buttons, the rows, the title's names and numbers, and the sentence under
-         the chart, all from data.json "who". -->
+    <!-- The chart: each student group against the Westchester average.
+         charts.js writes the rows into the list; the title's names and numbers come from data.json. -->
     <article class="card focus" id="card-groups">
       <h3 class="chart-title">
-        <span id="groups-title-names"></span> are sent home
-        <strong class="mark" id="groups-title-times"></strong>
+        <span data-fill="who.title.names" data-format="raw"></span> are sent home
+        <strong class="mark" data-fill="who.title.times" data-format="raw"></strong>
         as often as the average student.
       </h3>
-      <div class="views" id="groups-views" role="group" aria-label="Which students the chart shows"></div>
       <ul class="kidchart" id="chart-groups"></ul>
       <p class="key">
         <svg class="kid" viewBox="0 0 120 220" aria-hidden="true" focusable="false"><use href="#kid-a"></use></svg>
-        <span>How to read it: of every 100 <span id="groups-read-words"></span>,
-          <strong id="groups-read-number"></strong> were sent home. Each figure is one of them.</span>
+        <span>How to read it: of every 100 <span data-fill="who.groups.0.words" data-format="raw"></span>,
+          <strong data-fill="who.groups.0.per_100"></strong> were sent home. Each figure is one of them.</span>
       </p>
       <p class="note" id="note-groups"></p>
-      <p class="also" id="groups-also">
-        <span id="groups-also-lead"></span><strong class="mark" id="groups-also-subject"></strong>
-        were sent home most in <span class="nowrap" data-fill="who.first_year" data-format="raw"></span> too.
+      <p class="also" data-show-if="who.trend.same_top_groups">
+        The <strong class="mark">same <span data-fill="who.trend.count_word" data-format="raw"></span> groups</strong>
+        were sent home most in <span data-fill="who.trend.first_year" data-format="raw"></span> too.
       </p>
-      <p class="source">Source: New York State Education Department (NYSED), <span class="nowrap" data-fill="who.year" data-format="raw"></span>,
+      <p class="source">Source: New York State Education Department (NYSED), <span data-fill="who.year" data-format="raw"></span>,
         released through a Freedom of Information Law request (<span class="nowrap">FL-EM-25-1398</span>) and shared with WCA
         by a partner organization. "Sent home" means suspended out of school at least once in the school year, out of
         the students enrolled in October.</p>
@@ -397,228 +336,177 @@
         school districts. Special act districts and charter schools have no boundaries to map; their students count in
         the Westchester average. District outlines: Westchester County GIS.</p>
     </article>
-
-    <div class="continue"><button type="button" data-go="part-2">Continue to Part 2: What's lost →</button></div>
   </section>
 
 
   <!-- ===================================================================
        5. PART 2 · WHAT'S LOST
-       One opening line with its picture, one chart, one sentence.
        =================================================================== -->
-  <section class="part tabpanel" id="panel-part-2" role="tabpanel" aria-labelledby="tab-part-2" hidden>
-
-    <!-- The opening panel: the empty desk -->
-    <div class="opener">
-      <div class="opener-text">
+  <section class="part" id="part-2" aria-labelledby="part-2-title">
+    <div class="part-head">
+      <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 146 120" fill="currentColor" aria-hidden="true" focusable="false"><title>Student with a calendar X (school days lost)</title><!--! Built from Font Awesome Free 7.3.1 (CC BY 4.0, https://fontawesome.com/license/free), Material Symbols (Apache-2.0) and Phosphor (MIT) glyphs. --><g transform="translate(-1.7 6.7) scale(0.2083)"><path d="M248 24a56 56 0 1 0 -112 0 56 56 0 1 0 112 0zm24 212.7l46.3 62.4c10.5 14.2 30.6 17.2 44.8 6.6s17.2-30.6 6.6-44.8l-70.5-95C274 132 234.3 112 192 112s-82 20-107.2 53.9l-70.5 95c-10.5 14.2-7.6 34.2 6.6 44.8s34.2 7.6 44.8-6.6L112 236.7 112 512c0 17.7 14.3 32 32 32s32-14.3 32-32l0-160c0-8.8 7.2-16 16-16s16 7.2 16 16l0 160c0 17.7 14.3 32 32 32s32-14.3 32-32l0-275.3z"/></g><g transform="translate(76.8 51.1) scale(0.3077)" style="fill:var(--wca-accent,currentColor)"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM157.66,170.34a8,8,0,0,1-11.32,11.32L128,163.31l-18.34,18.35a8,8,0,0,1-11.32-11.32L116.69,152,98.34,133.66a8,8,0,0,1,11.32-11.32L128,140.69l18.34-18.35a8,8,0,0,1,11.32,11.32L139.31,152ZM208,80H48V48H72v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24Z"/></g></svg>
+      <div>
         <div class="kicker">Part 2</div>
         <h2 id="part-2-title">What's lost</h2>
-        <p class="statement">
-          <span class="line">Westchester students lost
-            <strong><span class="big" data-fill="lost.days.sent_home"></span> school days</strong>
-            to being sent home.</span>
-          <span class="line">On an average school day,
-            <strong><span class="big" data-fill="lost.days.per_school_day"></span> students</strong>
-            were home on suspension.</span>
-        </p>
-      </div>
-      <div class="opener-art">
-        <svg viewBox="0 26 560 274" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="art-2-title">
-          <title id="art-2-title">A classroom with one empty desk. The child who sat there walks out of the door with a backpack, head down.</title>
-          <path d="M0 270H560V300H0z" fill="url(#ground-fade)"/>
-          <rect x="34" y="50" width="250" height="88" rx="4" fill="currentColor" opacity=".12"/>
-          <path d="M56 82h120M56 102h84" stroke="currentColor" stroke-width="4" stroke-linecap="round" opacity=".28"/>
-          <circle cx="334" cy="76" r="17" fill="currentColor" opacity=".92"/>
-          <path class="art-dark-line" d="M334 76l-7.4-4.3M334 76l10-6" stroke-width="2.8" stroke-linecap="round"/>
-          <g fill="currentColor" opacity=".55">
-            <use href="#art-seated" x="24" y="200" width="80" height="70"/>
-            <use href="#art-seated" x="120" y="200" width="80" height="70"/>
-            <use href="#art-seated" x="312" y="200" width="80" height="70"/>
-          </g>
-          <g class="art-missing" fill="none" stroke-width="3" stroke-dasharray="5 6" stroke-linecap="round">
-            <circle cx="256" cy="178" r="15"/><path d="M234 222c0-20 9-28 22-28s22 8 22 28"/>
-          </g>
-          <use href="#art-desk" x="24" y="200" width="80" height="70"/>
-          <use href="#art-desk" x="120" y="200" width="80" height="70"/>
-          <use href="#art-desk" x="216" y="200" width="80" height="70"/>
-          <use href="#art-desk" x="312" y="200" width="80" height="70"/>
-          <path d="M436 270V98a8 8 0 0 1 8-8h96a8 8 0 0 1 8 8v172" fill="currentColor" fill-opacity=".1" stroke="currentColor" stroke-opacity=".5" stroke-width="5"/>
-          <path class="art-way-home" d="M300 286C340 294 388 294 432 288" fill="none" stroke-width="5" stroke-linecap="round" stroke-dasharray="0.1 14"/>
-          <use href="#kid-leaving" x="446" y="104" width="96" height="176"/>
-        </svg>
       </div>
     </div>
+    <p class="section-intro">
+      [PLACEHOLDER] Every day sent home is a school day lost, and lost days add up. In
+      <span data-fill="lost.year" data-format="raw"></span>, Westchester students spent
+      <span data-fill="lost.days.sent_home"></span> school days sent home.
+    </p>
+    <div class="tiles small">
+      <div class="tile"><div class="value" data-fill="lost.days.per_school_day"></div><div class="label">students home on suspension on an average school day</div></div>
+      <div class="tile"><div class="value" data-fill="lost.days.per_student_sent_home" data-format="raw"></div><div class="label">school days, on average, for each student sent home</div></div>
+      <div class="tile"><div class="value" data-fill="lost.days.in_school"></div><div class="label">more school days spent in in-school suspension</div></div>
+    </div>
 
-    <!-- The chart: school days lost for every 100 students, five groups against the Westchester average.
-         charts.js writes the rows; the title's names and numbers come from data.json "lost". -->
-    <article class="card focus" id="card-days">
-      <h3 class="chart-title">
-        <span data-fill="lost.title.names" data-format="raw"></span> lose
-        <strong class="mark" data-fill="lost.title.times" data-format="raw"></strong>
-        as many school days as the average student.
+    <article class="card" id="card-days">
+      <div class="kicker">School days lost</div>
+      <h3 class="finding">
+        For every 100 students, Black students lost <span data-fill="lost.days_pair.a.per_100"></span> school days to being
+        sent home; White students lost <span data-fill="lost.days_pair.b.per_100"></span>
       </h3>
-      <ul class="kidchart days" id="chart-days"></ul>
-      <p class="key">
-        <i class="block" aria-hidden="true"></i>
-        <span>How to read it: for every 100 <span data-fill="lost.groups.0.words" data-format="raw"></span>,
-          <strong data-fill="lost.groups.0.per_100_whole"></strong> school days were lost to being sent home.
-          Each block is one school week (<span data-fill="lost.week"></span> days).</span>
+      <p class="commentary">
+        [PLACEHOLDER] That is <span data-fill="lost.days_times" data-format="raw"></span> times as many days per student.
+        Black students are <span data-fill="lost.days_share.students" data-format="pct"></span> of Westchester's students
+        but lost <span data-fill="lost.days_share.days" data-format="pct"></span> of all the school days spent sent home.
       </p>
-      <p class="note" id="note-days"></p>
-      <p class="also">
-        A student sent home missed about
-        <strong class="mark"><span data-fill="lost.days.per_student_sent_home"></span> school days</strong>.
-      </p>
-      <p class="source">Source: NYSED (FOIL <span class="nowrap">FL-EM-25-1398</span>), <span class="nowrap" data-fill="lost.year" data-format="raw"></span>.
-        School days of out-of-school suspension, for every 100 students enrolled in October. The average school day
-        counts a school year of <span data-fill="lost.days.school_days"></span> days.</p>
+      <div class="chart-box short"><canvas id="chart-days" aria-label="Bar chart: school days sent home per 100 students, by race" role="img"></canvas></div>
+      <p class="source">Source: NYSED (FOIL <span class="nowrap">FL-EM-25-1398</span>), <span data-fill="lost.year" data-format="raw"></span>. Days of
+        out-of-school suspension per 100 students enrolled in October.</p>
     </article>
 
-    <div class="continue"><button type="button" data-go="part-3">Continue to Part 3: Where the path can lead →</button></div>
+    <article class="card" id="card-long">
+      <div class="kicker">Long suspensions and young children</div>
+      <h3 class="finding">[PLACEHOLDER] Some students are sent home for weeks, and some are in pre-K</h3>
+      <div class="facts">
+        <div class="fact">
+          <div class="value" data-fill="lost.twenty_plus.total"></div>
+          <p>students were suspended 20 or more school days in <span data-fill="lost.year" data-format="raw"></span>.
+            <span data-fill="lost.twenty_plus.share" data-format="pct"></span> of them were Black.</p>
+        </div>
+        <div class="fact">
+          <div class="value" data-fill="lost.young_children.total"></div>
+          <p>children in pre-K to grade 3 were suspended: <span data-fill="lost.young_children.grades.0.suspended"></span>
+            in pre-K, <span data-fill="lost.young_children.grades.1.suspended"></span> in kindergarten and
+            <span data-fill="lost.young_children.grades.2.suspended"></span> in grades 1 to 3.
+            <span data-fill="lost.young_children.sent_home"></span> of them were sent home, for
+            <span data-fill="lost.young_children.days_sent_home"></span> school days in all.</p>
+        </div>
+      </div>
+      <p class="source">Source: NYSED (FOIL <span class="nowrap">FL-EM-25-1398</span>), <span data-fill="lost.year" data-format="raw"></span>.
+        "Suspended" here counts in-school suspensions too.</p>
+    </article>
   </section>
 
 
   <!-- ===================================================================
        6. PART 3 · WHERE THE PATH CAN LEAD
-       One opening line with its picture, one chart (four steps), one sentence, the small print.
        =================================================================== -->
-  <section class="part tabpanel" id="panel-part-3" role="tabpanel" aria-labelledby="tab-part-3" hidden>
-
-    <!-- The opening panel: the line runs on from the school to the courthouse -->
-    <div class="opener">
-      <div class="opener-text">
+  <section class="part" id="part-3" aria-labelledby="part-3-title">
+    <div class="part-head">
+      <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 318 120" fill="currentColor" aria-hidden="true" focusable="false"><title>School to prison pipeline</title><!--! Built from Font Awesome Free 7.3.1 (CC BY 4.0, https://fontawesome.com/license/free), Material Symbols (Apache-2.0) and Phosphor (MIT) glyphs. --><g transform="translate(-11.4 140.0) scale(0.1562)"><path d="M860-313v-252L508-375q-14 8-29 7.5t-29-8.5L88-574q-8-5-11.5-11.5T73-600q0-8 3.5-14.5T88-626l362-198q7-4 14-6t15-2q8 0 15 2t14 6l396 215q8 4 12 11.5t4 15.5v269q0 13-8.5 21.5T890-283q-13 0-21.5-8.5T860-313ZM450-136 220-262q-14-8-22.5-22t-8.5-31v-174l261 143q14 8 29 8t29-8l261-143v174q0 17-8.5 31T738-262L508-136q-7 4-14 6t-15 2q-8 0-15-2t-14-6Z"/></g><polygon points="140.34375,68.0 192.34375,68.0 192.34375,59.4 210.34375,72 192.34375,84.6 192.34375,76.0 140.34375,76.0" style="fill:var(--wca-accent,currentColor)"/><g transform="translate(212.5 20.0) scale(0.1838)" style="fill:var(--wca-accent,currentColor)"><path d="M32 64C32 28.7 60.7 0 96 0L352 0c35.3 0 64 28.7 64 64l0 121.3c-46.9 19-80 65-80 118.7l0 24.4c-19.6 17.6-32 43.1-32 71.5l0 96c0 5.5 .5 10.9 1.3 16.1L96 512c-35.3 0-64-28.7-64-64L32 64zM176 384l0 80 80 0 0-64.1c0-13.7 1.9-27 5.5-39.6-5.7-5.2-13.2-8.3-21.5-8.3l-32 0c-17.7 0-32 14.3-32 32zM307 224.3c-1-.2-2-.3-3-.3l-32 0c-8.8 0-16 7.2-16 16l0 32c0 8.8 7.2 16 16 16l16.7 0c2.1-22.8 8.4-44.3 18.3-63.7zM144 96c-8.8 0-16 7.2-16 16l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0zm112 16l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0c-8.8 0-16 7.2-16 16zM144 224c-8.8 0-16 7.2-16 16l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0zm352 80.1c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 47.9 64 0 0-47.9zM352 400c0-20.9 13.4-38.7 32-45.3l0-50.6c0-44.2 35.8-80 80-80s80 35.8 80 80l0 50.6c18.6 6.6 32 24.4 32 45.3l0 96c0 26.5-21.5 48-48 48l-128 0c-26.5 0-48-21.5-48-48l0-96z"/></g></svg>
+      <div>
         <div class="kicker">Part 3</div>
         <h2 id="part-3-title">Where the path can lead</h2>
-        <p class="statement">
-          <span class="line">Black young people are about
-            <strong class="big" data-fill="path.line.students" data-format="raw"></strong>
-            Westchester students</span>
-          <span class="line">but <strong class="big" data-fill="path.line.arrests" data-format="raw"></strong>
-            of <span class="nowrap">under-18</span> felony arrests.</span>
-        </p>
-      </div>
-      <div class="opener-art">
-        <svg viewBox="0 40 560 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="art-3-title">
-          <title id="art-3-title">The dotted line runs on from the school to a courthouse. A child with a backpack walks along it, head down.</title>
-          <path d="M0 262C150 248 300 258 430 250S560 246 560 248V300H0z" fill="url(#ground-fade)"/>
-          <use href="#art-school" x="22" y="100" width="132" height="150"/>
-          <use href="#art-court" x="352" y="60" width="196" height="186"/>
-          <path class="art-way-home" d="M90 258C140 292 200 296 254 290M348 284C392 278 424 268 448 250" fill="none" stroke-width="5" stroke-linecap="round" stroke-dasharray="0.1 14"/>
-          <use href="#kid-leaving" x="246" y="104" width="102" height="187"/>
-        </svg>
       </div>
     </div>
+    <p class="section-intro">
+      [PLACEHOLDER] Youth justice starts in school, long before anyone reaches a courtroom. The groups sent home most
+      are also the groups arrested most.
+    </p>
 
-    <!-- The chart: the line itself, in four steps. charts.js writes the steps from data.json "path". -->
-    <article class="card focus" id="card-steps">
-      <h3 class="chart-title">
-        The share who are Black grows at every step: from
-        <strong class="mark"><span data-fill="path.steps.0.in_10"></span> in 10</strong> students to
-        <strong class="mark"><span data-fill="path.steps.3.in_10"></span> in 10</strong> <span class="nowrap">under-18</span> felony arrests.
+    <article class="card" id="card-steps">
+      <div class="kicker">At each step</div>
+      <h3 class="finding">
+        Black young people are <span data-fill="path.steps.0.shares.Black" data-format="pct"></span> of Westchester's
+        students but <span data-fill="path.steps.4.shares.Black" data-format="pct"></span> of under-18 felony arrests
       </h3>
-      <ol class="steps" id="chart-steps"></ol>
-      <p class="key legend-figures">
-        <span><svg class="kid on" viewBox="0 0 120 220" aria-hidden="true" focusable="false"><use href="#kid-a"></use></svg> Black young people</span>
-        <span><svg class="kid" viewBox="0 0 120 220" aria-hidden="true" focusable="false"><use href="#kid-a"></use></svg> everyone else</span>
-        <span><i class="dash" aria-hidden="true"></i><span><span data-fill="path.line.students" data-format="raw"></span>, their share of all students</span></span>
+      <p class="commentary">
+        [PLACEHOLDER] Their share grows at every step: <span data-fill="path.steps.1.shares.Black" data-format="pct"></span>
+        of students suspended, <span data-fill="path.steps.2.shares.Black" data-format="pct"></span> of those sent home,
+        <span data-fill="path.steps.3.shares.Black" data-format="pct"></span> of those suspended 20 days or more. The White
+        share falls at every step, from <span data-fill="path.steps.0.shares.White" data-format="pct"></span> of students to
+        <span data-fill="path.steps.4.shares.White" data-format="pct"></span> of felony arrests. Statewide,
+        <span data-fill="path.arrests.state.share" data-format="pct"></span> of under-18 felony arrests were of Black youth.
       </p>
-      <p class="also">
-        Research links the steps: students in stricter schools were
-        <strong class="mark">15 to 20% more likely</strong> to be arrested and jailed as adults.
-        <span class="cite">North Carolina. Bacher-Hicks, Billings and Deming, 2024.</span>
-      </p>
-      <p class="caution">These are different young people counted at each step, not one group followed over time. No public
-        data follows a child from school to court. One limit in the state's data: its counts of <span class="nowrap">under-18</span> arrests by
-        police department show none by Yonkers Police from 2021 on, most likely because reports are missing. The felony
-        arrest figures here come from a different state data system.</p>
-      <p class="source">Sources: NYSED (FOIL <span class="nowrap">FL-EM-25-1398</span>), <span class="nowrap" data-fill="meta.latest_year" data-format="raw"></span>,
-        for the three school steps. NYS Division of Criminal Justice Services (DCJS), felony arrests of people under 18,
-        <span class="nowrap" data-fill="path.arrests_period" data-format="raw"></span> added together, shared with a youth justice
-        coalition WCA belongs to. Arrests are counted, not people.</p>
+      <div class="chart-box"><canvas id="chart-steps" aria-label="Bar chart: the Black share of students, suspensions and felony arrests" role="img"></canvas></div>
+      <p class="caution">These are different young people counted at each step, not one group followed over time. No
+        public data follows a child from school to court; research does that work (below).</p>
+      <p class="source">Sources: NYSED (FOIL <span class="nowrap">FL-EM-25-1398</span>), <span data-fill="meta.latest_year" data-format="raw"></span>,
+        for the school steps; NYS Division of Criminal Justice Services (DCJS), felony arrests of people under 18,
+        <span data-fill="path.arrests.period" data-format="raw"></span> added together, shared with a youth justice
+        coalition WCA belongs to. Arrests are counted, not people, and a share of arrests is not an arrest rate.</p>
     </article>
 
-    <div class="continue"><button type="button" data-go="part-4">Continue to Part 4: What SNS would change →</button></div>
+    <article class="card" id="card-research">
+      <div class="kicker">What research shows</div>
+      <h3 class="finding">[PLACEHOLDER] Suspensions are linked to later arrests</h3>
+      <div class="research">
+        <div class="item">
+          <p>[PLACEHOLDER] Students assigned to schools with much higher suspension rates were 15 to 20 percent more
+            likely to be arrested and jailed as adults.</p>
+          <p class="cite">North Carolina. Bacher-Hicks, Billings and Deming, 2024.</p>
+        </div>
+        <div class="item">
+          <p>[PLACEHOLDER] A discretionary suspension or expulsion nearly tripled a student's chance of contact with the
+            juvenile justice system the following year.</p>
+          <p class="cite">Texas, about 1 million students. Council of State Governments Justice Center, <cite>Breaking Schools' Rules</cite>, 2011.</p>
+        </div>
+      </div>
+      <p class="note">[PLACEHOLDER] A limit in the state's data: its counts of under-18 arrests by police department show
+        none by Yonkers Police from 2021 on, most likely because reports are missing, so counts by police department
+        leave out Yonkers' arrested youth. The felony arrest figures on this page come from a different DCJS data system.</p>
+    </article>
   </section>
 
 
   <!-- ===================================================================
        7. PART 4 · WHAT SNS WOULD CHANGE
-       One opening line with its picture, three rules of the bill beside Westchester's numbers,
-       the $50 million, what you can do.
        =================================================================== -->
-  <section class="part tabpanel" id="panel-part-4" role="tabpanel" aria-labelledby="tab-part-4" hidden>
-
-    <!-- The opening panel: the child walks back in through the school door -->
-    <div class="opener">
-      <div class="opener-text">
+  <section class="part" id="part-4" aria-labelledby="part-4-title">
+    <div class="part-head">
+      <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" fill="currentColor" aria-hidden="true" focusable="false"><title>Bill or contract</title><!--! Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc. --><path fill="currentColor" d="M0 64C0 28.7 28.7 0 64 0L213.5 0c17 0 33.3 6.7 45.3 18.7L365.3 125.3c12 12 18.7 28.3 18.7 45.3L384 448c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 64zm208-5.5l0 93.5c0 13.3 10.7 24 24 24L325.5 176 208 58.5zM88 64C74.7 64 64 74.7 64 88s10.7 24 24 24l48 0c13.3 0 24-10.7 24-24s-10.7-24-24-24L88 64zm0 96c-13.3 0-24 10.7-24 24s10.7 24 24 24l48 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-48 0zm70.3 160c-11.3 0-21.9 5.1-28.9 13.9L69.3 409c-8.3 10.3-6.6 25.5 3.7 33.7s25.5 6.6 33.7-3.8l47.1-58.8 15.2 50.7c3 10.2 12.4 17.1 23 17.1l104 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-86.1 0-16.1-53.6c-4.7-15.7-19.1-26.4-35.5-26.4z"/></svg>
+      <div>
         <div class="kicker">Part 4</div>
         <h2 id="part-4-title">What SNS would change</h2>
-        <p class="statement">
-          <span class="line">The <strong>Solutions Not Suspensions Act</strong> would
-            <strong class="big">cut the line</strong> at school.</span>
-        </p>
       </div>
-      <div class="opener-art">
-        <svg viewBox="0 0 560 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="art-4-title">
-          <title id="art-4-title">A child with a backpack walks back toward the school. Its door is open and lit.</title>
-          <path d="M0 262C150 248 300 258 430 250S560 246 560 248V300H0z" fill="url(#ground-fade)"/>
-          <path d="M96 60a16 16 0 0 1 30-6 20 20 0 0 1 37 8 14 14 0 0 1 4 27h-66a15 15 0 0 1-5-29z" fill="currentColor" opacity=".1"/>
-          <use href="#art-school" x="318" y="26" width="202" height="230"/>
-          <!-- the open door, lit: drawn over the school's dark door, in the school's own measurements -->
-          <svg x="318" y="26" width="202" height="230" viewBox="0 0 220 250" overflow="visible">
-            <path class="art-lit" d="M90 250v-44a20 20 0 0 1 40 0v44z"/>
-          </svg>
-          <path class="art-way-home" d="M24 288C90 298 160 296 216 290M318 284C356 280 386 272 410 262" fill="none" stroke-width="5" stroke-linecap="round" stroke-dasharray="0.1 14"/>
-          <use href="#kid-a" x="214" y="98" width="106" height="194"/>
-        </svg>
+    </div>
+    <p class="section-intro">
+      [PLACEHOLDER] The Judith S. Kaye Solutions Not Suspensions Act (S.134 / A.118) would change how New York's schools
+      suspend students. Here is each part of the bill beside the Westchester number it would change.
+    </p>
+    <div class="provisions">
+      <div class="provision">
+        <div class="rule-text">Caps a suspension at 20 school days (today it can run up to 180)</div>
+        <div class="value" data-fill="lost.twenty_plus.total"></div>
+        <div class="what">students were suspended 20 or more days in <span data-fill="lost.year" data-format="raw"></span></div>
+      </div>
+      <div class="provision">
+        <div class="rule-text">Ends suspensions in pre-K to grade 3, unless federal law requires one</div>
+        <div class="value" data-fill="lost.young_children.total"></div>
+        <div class="what">children in pre-K to grade 3 were suspended in <span data-fill="lost.year" data-format="raw"></span></div>
+      </div>
+      <div class="provision">
+        <div class="rule-text">Requires instruction while a student is suspended</div>
+        <div class="value" data-fill="lost.days.sent_home"></div>
+        <div class="what">school days students spent sent home in <span data-fill="lost.year" data-format="raw"></span></div>
+      </div>
+      <div class="provision">
+        <div class="rule-text">Bars suspensions for minor infractions such as lateness, dress code and insubordination</div>
+        <div class="unknown">Not known for Westchester: NYSED doesn't report why students are suspended.</div>
+      </div>
+      <div class="provision">
+        <div class="rule-text">Adds restorative options to every code of conduct, and holds charter schools to the same rules</div>
+        <div class="unknown">[PLACEHOLDER] One sentence on what this means for Westchester's schools.</div>
       </div>
     </div>
 
-    <!-- Three rules of the bill, each beside the Westchester number behind it -->
-    <article class="card focus" id="card-bill">
-      <h3 class="chart-title">Three of the bill's rules, each beside the <strong class="mark">Westchester number</strong> behind it.</h3>
-      <div class="rules">
-        <div class="rule">
-          <div class="rule-head"><span class="rule-kicker">The bill</span>A suspension could last no more than 20 school days. Today it can last up to 180.</div>
-          <div class="rule-body">
-            <span class="rule-kicker">In Westchester</span>
-            <div class="rule-number" data-fill="bill.twenty_plus"></div>
-            <p>students were suspended 20 days or more in <span class="nowrap" data-fill="bill.year" data-format="raw"></span>.</p>
-          </div>
-        </div>
-        <div class="rule">
-          <div class="rule-head"><span class="rule-kicker">The bill</span>No suspensions in <span class="nowrap">pre-K</span> to grade 3, unless federal law requires one.</div>
-          <div class="rule-body">
-            <span class="rule-kicker">In Westchester</span>
-            <div class="rule-number" data-fill="bill.young_children.total"></div>
-            <p>children in <span class="nowrap">pre-K</span> to grade 3 were suspended:
-              <span data-fill="bill.young_children.grades.0.suspended"></span> in <span class="nowrap">pre-K</span>,
-              <span data-fill="bill.young_children.grades.1.suspended"></span> in kindergarten and
-              <span data-fill="bill.young_children.grades.2.suspended"></span> in grades 1 to 3.</p>
-          </div>
-        </div>
-        <div class="rule">
-          <div class="rule-head"><span class="rule-kicker">The bill</span>Teaching continues while a student is suspended.</div>
-          <div class="rule-body">
-            <span class="rule-kicker">In Westchester</span>
-            <div class="rule-number" data-fill="lost.days.sent_home"></div>
-            <p>school days were spent at home on suspension in <span class="nowrap" data-fill="lost.year" data-format="raw"></span>.</p>
-          </div>
-        </div>
-      </div>
-      <p class="note">The bill would also bar suspensions for minor infractions such as lateness, dress code and
-        insubordination, add restorative options to every code of conduct, and hold charter schools to the same rules.
-        NYSED doesn't report why students are suspended, so these have no Westchester number.</p>
-      <p class="source">Sources: NYSED (FOIL <span class="nowrap">FL-EM-25-1398</span>), <span class="nowrap" data-fill="bill.year" data-format="raw"></span>;
-        "suspended" in the first two counts in-school suspensions too. The bill is the Judith S. Kaye Solutions Not
-        Suspensions Act (S.134 / A.118), as described in the New York State Bar Association's memorandum in support.</p>
-    </article>
-
-    <!-- The $50 million -->
-    <article class="card focus money" id="card-money">
-      <h3 class="chart-title">And <strong class="mark">$50 million</strong> to make it work.</h3>
-      <p class="commentary">The coalition's budget request, signed by 125 organizations including WCA, asks New York
-        State for $50 million for school climate.</p>
+    <div class="money">
+      <h3>[PLACEHOLDER] And $50 million to make it work</h3>
+      <p class="commentary">[PLACEHOLDER] The coalition's budget request, signed by 125 organizations including WCA, asks
+        the state for $50 million for school climate.</p>
       <div class="money-bar" id="money-bar" role="img" aria-label="$50 million: $31.2 million in grants to districts, $16.2 million for staff training, $2.6 million for technical assistance">
         <span data-amount="31.2"></span><span data-amount="16.2"></span><span data-amount="2.6"></span>
       </div>
@@ -627,16 +515,16 @@
         <span><i class="swatch m2"></i>$16.2 million for staff training</span>
         <span><i class="swatch m3"></i>$2.6 million for technical assistance</span>
       </div>
-      <p class="source">Source: the Solutions Not Suspensions Coalition's FY2027-28 budget letter.</p>
-    </article>
+      <p class="source">Sources: the Solutions Not Suspensions Coalition's FY2027-28 budget letter; the New York State
+        Bar Association's memorandum in support of S.134 / A.118.</p>
+    </div>
 
-    <!-- What you can do. The actions have no links yet: to be confirmed with Angel. -->
     <div class="act" id="act">
       <h3>What you can do</h3>
       <ul>
-        <li>Join the coalition's online campaign kickoff on December 10 at 6 PM.</li>
-        <li>Add your voice to the coalition's letter to the Board of Regents.</li>
-        <li>Learn more about the Solutions Not Suspensions Coalition.</li>
+        <li>[PLACEHOLDER] Join the coalition's online campaign kickoff on December 10 at 6 PM. [link to confirm with Angel]</li>
+        <li>[PLACEHOLDER] Add your voice to the coalition's letter to the Board of Regents. [link to confirm with Angel]</li>
+        <li>[PLACEHOLDER] Learn more about the Solutions Not Suspensions Coalition. [link]</li>
       </ul>
       <p class="fine">WCA updates this list as the campaign moves.</p>
     </div>
@@ -644,25 +532,33 @@
 
 
   <!-- ===================================================================
-       8. ABOUT THE DATA  ·  three short paragraphs, under every part
+       8. ABOUT THE DATA
        =================================================================== -->
   <section class="about" id="about">
     <h2>About the data</h2>
     <p>
       <strong>Sources.</strong> Suspension figures are from the New York State Education Department (NYSED), released
       through a Freedom of Information Law request (<span class="nowrap">FL-EM-25-1398</span>) filed by a partner organization and shared with WCA.
-      They cover every Westchester school district from <span class="nowrap" data-fill="meta.first_year" data-format="raw"></span> to
-      <span class="nowrap" data-fill="meta.latest_year" data-format="raw"></span>. Felony arrest figures are from the NYS Division of
+      They cover every Westchester school district from <span data-fill="meta.first_year" data-format="raw"></span> to
+      <span data-fill="meta.latest_year" data-format="raw"></span>. Felony arrest figures are from the NYS Division of
       Criminal Justice Services (DCJS), shared with a youth justice coalition WCA belongs to. District outlines are from
       Westchester County GIS.
     </p>
     <p>
-      <strong>How to read the numbers.</strong> "Sent home" means an out-of-school suspension; "suspended" also counts
-      in-school suspensions, where a student is taken out of class but kept in the building. A rate is the number of
-      students sent home at least once in the school year, out of the students enrolled on NYSED's October count day.
-      Westchester's totals include the county's special act districts and charter schools. A group's rate isn't shown
-      when fewer than <span data-fill="meta.settings.small_group_enrolled"></span> students are in it, and groups are
-      compared only when each had at least <span data-fill="meta.settings.min_sent_home_to_compare"></span> students sent home.
+      <strong>How to read the numbers.</strong> "Sent home" means an out-of-school suspension; "suspended in school"
+      means a student was taken out of class but kept in the building. A rate is the number of students suspended at
+      least once during the school year, divided by the students enrolled on NYSED's October count day. "Times as often"
+      is one group's rate divided by another's, or by the average. Westchester's totals include the county's special
+      act districts and charter schools.
+    </p>
+    <p>
+      <strong>Small numbers.</strong> A group's rate isn't shown when fewer than
+      <span data-fill="meta.settings.small_group_enrolled"></span> students are in it. Groups are compared only when
+      each had at least <span data-fill="meta.settings.min_sent_home_to_compare"></span> students sent home.
+    </p>
+    <p>
+      <strong>Years.</strong> School years run from September to June. Schools closed in March 2020 and taught mostly
+      remotely in 2020-21, so those two years had far fewer suspensions.
     </p>
     <p>
       <strong>What the data can't show.</strong> It can't follow one child from a suspension to an arrest; it doesn't say
@@ -676,15 +572,15 @@
        9. FOOTER
        =================================================================== -->
   <footer class="page-footer">
-    Westchester Children's Association · 470 Mamaroneck Avenue, White Plains, NY · <a href="https://wca4kids.org">wca4kids.org</a>
-    <span class="credits">The drawings were made for this dashboard.</span>
+    Westchester Children's Association · <a href="https://wca4kids.org">wca4kids.org</a>
+    · [PLACEHOLDER: contact, licence]
+    <span class="credits">Part 1's drawings were made for this dashboard. The other icons are from WCA's asset library, built from Font Awesome Free (CC BY 4.0), Material Symbols (Apache 2.0) and Phosphor (MIT).</span>
   </footer>
 
 </div>
 
-<!-- Script: this page's code. It draws every chart itself, so the chart library in
-     resources/vendor/ is not loaded. (To use a Chart.js chart again, add
-     <script src="resources/vendor/chart.umd.js"></script> above this line.) -->
+<!-- Scripts: the chart library first, then this page's code. -->
+<script src="resources/vendor/chart.umd.js"></script>
 <script src="charts.js"></script>
 </body>
 </html>

@@ -12,12 +12,10 @@
          the hover tooltip, "About the data".
      C.  The map section: layout, the side panel, how districts look, the
          map legend.
-     D.  This dashboard's own pieces at the top of the page: the banner, the
-         four numbers, the menu (four tabs) and the button to the next part;
-         the $50 million bar and "What you can do".
-     E.  The parts' pieces: the opening panel and its picture, chart titles,
-         the highlighter mark, the row charts of parts 1 and 2, the steps of
-         part 3, the bill's cards of part 4.
+     D.  This dashboard's own pieces: the banner, the jump links, the part
+         headings with icons, the bill cards, the $50 million bar, the panels.
+     E.  Part 1's own pieces: the opening panel and its picture, the figure
+         chart, the highlighter mark, the callout.
    Parts A and B are copied unchanged from the Youth Justice Dashboard;
    change them there and here together, or not at all.
    ========================================================================== */
@@ -87,28 +85,24 @@
    kinds of color come from part A instead, because the nine don't have them:
      * Grays, for small print, hairlines and "no data" on the map.
      * Paler and darker steps of the schema's indigo (WCA's blue steps), for
-       the map's five shades and for the figures that are not counted in
-       part 3's steps.
+       the map's five shades and for the bars beside the one picked out in
+       part 2's chart.
    What each of the nine is for, everywhere on the page:
-     blue          titles; the menu's chosen tab and the buttons
-     green         the big numbers; the small labels above titles, links
+     blue          titles
+     green         the big numbers; the small labels above titles, icons, links
      indigo        the data: figures, bars, the map
      orange        what the data is compared with (the Westchester average, the
-                   share of students); the lights and the dotted line in the
-                   pictures, and the dotted line between part 3's steps
+                   share of students); the lights in part 1's picture and the
+                   second color of the icons
      light green   the highlighter stroke and the line beside a sentence
      gray          panels and bands
-     teal          the middle of each part's opening panel; the second of the
-                   bill's three cards
+     teal          the middle of part 1's opening panel
      white, black  words on a color
    The colors passed the dataviz color check for color-blind readers,
    2026-11-10: the map is one hue, light to dark, steps far enough apart; the
    data (indigo) and what it is compared with (orange) tell apart easily; the
    three pieces of the $50 million bar tell apart; all words stand out on what
-   is behind them. Checked again the same day for the pieces added with the menu
-   and parts 2 to 4: the dark and pale figures in part 3 differ in lightness, so
-   they tell apart for every reader; white words stand out on the three colors
-   of the bill's cards. Two things the check found, and what was done about them:
+   is behind them. Two things the check found, and what was done about them:
      * The schema's two blues look the same, and its teal and green are
        close, so five student groups can't each have a color that tells
        apart. All five take one color; each row is told apart by its label.
@@ -131,34 +125,31 @@
 
   /* ---- Which of the nine each thing takes ---- */
 
-  /* The blue-to-green sweep, as on the flyer: the banner, each part's opening panel, the line under a title
-     and under the menu's chosen tab. The three cards of the bill take one of its colors each. */
+  /* The blue-to-green sweep, as on the flyer: the banner, part 1's opening panel, the line under a title */
   --sns-sweep-1:       var(--schema-indigo);        /* where it starts, on the left */
-  --sns-sweep-2:       var(--schema-teal);          /* the middle (the opening panels, the second bill card) */
+  --sns-sweep-2:       var(--schema-teal);          /* the middle (the opening panel only) */
   --sns-sweep-3:       var(--schema-green);         /* where it ends, on the right */
 
   /* Words */
-  --sns-title:         var(--schema-blue);          /* titles: each part, each chart, a district's name, "What you can do"; the menu's chosen tab, the buttons, the numbered stops in part 3 */
+  --sns-title:         var(--schema-blue);          /* titles: each part, each chart, a district's name, "What you can do" */
   --sns-number:        var(--schema-green);         /* the big numbers (the headline tiles, "1 in 5", the bill's cards): WCA's rule, stat numbers are green */
-  --sns-kicker:        var(--schema-green);         /* the small label above a title, links: WCA's rule, these are green too */
+  --sns-kicker:        var(--schema-green);         /* the small label above a title, the icons, links, the line on top of a bill card: WCA's rule, these are green too */
   --sns-marker:        var(--schema-light-green);   /* the highlighter stroke under a key phrase; the line beside a sentence that stands apart */
   --sns-big:           var(--schema-white);         /* the big numbers on part 1's opening panel */
 
-  /* The pictures */
-  --sns-lit:           var(--schema-orange);        /* lit windows, the bell, the flag, the dotted line; the empty seat (part 2), the open door (part 4) */
+  /* Part 1's picture */
+  --sns-lit:           var(--schema-orange);        /* lit windows, the bell, the flag, the way home */
   --sns-art-dark:      var(--schema-blue);          /* classmates in the windows, doors, clock hands */
 
   /* Charts: the data is indigo; what it is compared with is orange */
-  --sns-data:          var(--schema-indigo);        /* the figures in parts 1 and 3, a district's bar beside the map, the bars in part 2 */
-  --sns-data-light:    var(--wca-blue-100);         /* the figures that are not counted in part 3's steps: a paler step of the same blue, from part A */
-  --sns-compare:       var(--schema-orange);        /* the Westchester average in parts 1 and 2 (its row, dashed line, tag and bar); the share of students in part 3 (its figure, dashed line, and the dotted line between the steps) */
+  --sns-data:          var(--schema-indigo);        /* part 1's figures, a district's bar beside the map, the bars in parts 2 and 3 */
+  --sns-data-light:    var(--wca-blue-100);         /* the other bars beside the one picked out (part 2's chart): a paler step of the same blue, from part A */
+  --sns-compare:       var(--schema-orange);        /* the Westchester average in part 1 (its figures, dashed line, tag and bar); the share of students in part 3's chart (its bar and dashed line) */
   --sns-compare-words: var(--schema-black);         /* "Westchester average" on the orange tag, or beside the dashed line on a phone */
-  --sns-band:          var(--schema-gray);          /* panels: the rows of the charts in parts 1 and 2, the map's side panel, the steps in part 3, the bill's cards, "What you can do"; the circle behind a tab's number */
-  --sns-shadow:        rgba(0, 0, 0, 0.05);         /* the soft shadow under the menu: the schema's black, almost clear */
+  --sns-band:          var(--schema-gray);          /* panels: the rows of part 1's chart, the map's side panel, the number blocks in part 2, "What you can do" */
 
-  /* The row charts of parts 1 and 2: one line per student group, so these five groups can be given a
-     color of their own again. Which group gets which is set in part E (by the group's id). The other
-     groups in part 1's first view (Hispanic, multiracial, White and Asian students) take the data color. */
+  /* Part 1's chart: one line per student group, so a group can be given a color of its own again.
+     Which group gets which is set in part E (by the group's id). */
   --sns-group-1:       var(--sns-data);             /* children in foster care */
   --sns-group-2:       var(--sns-data);             /* homeless students */
   --sns-group-3:       var(--sns-data);             /* Black students */
@@ -176,6 +167,9 @@
   --sns-money-1:       var(--schema-indigo);        /* grants to school districts */
   --sns-money-2:       var(--schema-green);         /* staff training */
   --sns-money-3:       var(--schema-light-green);   /* technical assistance */
+
+  /* The second color of the two-color icons from the asset library (their "accent" parts) */
+  --wca-accent:        var(--schema-orange);
 }
 
 
@@ -388,7 +382,7 @@ section > h2 { margin-bottom: 4px; }
 
 
 /* --------------------------------------------------------------------------
-   D. THIS DASHBOARD'S OWN PIECES  ·  the top of the page and the menu
+   D. THIS DASHBOARD'S OWN PIECES
    -------------------------------------------------------------------------- */
 
 /* Titles take the schema's blue. Stat numbers, the small labels above titles and links
@@ -397,10 +391,6 @@ h1, h2 { color: var(--sns-title); }
 .tile .value { color: var(--sns-number); }
 .card .kicker { color: var(--sns-kicker); }
 a { color: var(--sns-kicker); }
-
-/* Anything marked hidden stays hidden, whatever its layout: the parts that are not on screen,
-   a sentence the data no longer supports */
-[hidden] { display: none !important; }
 
 /* The banner at the top: the Data Bulletin's band, blue to green as on the flyer */
 .banner {
@@ -415,59 +405,65 @@ a { color: var(--sns-kicker); }
 .banner h1 { color: var(--white); margin-bottom: 6px; }
 .banner .subtitle { font-size: 18px; max-width: 62ch; margin: 0; color: var(--white); }
 
-/* The four numbers under the banner, one for each part. The fourth is words ("$50 million"),
-   set smaller so it fits its tile on one line. */
-.page.top { padding-bottom: 0; }
-#headlines { margin: 28px 0 24px; }
-.tile .value { min-height: 44px; }                           /* the number's line keeps its height while the data loads */
-.tile .value.words { font-size: 30px; line-height: 44px; white-space: nowrap; }
-
-/* The menu: four tabs, as in the Data Bulletin dashboard. It stays at the top of the screen while
-   scrolling. Each tab has its number in a circle; the tab of the part on screen is blue, with a
-   blue-to-green line under it. On a phone the tabs scroll sideways. */
-.tabbar {
+/* The four links that jump to each part. Stays at the top of the screen while scrolling. */
+.jump {
   position: sticky; top: 0; z-index: 5; background: var(--white);
-  border-bottom: 1px solid var(--rule); box-shadow: 0 2px 6px var(--sns-shadow);
+  display: flex; flex-wrap: wrap; gap: 4px 18px; padding: 10px 0; border-bottom: 1px solid var(--rule);
+  font-size: 14px; font-weight: 600;
 }
-.tabbar .inner {
-  position: relative; max-width: var(--page-width); margin: 0 auto; padding: 0 var(--gutter);
-  display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none;
-}
-.tabbar .inner::-webkit-scrollbar { display: none; }
-.tab {
-  font: inherit; font-size: 15px; font-weight: 600; color: var(--fine); background: none; border: 0;
-  padding: 14px 14px 11px; cursor: pointer; white-space: nowrap; border-bottom: 3px solid transparent;
-}
-.tab .n {
-  display: inline-block; width: 24px; height: 24px; border-radius: 50%; margin-right: 8px;
-  background: var(--sns-band); color: var(--sns-title); font-size: 13px; line-height: 24px; text-align: center;
-}
-.tab:hover { color: var(--sns-title); }
-.tab[aria-selected="true"] {
-  color: var(--sns-title); border-bottom-color: var(--sns-title);
-  border-image: linear-gradient(90deg, var(--sns-sweep-1), var(--sns-sweep-3)) 1;
-}
-.tab[aria-selected="true"] .n { background: var(--sns-title); color: var(--white); }
-.tab:focus-visible { outline: 2px solid var(--sns-title); outline-offset: -2px; }
+.jump a { text-decoration: none; color: var(--sns-kicker); }
+.jump a:hover, .jump a:focus { text-decoration: underline; }
+html { scroll-padding-top: 56px; }   /* so a jumped-to heading isn't hidden under the links */
 
-/* One part is on screen at a time. It ends with a button to the next part. */
-.part { margin: 28px 0 0; }
-.continue { display: flex; justify-content: flex-end; margin: 30px 0 0; }
-.continue button {
-  font: inherit; font-weight: 600; color: var(--white); background: var(--sns-title);
-  border: 0; border-radius: var(--radius); padding: 11px 18px; cursor: pointer; text-align: left;
+/* Each part opens with its icon, number and title, underlined like a Data Bulletin chart title */
+.part { margin-top: 44px; }
+.part-head {
+  display: flex; align-items: center; gap: 16px;
+  border-bottom: 2px solid var(--sns-title); padding-bottom: 10px; margin-bottom: 12px;
+  border-image: linear-gradient(90deg, var(--sns-sweep-1), var(--sns-sweep-3)) 1;   /* the line runs blue to green, as under part 1's titles */
 }
-.continue button:hover, .continue button:focus-visible { background: var(--sns-sweep-1); }
-
+.part-head .icon { flex: none; height: 56px; width: auto; color: var(--sns-kicker); }
+.part-head .kicker {
+  color: var(--sns-kicker); font-weight: 600; font-size: 14px;
+  letter-spacing: 0.04em; text-transform: uppercase;
+}
+.part-head h2 { margin: 0; font-size: 26px; }
+.part .card:first-of-type { border-top: 0; }
+.card h3.finding { font-size: 20px; color: var(--sns-title); margin-top: 2px; }
 .card .note { color: var(--fine); font-size: 14px; margin-top: 6px; }
-.nowrap { white-space: nowrap; }
 
-/* Small print that stands apart: a line beside it (part 3) */
-.caution { border-left: 4px solid var(--sns-marker); padding-left: 14px; color: var(--fine); font-size: 14px; max-width: 80ch; margin-top: 16px; }
+/* Small tiles inside a part (part 2): three in a row */
+.tiles.small { grid-template-columns: repeat(3, 1fr); margin: 8px 0 8px; }
+.tiles.small .value { font-size: 32px; }
+
+/* Number blocks: a big number beside its sentence (part 2) */
+.facts { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 12px; }
+.fact { background: var(--sns-band); border-radius: var(--radius); padding: 16px 18px; }
+.fact .value { font-size: 34px; font-weight: 700; line-height: 1.1; color: var(--sns-number); }
+.fact p { margin: 6px 0 0; font-size: 15px; }
+
+/* Two short research cards side by side (part 3) */
+.research { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 8px; }
+.research .item { border-left: 4px solid var(--sns-marker); padding: 4px 0 4px 14px; }
+.research .item p { margin: 0 0 6px; }
+.research .item .cite { color: var(--muted); font-size: 13px; }
+
+/* A caution line (part 3) */
+.caution { border-left: 4px solid var(--sns-marker); padding-left: 14px; color: var(--fine); max-width: 75ch; }
+
+/* The bill's provisions, each beside its Westchester number (part 4) */
+.provisions { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 16px; margin-top: 12px; }
+.provision { border: 1px solid var(--rule); border-top: 4px solid var(--sns-kicker); border-radius: var(--radius); padding: 14px 16px; }
+.provision .rule-text { font-weight: 600; color: var(--sns-title); margin-bottom: 8px; }
+.provision .value { font-size: 30px; font-weight: 700; line-height: 1.1; color: var(--sns-number); }
+.provision .what { font-size: 14px; color: var(--body); margin-top: 4px; }
+.provision .unknown { font-size: 15px; color: var(--fine); }
 
 /* The $50 million as one bar split three ways (part 4); widths are set by charts.js from the amounts */
+.money { margin-top: 24px; }
+.money h3 { color: var(--sns-title); }
 .money .source { color: var(--muted); font-size: 13px; margin-top: 8px; }
-.money .commentary { margin-top: 12px; }
+.nowrap { white-space: nowrap; }
 .money-bar { display: flex; height: 44px; border-radius: 6px; overflow: hidden; gap: 2px; background: var(--white); }
 .money-bar span { display: block; height: 100%; }
 .money-bar span:nth-child(1) { background: var(--sns-money-1); }
@@ -480,7 +476,7 @@ a { color: var(--sns-kicker); }
 .money-legend .swatch.m3 { background: var(--sns-money-3); }
 
 /* "What you can do" */
-.act { background: var(--sns-band); border-radius: var(--radius); padding: 18px 20px; margin-top: 28px; }
+.act { background: var(--sns-band); border-radius: var(--radius); padding: 18px 20px; margin-top: 24px; }
 .act h3 { color: var(--sns-title); }
 .act ul { margin: 0; padding-left: 20px; }
 
@@ -494,26 +490,32 @@ a { color: var(--sns-kicker); }
 @media (max-width: 600px) {
   .banner-inner { padding: 20px var(--gutter) 18px; }
   .banner .subtitle { font-size: 16px; }
-  #headlines { margin: 18px 0 16px; }
   .tiles { grid-template-columns: 1fr 1fr; gap: 10px; }      /* two tiles a row instead of one: less scrolling */
   .tile { padding: 12px 12px; }
-  .tile .value { font-size: 26px; min-height: 29px; }
-  .tile .value.words { font-size: 21px; line-height: 29px; }
+  .tile .value { font-size: 26px; }
   .tile .label { font-size: 13px; }
   .tile .compare { font-size: 12px; }
-  .tab { font-size: 14px; padding: 12px 10px 9px; }
-  .tab .n { margin-right: 6px; }
-  .continue button { width: 100%; }
+  .part-head .icon { height: 40px; }
+  .part-head h2 { font-size: 22px; }
+  .card h3.finding { font-size: 18px; }
+  .facts, .research { grid-template-columns: 1fr; }
+  /* Part 2's small tiles: one per row, the number beside its words */
+  .tiles.small { grid-template-columns: 1fr; }
+  .tiles.small .tile { display: flex; align-items: center; gap: 14px; }
+  .tiles.small .value { font-size: 26px; min-width: 78px; }
+  .tiles.small .label { margin-top: 0; }
+  /* The jump links stay on one line and scroll sideways, so they take less of the screen */
+  .jump { flex-wrap: nowrap; overflow-x: auto; white-space: nowrap; gap: 4px 16px; }
 }
 
 
 /* --------------------------------------------------------------------------
-   E. THE PARTS' PIECES  ·  the opening panel, chart titles, the row chart, the callout
+   E. PART 1'S OWN PIECES  ·  the opening panel, the figure chart, the callout
    --------------------------------------------------------------------------
-   Every part is built from the same pieces, in this dashboard's own look: a
-   panel from blue to green with white words and a picture of the same child,
-   a chart title with a blue-to-green line under it, a light green highlighter
-   stroke under the key phrase, and one sentence beside a light green line. */
+   Part 1 is the first part rebuilt in this dashboard's own look: a panel from
+   blue to green with white words, children drawn for the page, and a light
+   green highlighter stroke under the key phrase. Parts 2 to 4 still use part
+   D's pieces, in the same colors. */
 
 /* The drawings at the top of index.html take no room on the page */
 .drawings { position: absolute; width: 0; height: 0; overflow: hidden; }
@@ -549,20 +551,17 @@ a { color: var(--sns-kicker); }
 /* The key phrase of a sentence: bold, with a highlighter stroke under it. (The stroke sits low:
    the schema's light green is too strong to run behind the letters, as the pale yellow did.) */
 .mark {
-  font-weight: 700; padding: 0 3px; margin: 0 -1px; white-space: nowrap;
+  font-weight: 700; padding: 0 3px; margin: 0 -1px;
   background: linear-gradient(transparent 80%, var(--sns-marker) 80%);
   -webkit-box-decoration-break: clone; box-decoration-break: clone;
 }
 
-/* The row chart: one row per student group, then the average. Part 1 fills each row with child
-   figures; part 2 with a bar of blocks (further down). charts.js writes the rows and, for part 1,
-   sets --slots (figures in the longest row) and --average (where the average falls, in figures).
+/* The figure chart: one row per student group. charts.js writes the rows and sets
+   --slots (figures in the longest row) and --average (where the average falls, in figures).
    --per-line is how many figures sit side by side: all of them on a wide screen, 10 on a phone
-   (a longer row then wraps onto a second line, which also makes the figures easy to count).
-   --line-at is where the dashed line at the average falls across a row. */
+   (a longer row then wraps onto a second line, which also makes the figures easy to count). */
 .kidchart {
   --label-width: 250px; --value-width: 112px; --per-line: var(--slots);
-  --line-at: calc(var(--average) / var(--per-line) * 100%);
   list-style: none; margin: 48px 0 0; padding: 0;           /* room above for the "Westchester average" tag */
 }
 .kidrow {
@@ -582,24 +581,26 @@ a { color: var(--sns-kicker); }
 .kidrow .name { font-weight: 600; line-height: 1.25; color: var(--ink); }
 .kidrow .counts { font-size: 13px; color: var(--fine); margin-top: 2px; }
 
-/* What a row holds between its name and its number (figures or blocks). It fills the row's
-   height so the dashed line can run edge to edge. */
-.kidrow .track { position: relative; align-self: stretch; color: var(--row-color); }
-.kidrow .kids { display: grid; grid-template-columns: repeat(var(--per-line), minmax(0, 1fr)); align-content: center; }
+/* The line of figures. It fills the row's height so the dashed line can run edge to edge. */
+.kidrow .kids {
+  position: relative; align-self: stretch;
+  display: grid; grid-template-columns: repeat(var(--per-line), minmax(0, 1fr)); align-content: center;
+  color: var(--row-color);
+}
 .kid { display: block; width: 100%; height: auto; }
 
 /* The dashed line at the average: drawn in every row, long enough to join the rows above and below */
-.kidrow .track::after {
+.kidrow .kids::after {
   content: ""; position: absolute; top: -10px; bottom: -18px;
-  left: var(--line-at); margin-left: -1px;
+  left: calc(var(--average) / var(--per-line) * 100%); margin-left: -1px;
   border-left: 2px dashed var(--sns-compare);
 }
-.kidrow:first-child .track::after { top: -13px; }
-.kidrow:last-child .track::after { bottom: -10px; }
+.kidrow:first-child .kids::after { top: -13px; }
+.kidrow:last-child .kids::after { bottom: -10px; }
 
 /* The tag above the line (wide screens) */
 .average-tag {
-  position: absolute; bottom: calc(100% + 18px); left: var(--line-at);
+  position: absolute; bottom: calc(100% + 18px); left: calc(var(--average) / var(--per-line) * 100%);
   transform: translateX(-50%); white-space: nowrap;
   background: var(--sns-compare); color: var(--sns-compare-words); font-size: 12px; font-weight: 600;
   padding: 3px 9px; border-radius: 4px;
@@ -642,13 +643,13 @@ a { color: var(--sns-kicker); }
   .kidrow { grid-template-columns: minmax(0, 1fr) auto; column-gap: 12px; row-gap: 8px; padding: 10px 14px 12px; }
   .kidrow .who { grid-column: 1; grid-row: 1; }
   .kidrow .value { grid-column: 2; grid-row: 1; align-self: start; }
-  .kidrow .track { grid-column: 1 / -1; grid-row: 2; }
-  .kidrow .track::after, .kidrow:first-child .track::after, .kidrow:last-child .track::after { top: -4px; bottom: -4px; }
+  .kidrow .kids { grid-column: 1 / -1; grid-row: 2; }
+  .kidrow .kids::after, .kidrow:first-child .kids::after, .kidrow:last-child .kids::after { top: -4px; bottom: -4px; }
   .kidrow .one-in { font-size: 22px; }
   .average-tag { display: none; }
   .average-note {
     display: block; position: absolute; top: 50%; transform: translateY(-50%);
-    left: calc(var(--line-at) + 8px);
+    left: calc(var(--average) / var(--per-line) * 100% + 8px);
     color: var(--sns-compare-words); font-size: 12px; font-weight: 600; white-space: nowrap;
   }
 }
@@ -671,114 +672,4 @@ a { color: var(--sns-kicker); }
 
 @media (max-width: 374px) {
   .statement { font-size: 16px; }                           /* small phones: each sentence still fits its line */
-}
-
-/* --------------------------------------------------------------------------
-   E (continued). PARTS 1 TO 4  ·  the pieces added for the two views, parts 2, 3 and 4
-   -------------------------------------------------------------------------- */
-
-/* The empty seat in part 2's picture: a dashed outline in the lights' orange */
-.art-missing { stroke: var(--sns-lit); }
-
-/* Part 1: the two buttons above the chart that switch its view. The view on screen is blue. */
-.views { display: inline-flex; margin: 16px 0 0; border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; }
-.views button {
-  font: inherit; font-size: 14px; font-weight: 600; color: var(--fine); background: var(--white);
-  border: 0; padding: 8px 14px; cursor: pointer;
-}
-.views button + button { border-left: 1px solid var(--rule); }
-.views button[aria-pressed="true"] { background: var(--sns-title); color: var(--white); }
-.views button:focus-visible { outline: 2px solid var(--sns-title); outline-offset: -3px; }
-.views + .kidchart { margin-top: 44px; }
-
-/* Part 2: the same rows as part 1, with a bar of school-week blocks in place of the figures.
-   charts.js sets --longest (the longest bar, in days), --average (where the average falls, in days)
-   and --week (the days in one block). A block's width is its share of the longest bar. */
-.kidchart.days { --line-at: calc(var(--average) / var(--longest) * 100%); }
-.kidrow .blocks { display: flex; align-items: center; min-height: 40px; }
-.block {
-  flex: none; height: 26px; border-radius: 2px; background: currentColor;
-  width: calc(var(--week) / var(--longest) * 100% - 2px); margin-right: 2px;
-}
-.block.short { width: calc(var(--days) / var(--longest) * 100%); margin-right: 0; }   /* the last block: the days left over, less than a week */
-.kidchart.days .pct { max-width: 112px; margin-left: auto; }
-.key .block { width: 9px; height: 18px; margin: 0; color: var(--sns-data); }
-
-/* Part 3: the four steps, joined by a dotted line like the one in the pictures. Each step is a
-   numbered stop on the line with a card under it. charts.js sets --baseline: the share of all
-   students, in percent, where the dashed line falls in each row of 10 figures. */
-.steps { list-style: none; margin: 24px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0 14px; }
-.step { position: relative; padding-top: 46px; display: flex; }
-.step-stop {
-  position: absolute; top: 0; left: 0; z-index: 1; width: 32px; height: 32px; border-radius: 50%;
-  background: var(--sns-title); color: var(--white); font-weight: 700; font-size: 15px; line-height: 32px; text-align: center;
-}
-.step::before {                                                 /* the line on to the next stop */
-  content: ""; position: absolute; top: 14px; left: 38px; right: -8px;
-  border-top: 4px dotted var(--sns-compare);
-}
-.step:last-child::before { display: none; }
-.step-card { flex: 1; min-width: 0; background: var(--sns-band); border-radius: 12px; padding: 14px 16px 16px; }
-.step-label { font-weight: 600; line-height: 1.25; color: var(--ink); min-height: 2.5em; }
-.step-kids {
-  position: relative; display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); margin: 8px 0 10px;
-  color: var(--sns-data-light);                                 /* the figures who are not counted: pale */
-}
-.step-kids .on { color: var(--sns-data); }
-.step:first-child .step-kids .on { color: var(--sns-compare); } /* the share of students: what the other steps are compared with */
-.step-kids::after {
-  content: ""; position: absolute; top: -5px; bottom: -5px; left: calc(var(--baseline) * 1%); margin-left: -1px;
-  border-left: 2px dashed var(--sns-compare);
-}
-.step-number { font-size: 26px; font-weight: 700; line-height: 1.1; color: var(--sns-number); }
-.step-counts { font-size: 13px; color: var(--fine); margin-top: 3px; }
-
-/* The key under part 3's chart: what the dark and pale figures and the dashed line stand for */
-.key.legend-figures { flex-wrap: wrap; gap: 6px 22px; margin-top: 14px; }
-.key.legend-figures > span { display: inline-flex; align-items: center; gap: 7px; }
-.key.legend-figures .kid { color: var(--sns-data-light); }
-.key.legend-figures .kid.on { color: var(--sns-data); }
-.key .dash { display: inline-block; height: 20px; border-left: 2px dashed var(--sns-compare); }
-
-/* Where a finding comes from, under the sentence that states it */
-.also .cite { display: block; font-size: 13px; color: var(--muted); margin-top: 4px; }
-
-/* Part 4: three of the bill's rules, each a card: the rule on a color of the sweep, the
-   Westchester number under it. The three cards line up row by row. */
-.rules { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: auto auto; gap: 0 16px; margin-top: 20px; }
-.rule { display: grid; grid-row: span 2; grid-template-rows: subgrid; border-radius: 12px; overflow: hidden; background: var(--sns-band); }
-.rule-head { color: var(--white); padding: 14px 18px 16px; font-size: 17px; font-weight: 600; line-height: 1.35; }
-.rule:nth-child(1) .rule-head { background: var(--sns-sweep-1); }
-.rule:nth-child(2) .rule-head { background: var(--sns-sweep-2); }
-.rule:nth-child(3) .rule-head { background: var(--sns-sweep-3); }
-.rule-kicker { display: block; font-size: 12px; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; margin-bottom: 4px; }
-.rule-body { padding: 14px 18px 18px; }
-.rule-body .rule-kicker { color: var(--fine); }
-.rule-number { font-size: 40px; font-weight: 700; line-height: 1.1; color: var(--sns-number); }
-.rule-body p { margin: 4px 0 0; font-size: 15px; }
-.rules + .note { margin-top: 16px; max-width: 85ch; }
-
-@media (max-width: 860px) {
-  .views + .kidchart { margin-top: 14px; }
-  .steps { grid-template-columns: 1fr 1fr; gap: 18px 14px; }
-  .step:nth-child(2)::before { display: none; }                 /* two stops a row: no line off the end of the row */
-}
-
-@media (max-width: 760px) {
-  .rules { grid-template-columns: 1fr; grid-template-rows: none; gap: 14px 0; }
-  .rule { display: block; }
-}
-
-@media (max-width: 560px) {
-  /* The steps run down the screen, the dotted line down their left side */
-  .steps { grid-template-columns: 1fr; gap: 16px 0; }
-  .step { padding: 0 0 0 46px; }
-  .step::before, .step:nth-child(2)::before {
-    display: block; top: 36px; bottom: -14px; left: 14px; right: auto;
-    border-top: 0; border-left: 4px dotted var(--sns-compare);
-  }
-  .step:last-child::before { display: none; }
-  .step-label { min-height: 0; }
-  .views { display: flex; }
-  .views button { flex: 1; padding: 9px 8px; }
 }
