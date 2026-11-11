@@ -22,8 +22,10 @@
       nothing = a count (20,512); "one" = one decimal (6.6); "whole" = rounded (53);
       "times" = how many times (3, or 3.6); "raw" = exactly as in data.json (a year, a name).
   The words themselves (titles, takeaways, captions) live here and are edited here.
-  The rule for charts (the user's decision, Nov 2026): a chart's TITLE says plainly what is measured;
-  the point it makes goes in the line under the title ("takeaway") and in the "What we see" boxes.
+  The rule for charts (the user's decision, Nov 2026): a chart's TITLE says plainly what is measured
+  ("At-Home Suspensions" in titles where it fits), with no line under it. The point it makes is written on the
+  chart in an orange circle (hidden on phones) and/or in the "What we see" box. Notes and caveats go in the
+  source line under the chart, marked * then **, with the same mark on the title or bar they refer to.
   Text marked [PLACEHOLDER] is a first draft for Brandon and the team to rewrite (the line under the page
   title, part 3's "What we see", the footer). Everything else follows the content plan Brandon approved
   (Nov 10, 2026); the page title is a working title.
@@ -59,12 +61,10 @@
     * Part 1, the words on the two charts: "Black students are sent home at ... times the rate of all
       students"; on the student-group chart "... times the rate of all students" sits beside the children in
       foster care, so it assumes they are still the highest group. *
-    * Part 2, takeaway and "What we see": both name Black students; "but lost" says their share of the days
-      is larger than their share of students. *
     * Part 2, research: "In Westchester, [9th graders] lost the most days of any grade". The grade comes from
       the data; the sentence sits beside a finding about 9th grade, so re-read it if the grade changes.
-    * Part 3, opening panel, takeaway and "What we see": the group's share "grows at every step" and
-      "passes the line" at every step after enrollment. *
+    * Part 3, opening panel and "What we see": the group's share "passes the line" at every step after
+      enrollment. *
     * Part 4, opening panel: "would end the first and cap the second" (the bill, not the data).
     * Headline tiles, the map and the district card are numbers only; nothing to re-check.
 
@@ -266,9 +266,11 @@
     <!-- The empty desk: the clock keeps running and the schoolwork piles up -->
     <symbol id="art-desk" viewBox="0 0 150 150" overflow="visible">
       <g fill="currentColor">
-        <circle cx="44" cy="42" r="18" opacity=".94"/>
-        <path d="M68 30a26 26 0 0 1 2.500 21" fill="none" stroke="currentColor" stroke-width="2.600" stroke-linecap="round" opacity=".62"/>
-        <path d="M75 26a33 33 0 0 1 3 29" fill="none" stroke="currentColor" stroke-width="2.600" stroke-linecap="round" opacity=".34"/>
+        <g transform="translate(-14 -20)">                      <!-- the clock, set apart from the desk and papers -->
+          <circle cx="44" cy="42" r="18" opacity=".94"/>
+          <path d="M68 30a26 26 0 0 1 2.500 21" fill="none" stroke="currentColor" stroke-width="2.600" stroke-linecap="round" opacity=".62"/>
+          <path d="M75 26a33 33 0 0 1 3 29" fill="none" stroke="currentColor" stroke-width="2.600" stroke-linecap="round" opacity=".34"/>
+        </g>
         <rect x="30" y="91" width="92" height="7" rx="2.500" opacity=".92"/>
         <rect x="40" y="104" width="74" height="5" rx="1.500" opacity=".34"/>
         <path d="M39 98v38M115 98v38" fill="none" stroke="currentColor" stroke-width="4.500" stroke-linecap="round" opacity=".62"/>
@@ -277,7 +279,7 @@
         <rect x="80" y="88.0" width="34" height="2.600" rx=".8" opacity="0.95"/><rect x="81.5" y="84.7" width="34" height="2.600" rx=".8" opacity="0.8"/><rect x="79" y="81.4" width="34" height="2.600" rx=".8" opacity="0.95"/><rect x="80.5" y="78.1" width="34" height="2.600" rx=".8" opacity="0.8"/><rect x="82" y="74.8" width="34" height="2.600" rx=".8" opacity="0.95"/><rect x="79.5" y="71.5" width="34" height="2.600" rx=".8" opacity="0.8"/><rect x="81" y="68.2" width="34" height="2.600" rx=".8" opacity="0.95"/><rect x="78.5" y="64.9" width="34" height="2.600" rx=".8" opacity="0.8"/><rect x="80.5" y="61.6" width="34" height="2.600" rx=".8" opacity="0.95"/><rect x="81.5" y="58.3" width="34" height="2.600" rx=".8" opacity="0.8"/><rect x="80" y="55.0" width="34" height="2.600" rx=".8" opacity="0.95"/>
         <rect x="88" y="36" width="34" height="2.600" rx=".8" opacity=".9" transform="rotate(-18 105 37)"/>
       </g>
-      <path class="art-dark-line" d="M44 42.500V31M44 42.500l9 4.500" stroke-width="3" stroke-linecap="round"/>
+      <path class="art-dark-line" d="M44 42.500V31M44 42.500l9 4.500" stroke-width="3" stroke-linecap="round" transform="translate(-14 -20)"/>
     </symbol>
 
     <!-- A courthouse: steps, columns, a pediment -->
@@ -319,13 +321,20 @@
       </g>
     </symbol>
 
-    <!-- The backpack, put down -->
-    <symbol id="art-bag" viewBox="0 0 44 64" overflow="visible">
+    <!-- The backpack, put down, standing upright: shoulder straps, top handle, a slot near the top,
+         a front pocket with a zipper pull (after the reference Brandon chose, Nov 2026). The details are
+         light lines, as in the first drawing. -->
+    <symbol id="art-bag" viewBox="0 0 48 64" overflow="visible">
       <g fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-        <path stroke="none" d="M6 22c0-10 6-15 16-15s16 5 16 15v30c0 6-4 10-10 10H16c-6 0-10-4-10-10z"/>
-        <path fill="none" stroke-width="4" d="M15 8c0-9 14-9 14 0"/>
+        <path fill="none" stroke-width="5" d="M12 19 15 7M36 19 33 7"/>
+        <path fill="none" stroke-width="3.500" d="M19 9c0-6 10-6 10 0"/>
+        <path stroke="none" d="M6 26c0-11 7-18 18-18s18 7 18 18v30c0 4-3 7-7 7H13c-4 0-7-3-7-7z"/>
       </g>
-      <path class="art-dark-line" d="M13 36h18v14H13z" stroke-width="2" stroke-linejoin="round" opacity=".3"/>
+      <g class="art-dark-line" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity=".3">
+        <rect x="16" y="16" width="16" height="6" rx="3"/>
+        <rect x="10" y="37" width="28" height="19" rx="3"/>
+        <path d="M10 41h28M33 41v5"/>
+      </g>
     </symbol>
   </defs>
 </svg>
@@ -422,7 +431,7 @@
     <div class="pair">
       <article class="card" id="card-race">
         <div class="kicker">Race and ethnicity</div>
-        <h3 class="chart-title">At-Home Suspensions by Race and Ethnicity,<br class="wide-only"> Westchester County, <span class="nowrap" data-fill="who.year" data-format="raw"></span></h3>
+        <h3 class="chart-title">At-Home Suspensions by Race and Ethnicity<span id="mark-race"></span>,<br class="wide-only"> Westchester County, <span class="nowrap" data-fill="who.year" data-format="raw"></span></h3>
         <div class="chart-box">
           <canvas id="chart-race" role="img" aria-label="Bar chart: students sent home out of every 100, by race and ethnicity, beside all students."></canvas>
           <p class="callout" id="callout-race"><span>Black students are sent home at
@@ -432,7 +441,7 @@
 
       <article class="card" id="card-groups">
         <div class="kicker">Student groups</div>
-        <h3 class="chart-title">At-Home Suspensions by Student Group,<br class="wide-only"> Westchester County, <span class="nowrap" data-fill="who.year" data-format="raw"></span></h3>
+        <h3 class="chart-title">At-Home Suspensions by Student Group<span id="mark-groups"></span>,<br class="wide-only"> Westchester County, <span class="nowrap" data-fill="who.year" data-format="raw"></span></h3>
         <div class="chart-box">
           <canvas id="chart-groups" role="img" aria-label="Bar chart: students sent home out of every 100, by student group, beside all students."></canvas>
           <p class="callout" id="callout-groups"><span>Students in foster care get sent home at
@@ -444,7 +453,7 @@
     <p class="source">Source: New York State Education Department (NYSED), <span data-fill="who.year" data-format="raw"></span>,
       released through a Freedom of Information Law request (<span class="nowrap">FL-EM-25-1398</span>) and shared with WCA by a
       partner organization. Both charts use the same scale. The orange bar and the dashed line are all Westchester students together.
-      <span id="note-race"></span> ** A student can be in more than one group.</p>
+      <span id="note-race"></span> <span id="note-groups">A student can be in more than one group.</span></p>
 
     <!-- THE PREVIOUS VERSION of these two charts (titles, line under the title, takeaway, notes, "What we see"),
          kept at Brandon's request (Nov 11, 2026) in case he goes back to it. A <template> is never shown on the page.
@@ -512,46 +521,45 @@
         <svg viewBox="0 0 560 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="art-2-title">
           <title id="art-2-title">A child sits at home on the floor, head bowed, backpack put down. A dotted path leads back to an empty school desk, where the clock keeps running and the papers pile up.</title>
           <clipPath id="art-2-clip"><circle cx="404" cy="152" r="134"/></clipPath>
-          <circle cx="88" cy="92" r="76" fill="currentColor" opacity=".13"/>
-          <use href="#art-desk" x="16" y="20" width="144" height="144"/>
+          <circle cx="88" cy="102" r="94" fill="currentColor" opacity=".13"/>
+          <use href="#art-desk" x="26" y="34" width="144" height="144"/>
           <circle cx="404" cy="152" r="134" fill="currentColor" opacity=".13"/>
           <g clip-path="url(#art-2-clip)">
             <rect x="260" y="246" width="290" height="50" fill="currentColor" opacity=".12"/>
             <g opacity=".3" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"><rect x="446" y="52" width="60" height="64" rx="4"/><path d="M476 52v64M446 84h60"/></g>
-            <use href="#art-bag" x="466" y="192" width="40" height="58" transform="rotate(14 486 248)"/>
+            <use href="#art-bag" x="434" y="175" width="55" height="73"/>
             <use href="#kid-home" x="272" y="56" width="190" height="202.700"/>
           </g>
-          <path class="art-path" d="M146 150C168 216 214 262 300 258"/>
+          <path class="art-path" d="M167 170C184 224 220 262 300 258"/>
         </svg>
       </div>
     </div>
 
     <article class="card" id="card-days">
       <div class="kicker">School days lost</div>
-      <h3 class="chart-title">School days lost to being sent home, by race and ethnicity</h3>
-      <p class="chart-unit">Days for every 100 students in each group · Westchester, <span data-fill="lost.year" data-format="raw"></span></p>
-      <p class="takeaway">For every 100 Black students, <span data-fill="lost.by_id.black.days_per_100" data-format="whole"></span>
-        school days were lost to being sent home: <span data-fill="lost.by_id.black.times_average" data-format="times"></span> times the county average.</p>
+      <h3 class="chart-title">School Days Lost to At-Home Suspensions by Race and Ethnicity*,<br class="wide-only"> Westchester County, <span class="nowrap" data-fill="lost.year" data-format="raw"></span></h3>
 
+      <!-- The point of the chart is written on the chart itself, in its empty space ("callout"), as in part 1. -->
       <div class="with-numbers">
         <div class="viz">
-          <div class="chart-box"><canvas id="chart-days" role="img" aria-label="Bar chart: school days lost to being sent home for every 100 students, by race and ethnicity, beside all students."></canvas></div>
-          <p class="chart-note">Each bar is labeled with the days and with that number as a share of one
-            <span data-fill="lost.school_year_days"></span>-day school year.</p>
+          <div class="chart-box">
+            <canvas id="chart-days" role="img" aria-label="Bar chart: school days lost to being sent home for every 100 students, by race and ethnicity, beside all students."></canvas>
+            <p class="callout" id="callout-days"><span>On an average school day,
+              <span data-fill="lost.per_school_day.students"></span> students were serving suspensions out of school.</span></p>
+          </div>
         </div>
 
         <!-- The three big numbers -->
         <div class="numbers">
           <div class="number">
             <div class="value" data-fill="lost.twenty_plus.students"></div>
-            <p>students were suspended 20 days or more.
-              <span data-fill="lost.twenty_plus.group_students"></span> of them
-              (<span data-fill="lost.twenty_plus.group_pct"></span>%) were Black.</p>
+            <p>students were suspended 20 days or more.</p>
           </div>
           <div class="number">
-            <div class="value" data-fill="lost.per_school_day.students"></div>
-            <p>students were out of school on an average school day
-              (<span data-fill="lost.per_school_day.days"></span> days ÷ <span data-fill="lost.per_school_day.school_days"></span> school days).</p>
+            <div class="value"><span data-fill="lost.by_id.black.pct_of_year"></span>%</div>
+            <p>of a school year: the days lost for every 100 Black students added together
+              (<span data-fill="lost.by_id.black.days_per_100" data-format="whole"></span> of
+              <span data-fill="lost.school_year_days"></span> school days).</p>
           </div>
           <div class="number">
             <div class="value" data-fill="lost.top_grade.days"></div>
@@ -560,15 +568,11 @@
         </div>
       </div>
 
-      <aside class="see">
-        <h4>What we see</h4>
-        <p>Black students are <span data-fill="lost.by_id.black.share_of_students"></span>% of Westchester's students
-          but lost <span data-fill="lost.by_id.black.share_of_days"></span>% of all the school days lost to being sent home.</p>
-      </aside>
-
       <p class="source">Source: NYSED (FOIL <span class="nowrap">FL-EM-25-1398</span>), <span data-fill="lost.year" data-format="raw"></span>.
         Days of out-of-school suspension for every 100 students enrolled in October. In-school suspensions took
-        <span data-fill="lost.total.days_in_school"></span> more days out of class.</p>
+        <span data-fill="lost.total.days_in_school"></span> more days out of class.
+        * Each bar shows the school days lost for every 100 students. Hover over or tap a bar to see that number as a
+        share of one <span data-fill="lost.school_year_days"></span>-day school year.</p>
     </article>
 
     <article class="card" id="card-research-2">
@@ -630,12 +634,7 @@
 
     <article class="card" id="card-path">
       <div class="kicker">At each step</div>
-      <h3 class="chart-title">Black students' share at each step, from enrollment to felony arrest</h3>
-      <p class="chart-unit">Share of everyone at that step · Westchester · school steps <span data-fill="path.school_year" data-format="raw"></span>,
-        felony arrests <span data-fill="path.arrest_period" data-format="raw"></span> added together</p>
-      <p class="takeaway">Black youth's share grows at every step, from
-        <span data-fill="path.by_id.enrolled.group.share_whole"></span>% of students to
-        <span data-fill="path.by_id.arrests.group.share_whole"></span>% of felony arrests.</p>
+      <h3 class="chart-title">Black Students' Share at Each Step, from Enrollment to Felony Arrest,<br class="wide-only"> Westchester County, <span class="nowrap" data-fill="path.school_year" data-format="raw"></span></h3>
 
       <!-- Two panels on the same scale: the group, and everyone else. The dashed line is the first bar's value. -->
       <div class="panels">
@@ -655,16 +654,14 @@
           Black youth's bar passes the line: they are overrepresented. All other students fall short of theirs.</p>
       </aside>
 
-      <p class="chart-note">"Suspended" counts in-school suspensions and being sent home. "Felony arrests" are arrests of
-        people under 18, <span data-fill="path.arrest_period" data-format="raw"></span> added together.</p>
-
-      <p class="plain-note">These are different young people counted at each step, not one group followed over time.
-        Westchester's numbers can't show that one step causes the next; the research below looks at that link.</p>
-
       <p class="source">Sources: NYSED (FOIL <span class="nowrap">FL-EM-25-1398</span>), <span data-fill="path.school_year" data-format="raw"></span>,
         for the school steps; NYS Division of Criminal Justice Services (DCJS), felony arrests of people under 18,
         <span data-fill="path.arrest_period" data-format="raw"></span> added together, shared with a youth justice coalition WCA belongs to.
-        Arrests are counted, not people, and a share of arrests is not an arrest rate.</p>
+        Each bar is the group's share of everyone at that step. Arrests are counted, not people, and a share of arrests
+        is not an arrest rate. These are different young people counted at each step, not one group followed over time.
+        Westchester's numbers can't show that one step causes the next; the research below looks at that link.
+        * "Suspended" counts in-school suspensions and being sent home.
+        ** "Felony arrests" are arrests of people under 18, <span data-fill="path.arrest_period" data-format="raw"></span> added together.</p>
     </article>
 
     <article class="card" id="card-research-3">

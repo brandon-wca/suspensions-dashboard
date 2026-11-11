@@ -632,9 +632,15 @@ function drawWho(data) {
   drawGroupBars(extend({ canvasId: "chart-groups", entries: who.groups, callout: "callout-groups",
                          caption: "Students sent home out of every 100, by student group, " + who.year }, shared));
 
-  /* A note in the source line when the race chart leaves out small groups (the list is in data.json) */
-  var note = document.getElementById("note-race");
-  note.textContent = who.race_not_shown.length ? "** Small racial or ethnic groups are not shown." : "";
+  /* The notes in the source line, each marked on the title it belongs to: * then **.
+     The race chart's note shows only when it leaves out small groups (the list is in data.json);
+     then the student-group note takes the next mark. */
+  var raceNote = who.race_not_shown.length > 0;
+  var groupsMark = raceNote ? "**" : "*";
+  document.getElementById("mark-race").textContent = raceNote ? "*" : "";
+  document.getElementById("note-race").textContent = raceNote ? "* Small racial or ethnic groups are not shown." : "";
+  document.getElementById("mark-groups").textContent = groupsMark;
+  document.getElementById("note-groups").textContent = groupsMark + " A student can be in more than one group.";
   /* Previous version (a line under the race chart naming the groups), kept in case it comes back:
      note.textContent = who.race_not_shown.length
        ? "Not shown: " + listInWords(who.race_not_shown) + ", small groups in Westchester."
@@ -674,6 +680,24 @@ var placeCallout = {
     for (var i = 1; i < bars.length; i++) end = Math.max(end, bars[i].x);
     /* the empty space */
     var left = end + 44, right = chart.chartArea.right;
+    /* afterLabels (part 2, whose bar labels are long): the space starts after the other bars' words,
+       and may use the room kept on the right for the first bar's words, since it sits below that bar */
+    if (options.afterLabels) {
+      end = 0;
+      var text = options.labelText, narrow = chart.width < NARROW, ctx = chart.ctx;
+      ctx.save();
+      for (var j = 1; j < bars.length; j++) {
+        var parts = text(j, narrow);
+        ctx.font = "600 13px " + WCA.font;
+        var w = ctx.measureText(parts[0]).width;
+        ctx.font = "400 13px " + WCA.font;
+        if (parts[1]) w += ctx.measureText(parts[1]).width + 5;
+        end = Math.max(end, bars[j].x + 6 + w);
+      }
+      ctx.restore();
+      left = end + 16;
+      right = chart.width - 8;
+    }
     var top = bars[0].y + bars[0].height / 2 + 4, bottom = chart.chartArea.bottom;
     var size = Math.min((right - left) * CALLOUT_SHARE, (bottom - top) * CALLOUT_SHARE, CALLOUT_MAX);
     var x, y, box = chart.canvas.parentNode;
@@ -744,7 +768,8 @@ function drawGroupBars(o) {
       plugins: {
         averageLine: { value: o.value(o.average) },
         barLabels: { text: function (i, narrow) { return o.label(rows[i], narrow); } },
-        placeCallout: { id: o.callout || null },
+        placeCallout: { id: o.callout || null, afterLabels: !!o.calloutAfterLabels,
+                        labelText: function (i, narrow) { return o.label(rows[i], narrow); } },
         tooltip: { callbacks: {
           title: function (items) { return rows[items[0].dataIndex].label; },
           label: function (item) { return o.tip(rows[item.dataIndex]); },
@@ -770,14 +795,17 @@ function drawLost(data) {
 
   drawGroupBars({
     canvasId: "chart-days",
+    callout: "callout-days",                                     /* the words on the chart, as in part 1 */
+    calloutAfterLabels: true,                                    /* clear of the long bar labels */
     entries: lost.race,
     average: lost.total,
     rows: lost.race.length + 1,
     max: Math.ceil(highest / 10) * 10,                           /* 53 -> 60 */
     value: function (e) { return e.days_per_100; },
+    /* the days on every bar; the share of a school year only on the first (largest) bar, the rest in the hover box */
     label: function (e, narrow) {
       return [WCA.fmt.count(Math.round(e.days_per_100)) + " days",
-              "· " + e.pct_of_year + "%" + (narrow ? "" : " of a school year")];
+              e === lost.race[0] ? "= " + e.pct_of_year + "%" + (narrow ? "" : " of a school year") : ""];
     },
     labelRoom: function (narrow) { return narrow ? 96 : 196; },
     tip: function (e) {
@@ -785,7 +813,7 @@ function drawLost(data) {
               "(" + WCA.fmt.count(e.days) + " days, " + WCA.fmt.count(e.enrolled) + " students)",
               "That is " + e.pct_of_year + "% of one " + lost.school_year_days + "-day school year"];
     },
-    rowHeight: 52,                                               /* taller rows: this chart sits beside three big numbers */
+    rowHeight: 55,                                               /* taller rows: the chart is about as tall as the three big numbers beside it (6 rows x 55 + 58 = 388 px) */
     axisTitle: function (narrow) {
       return narrow ? "Days lost, for every 100 students" : "School days lost to being sent home, for every 100 students";
     },
@@ -811,6 +839,10 @@ function drawPath(data) {
   drawPathPanel("chart-path-group", path, "group", SNS.data, path.group_label);
   drawPathPanel("chart-path-others", path, "others", SNS.other, path.others_label);
 }
+
+/* The note marks after a step's name; each matches a note in part 3's source line in index.html.
+   The keys are ids in PATH_STEPS (update_data_here/build_data.py). */
+var PATH_MARKS = { suspended: "*", arrests: "**" };
 
 /* which = "group" or "others": the two halves of every step in data.json "path.steps" */
 function drawPathPanel(canvasId, path, which, color, name) {
@@ -841,7 +873,9 @@ function drawPathPanel(canvasId, path, which, color, name) {
           ticks: {
             color: WCA.colors.body,
             autoSkip: false,                                       /* write every step's name */
-            callback: function (value, index) { return wrap(steps[index].label, this.chart.width < NARROW ? 15 : 24); },
+            callback: function (value, index) {
+              return wrap(steps[index].label + (PATH_MARKS[steps[index].id] || ""), this.chart.width < NARROW ? 15 : 24);
+            },
           },
         },
       },
