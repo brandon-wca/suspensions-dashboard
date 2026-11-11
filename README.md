@@ -12,7 +12,7 @@ Ask Claude first; do it yourself as the fallback. Claude will name the kind of c
 
 | To change… | Edit |
 |---|---|
-| Words: titles, takeaways, "What we see", captions, the bill's cards, "Take action", "About the data" | `index.html`. Numbers inside sentences are `<span data-fill="…">` tags that `charts.js` fills from `data/data.json`; don't type numbers into the text. A chart's title says plainly what is measured; its point goes in the line under it. |
+| Words: titles, takeaways, "What we see", captions, the bill's cards, "Take action", "About the data" | `index.html`. Numbers inside sentences are `<span data-fill="…">` tags that `charts.js` fills from `data/data.json`; don't type numbers into the text. A chart's title says plainly what is measured; its point goes in the orange circle on the chart and/or in "What we see". |
 | A chart | `charts.js`: `drawWho` (part 1), `drawLost` (part 2), `drawPath` (part 3). Which groups a chart shows is set in `../update_data_here/build_data.py`. |
 | The map, the list, the town search, the district card | `charts.js`, section 8. The map's color steps are set in `build_data.py` (`RATE_STEPS`). |
 | The menu, and which part an address opens (`…/#part-2`, `…/#district`) | The tabs in `index.html`; `charts.js`, section 3. |
