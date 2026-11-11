@@ -424,7 +424,9 @@ function drawHeadlines(data) {
       : WCA.fmt.count(h.value);
     html += '<div class="tile">';
     html += '  <div class="value">' + value + "</div>";
-    html += '  <div class="label">' + h.label + "</div>";
+    /* Keep a school year such as "2024-25" on one line, so it never breaks at the hyphen */
+    var label = h.label.replace(/(\d{4}-\d{2})/g, '<span class="year">$1</span>');
+    html += '  <div class="label">' + label + "</div>";
     if (h.note) html += '  <div class="compare">' + h.note + "</div>";
     html += "</div>";
   });
