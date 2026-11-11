@@ -402,15 +402,17 @@ fetch(DATA_FILE)
 /* WCA.fillNumbers (part one) writes counts and text. This page writes numbers three more ways:
      data-format="one"     one decimal, always: 6.6, 1.0     (students out of 100)
      data-format="whole"   rounded to a whole number: 53     (school days)
-     data-format="times"   how many times as much: 3, 3.6    (never 3.0) */
+     data-format="times"   how many times as much: 3, 3.6    (never 3.0)
+     data-format="roughly" how many times, in words: "almost 9" (8.9), "3" (3.0), "more than 4" (4.2) */
 function fillMore(data) {
-  var elements = document.querySelectorAll('[data-format="one"], [data-format="whole"], [data-format="times"]');
+  var elements = document.querySelectorAll('[data-format="one"], [data-format="whole"], [data-format="times"], [data-format="roughly"]');
   for (var i = 0; i < elements.length; i++) {
     var el = elements[i];
     var value = WCA.get(data, el.getAttribute("data-fill"));
     var format = el.getAttribute("data-format");
     if (value === null || value === undefined) el.textContent = "n/a";
     else if (format === "one") el.textContent = one(value);
+    else if (format === "roughly") el.textContent = roughlyText(value);
     else if (format === "whole") el.textContent = WCA.fmt.count(Math.round(value));
     else el.textContent = timesText(value);
   }
@@ -625,16 +627,18 @@ function drawWho(data) {
     tableRow: function (e) { return [e.label, one(e.per_100), WCA.fmt.count(e.sent_home), WCA.fmt.count(e.enrolled)]; },
   };
 
-  drawGroupBars(extend({ canvasId: "chart-race", entries: who.race,
+  drawGroupBars(extend({ canvasId: "chart-race", entries: who.race, callout: "callout-race",
                          caption: "Students sent home out of every 100, by race and ethnicity, " + who.year }, shared));
-  drawGroupBars(extend({ canvasId: "chart-groups", entries: who.groups,
+  drawGroupBars(extend({ canvasId: "chart-groups", entries: who.groups, callout: "callout-groups",
                          caption: "Students sent home out of every 100, by student group, " + who.year }, shared));
 
-  /* The line under the race chart: the small groups it leaves out, named from data.json */
+  /* A note in the source line when the race chart leaves out small groups (the list is in data.json) */
   var note = document.getElementById("note-race");
-  note.textContent = who.race_not_shown.length
-    ? "Not shown: " + listInWords(who.race_not_shown) + ", small groups in Westchester."
-    : "";
+  note.textContent = who.race_not_shown.length ? "** Small racial or ethnic groups are not shown." : "";
+  /* Previous version (a line under the race chart naming the groups), kept in case it comes back:
+     note.textContent = who.race_not_shown.length
+       ? "Not shown: " + listInWords(who.race_not_shown) + ", small groups in Westchester."
+       : ""; */
 }
 
 /* One horizontal bar chart of student groups, with all students as the last bar. Used by parts 1 and 2.
@@ -649,6 +653,55 @@ function drawWho(data) {
      tip         function (entry) -> the lines in the hover box
      axisTitle   the words under the value axis
      caption, tableHeads, tableRow   the same numbers as a table for screen readers */
+/* Places the words written on a chart (o.callout, the id of a <p class="callout"> in the chart's box) inside an
+   orange circle, centered in the chart's empty space: below the first bar, to the right of where the other bars
+   and their numbers end. The circle is as big as that space allows (up to MAX); the words shrink until they fit.
+   When that space is too small for the words (a phone), the circle is hidden (Brandon, Nov 2026). The other way,
+   kept for later: set CALLOUT_ON_PHONE to "below" and the circle sits centered just under the chart instead.
+   It runs every time the chart draws, so the circle moves with the chart on a phone or when the window changes. */
+var CALLOUT_MAX = 171;                                     /* the circle's largest size, in pixels */
+var CALLOUT_SHARE = 0.9;                                   /* the circle fills 90% of the empty space it has */
+var CALLOUT_FONT = 15.5;                                   /* the largest type in the circle, in pixels */
+var CALLOUT_MIN = 135;                                     /* smaller than this, the space is too small for the words */
+var CALLOUT_ON_PHONE = "hide";                             /* "hide", or "below" to show it under the chart */
+var placeCallout = {
+  id: "placeCallout",
+  afterDraw: function (chart, args, options) {
+    var el = options.id && document.getElementById(options.id);
+    if (!el) return;
+    var bars = chart.getDatasetMeta(0).data;
+    var end = 0;
+    for (var i = 1; i < bars.length; i++) end = Math.max(end, bars[i].x);
+    /* the empty space */
+    var left = end + 44, right = chart.chartArea.right;
+    var top = bars[0].y + bars[0].height / 2 + 4, bottom = chart.chartArea.bottom;
+    var size = Math.min((right - left) * CALLOUT_SHARE, (bottom - top) * CALLOUT_SHARE, CALLOUT_MAX);
+    var x, y, box = chart.canvas.parentNode;
+    el.hidden = false;
+    box.style.marginBottom = "";
+    if (size >= CALLOUT_MIN) {
+      x = left + (right - left - size) / 2;
+      y = top + (bottom - top - size) / 2;
+    } else if (CALLOUT_ON_PHONE !== "below") {
+      el.hidden = true;
+      return;
+    } else {                                               /* under the chart, centered, with room made for it */
+      size = 153;
+      x = (chart.width - size) / 2;
+      y = chart.height + 8;
+      box.style.marginBottom = (size + 16) + "px";
+    }
+    el.style.left = x + "px";
+    el.style.top = y + "px";
+    el.style.width = el.style.height = size + "px";
+    el.style.padding = Math.round(size * 0.16) + "px";
+    /* the largest type, from 17 px down, that keeps the words inside the circle */
+    var font = CALLOUT_FONT;
+    el.style.fontSize = font + "px";
+    while (font > 10 && el.scrollHeight > el.clientHeight) { font -= 0.5; el.style.fontSize = font + "px"; }
+  },
+};
+
 function drawGroupBars(o) {
   var canvas = document.getElementById(o.canvasId);
   var rows = o.entries.concat([o.average]);
@@ -691,13 +744,14 @@ function drawGroupBars(o) {
       plugins: {
         averageLine: { value: o.value(o.average) },
         barLabels: { text: function (i, narrow) { return o.label(rows[i], narrow); } },
+        placeCallout: { id: o.callout || null },
         tooltip: { callbacks: {
           title: function (items) { return rows[items[0].dataIndex].label; },
           label: function (item) { return o.tip(rows[item.dataIndex]); },
         } },
       },
     },
-    plugins: [averageLine, barLabels],
+    plugins: [averageLine, barLabels, placeCallout],
   });
 
   writeTable(canvas, o.caption, o.tableHeads, rows.map(o.tableRow));
@@ -1200,6 +1254,14 @@ function one(n) {
 }
 
 /* 3 -> "3", 3.6 -> "3.6": for "3 times the rate" (never "3.0 times") */
+/* 8.9 -> "almost 9"; 3.0 -> "3"; 4.2 -> "more than 4" (the number rounded, with a word saying which way) */
+function roughlyText(n) {
+  var whole = Math.round(n * 10) / 10;                     /* 8.94 is 8.9, as on the page */
+  var near = Math.round(whole);
+  if (whole === near) return String(near);
+  return whole < near ? "almost " + near : "more than " + near;
+}
+
 function timesText(n) {
   var text = Number(n).toFixed(1);
   return text.slice(-2) === ".0" ? text.slice(0, -2) : text;

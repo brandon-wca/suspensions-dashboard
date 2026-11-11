@@ -56,10 +56,9 @@
   CLAIMS TO RE-CHECK AFTER EVERY DATA UPDATE. The numbers refill themselves; these words don't.
   (build_data.py prints a NOTE for each one marked * when it stops being true.)
     * Part 1, opening panel: it names Black students and children in foster care. *
-    * Part 1, takeaways: "Black students are sent home at ... times the rate of all students";
-      "... children in foster care ... times the rate of all students". *
-    * Part 1, "What we see": "The same children are sent home most often: Black students, children in
-      foster care, homeless students and students with disabilities." *
+    * Part 1, the words on the two charts: "Black students are sent home at ... times the rate of all
+      students"; on the student-group chart "... times the rate of all students" sits beside the children in
+      foster care, so it assumes they are still the highest group. *
     * Part 2, takeaway and "What we see": both name Black students; "but lost" says their share of the days
       is larger than their share of students. *
     * Part 2, research: "In Westchester, [9th graders] lost the most days of any grade". The grade comes from
@@ -106,6 +105,12 @@
      =================================================================== -->
 <svg class="drawings" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
   <defs>
+    <!-- The ground in part 1's picture: fades in from the left, so it has no hard edge -->
+    <linearGradient id="ground-fade" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="currentColor" stop-opacity="0"/>
+      <stop offset=".3" stop-color="currentColor" stop-opacity=".1"/>
+      <stop offset="1" stop-color="currentColor" stop-opacity=".1"/>
+    </linearGradient>
     <!-- The child walking away: head bowed, shoulders dropped, a slow step, backpack on. The arm hangs. -->
     <symbol id="kid-leaving" viewBox="0 0 120 220">
       <mask id="kid-leaving-gap" maskUnits="userSpaceOnUse" x="0" y="0" width="130" height="230">
@@ -219,10 +224,10 @@
 
     <!-- The school: a bell tower with a flag, a clock, and classmates in the lit windows -->
     <symbol id="art-school" viewBox="0 0 220 250" overflow="visible">
-      <rect x="16" y="124" width="188" height="126" fill="currentColor" opacity=".17"/>
-      <path d="M0 128 110 58l110 70z" fill="currentColor" opacity=".32"/>
-      <rect x="98" y="34" width="24" height="34" fill="currentColor" opacity=".32"/>
-      <path d="M90 36 110 17l20 19z" fill="currentColor" opacity=".45"/>
+      <rect class="art-wall" x="16" y="124" width="188" height="126"/>
+      <path class="art-roof" d="M0 128 110 58l110 70z"/>
+      <rect class="art-roof" x="98" y="34" width="24" height="34"/>
+      <path class="art-cap" d="M90 36 110 17l20 19z"/>
       <path class="art-dark" d="M104 62V49a6 6 0 0 1 12 0v13z" opacity=".55"/>
       <path class="art-lit" d="M106 58c0-1 1-1 1-3v-2a3 3 0 0 1 6 0v2c0 2 1 2 1 3z"/>
       <path d="M110 17V1" stroke="currentColor" stroke-width="2" opacity=".75"/>
@@ -240,14 +245,14 @@
       <path class="art-dark-line" d="M55 148v46M32 164h46M165 148v46M142 164h46" stroke-width="1.5" opacity=".3"/>
       <path class="art-dark" d="M90 250v-44a20 20 0 0 1 40 0v44z" opacity=".62"/>
       <path d="M110 187v63" stroke="currentColor" stroke-width="1.5" opacity=".28"/>
-      <rect x="80" y="245" width="60" height="7" rx="1.5" fill="currentColor" opacity=".42"/>
+      <rect class="art-cap" x="80" y="245" width="60" height="7" rx="1.5"/>
     </symbol>
 
     <!-- Home: a small house with two lit windows -->
     <symbol id="art-home" viewBox="0 0 84 76" overflow="visible">
-      <rect x="12" y="34" width="60" height="42" fill="currentColor" opacity=".17"/>
-      <rect x="57" y="9" width="9" height="18" fill="currentColor" opacity=".32"/>
-      <path d="M2 36 42 4l40 32z" fill="currentColor" opacity=".34"/>
+      <rect class="art-wall" x="12" y="34" width="60" height="42"/>
+      <rect class="art-roof" x="57" y="9" width="9" height="18"/>
+      <path class="art-roof" d="M2 36 42 4l40 32z"/>
       <rect class="art-dark" x="35" y="51" width="14" height="25" rx="1.5" opacity=".62"/>
       <rect class="art-lit" x="18" y="43" width="11" height="11" rx="1.5"/>
       <rect class="art-lit" x="55" y="43" width="11" height="11" rx="1.5"/>
@@ -401,17 +406,51 @@
       <div class="hero-art bleed">
         <svg viewBox="0 0 560 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="art-1-title">
           <title id="art-1-title">A child with a backpack walks away from school, head down, along a dotted path toward home. Classmates are still in class.</title>
-          <path d="M-6 272C120 238 440 232 566 262 440 304 120 306-6 272z" fill="currentColor" opacity=".1"/>
+          <path d="M0 264C150 250 300 260 430 252S560 248 560 250V300H0z" fill="url(#ground-fade)"/>
           <use href="#art-cloud" x="270" y="22" width="78" height="38" opacity=".13"/>
           <use href="#art-cloud" x="452" y="70" width="56" height="27" opacity=".1"/>
-          <use href="#art-school" x="44" y="36" width="210" height="238"/>
-          <use href="#art-home" x="430" y="192" width="87" height="79"/>
-          <path class="art-path" d="M149 280C190 294 260 296 302 292M384 290C420 288 452 282 470 274"/>
-          <use href="#kid-leaving" x="293" y="103" width="100" height="184"/>
+          <use href="#art-school" x="30" y="20" width="210" height="238"/>
+          <use href="#art-home" x="466" y="185" width="75" height="67"/>
+          <path class="art-path" d="M135 264C195 296 262 297 318 291M386 287C430 280 476 268 503 255"/>
+          <use href="#kid-leaving" x="303" y="141" width="85" height="156"/>
         </svg>
       </div>
     </div>
 
+    <!-- Two bar charts on the same scale. In each, the orange bar and the dashed line are all Westchester students.
+         The point of each chart is written on the chart itself, in its empty space ("callout"), not under the title. -->
+    <div class="pair">
+      <article class="card" id="card-race">
+        <div class="kicker">Race and ethnicity</div>
+        <h3 class="chart-title">At-Home Suspensions by Race and Ethnicity,<br class="wide-only"> Westchester County, <span class="nowrap" data-fill="who.year" data-format="raw"></span></h3>
+        <div class="chart-box">
+          <canvas id="chart-race" role="img" aria-label="Bar chart: students sent home out of every 100, by race and ethnicity, beside all students."></canvas>
+          <p class="callout" id="callout-race"><span>Black students are sent home at
+            <span data-fill="who.by_id.black.times_average" data-format="times"></span> times the rate of all students.</span></p>
+        </div>
+      </article>
+
+      <article class="card" id="card-groups">
+        <div class="kicker">Student groups</div>
+        <h3 class="chart-title">At-Home Suspensions by Student Group,<br class="wide-only"> Westchester County, <span class="nowrap" data-fill="who.year" data-format="raw"></span></h3>
+        <div class="chart-box">
+          <canvas id="chart-groups" role="img" aria-label="Bar chart: students sent home out of every 100, by student group, beside all students."></canvas>
+          <p class="callout" id="callout-groups"><span>Students in foster care get sent home at
+            <span data-fill="who.by_id.foster_care.times_average" data-format="roughly"></span> times the rate of all students.</span></p>
+        </div>
+      </article>
+    </div>
+
+    <p class="source">Source: New York State Education Department (NYSED), <span data-fill="who.year" data-format="raw"></span>,
+      released through a Freedom of Information Law request (<span class="nowrap">FL-EM-25-1398</span>) and shared with WCA by a
+      partner organization. Both charts use the same scale. The orange bar and the dashed line are all Westchester students together.
+      <span id="note-race"></span> ** A student can be in more than one group.</p>
+
+    <!-- THE PREVIOUS VERSION of these two charts (titles, line under the title, takeaway, notes, "What we see"),
+         kept at Brandon's request (Nov 11, 2026) in case he goes back to it. A <template> is never shown on the page.
+         To restore: replace everything above, from "Two bar charts" to the source line, with what is inside it,
+         and put back the note line in drawWho() in charts.js (kept there as a comment). -->
+    <template id="part-1-charts-previous">
     <!-- Two bar charts on the same scale. In each, the orange bar and the dashed line are all Westchester students. -->
     <div class="pair">
       <article class="card" id="card-race">
@@ -446,6 +485,8 @@
     <p class="source">Source: New York State Education Department (NYSED), <span data-fill="who.year" data-format="raw"></span>,
       released through a Freedom of Information Law request (<span class="nowrap">FL-EM-25-1398</span>) and shared with WCA by a
       partner organization. Both charts use the same scale. The orange bar and the dashed line are all Westchester students together.</p>
+
+    </template>
 
     <div class="continue"><button type="button" data-go="part-2">Continue to Part 2 · What's lost →</button></div>
   </section>

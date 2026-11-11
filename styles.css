@@ -105,6 +105,9 @@
   --sns-path:          #F07722;               /* the dotted path and the lit windows: the orange of WCA's color schema,
                                                  a brighter step of --wca-orange that shows on the dark panels */
   --sns-art-dark:      var(--wca-blue-700);   /* figures in the windows, doors, clock hands */
+  --sns-art-wall:      #4A8F87;               /* walls of the school and the home: solid, never see-through (Brandon, Nov 2026) */
+  --sns-art-roof:      #6BA59D;               /* roofs, the bell tower, the chimney */
+  --sns-art-cap:       #8DBAB3;               /* the tip of the bell tower, the school's front step */
   --sns-veil:          rgba(255, 255, 255, 0.55);   /* thin white lines on the sweep */
 
   /* Boxes */
@@ -337,6 +340,9 @@ section > h2 { margin-bottom: 4px; }
 .hero-art svg { display: block; width: 100%; height: auto; overflow: visible; }
 .hero-art.bleed { align-self: end; margin: -6px -32px -28px 0; }           /* part 1's wide scene runs to the panel's edge */
 .art-lit { fill: var(--sns-path); }                        /* lit windows, the bell, the flag, the open door */
+.art-wall { fill: var(--sns-art-wall); }
+.art-roof { fill: var(--sns-art-roof); }
+.art-cap { fill: var(--sns-art-cap); }
 .art-dark { fill: var(--sns-art-dark); }                   /* classmates in the windows, doors */
 .art-dark-line { stroke: var(--sns-art-dark); fill: none; } /* clock hands, window bars */
 .art-path { stroke: var(--sns-path); fill: none; stroke-width: 5; stroke-linecap: round; stroke-dasharray: 0.1 14; }   /* the dotted path */
@@ -353,6 +359,15 @@ section > h2 { margin-bottom: 4px; }
 .source { color: var(--muted); font-size: 13px; margin: 12px 0 0; }
 .chart-box.tall { height: 340px; }
 .chart-box.mini { height: 150px; }
+/* Words written on a chart, in its empty space: the point the chart makes (part 1), white in an orange circle.
+   charts.js sets the circle's place, size and type size from the chart's own bars */
+.callout {
+  position: absolute; margin: 0; border-radius: 50%; overflow: hidden;
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  background: var(--sns-average); color: var(--white);
+  font-weight: 600; line-height: 1.25;
+  pointer-events: none;                                    /* hovering still reaches the bars underneath */
+}
 
 /* Part 1: two chart cards side by side (one under the other on a phone) */
 .pair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0 32px; }
@@ -530,6 +545,7 @@ section > h2 { margin-bottom: 4px; }
   .hero-art.bleed { width: calc(100% + 18px); margin: 0 -18px -18px 0; }
   .chart-title { font-size: 19px; }
   .takeaway { font-size: 17px; }
+  br.wide-only { display: none; }                          /* chart titles wrap on their own on a phone */
   .chart-box.tall { height: 320px; }
   .panels, .research, .bill, .money, .numbers { grid-template-columns: minmax(0, 1fr); }
   .money { gap: 8px; }
