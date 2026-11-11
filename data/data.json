@@ -1,17 +1,22 @@
 {
   "meta": {
     "dashboard": "Suspensions Dashboard",
-    "generated": "2026-11-09 18:33 (local time)",
+    "generated": "2026-11-11 01:41 (local time)",
     "built_by": "build_data.py",
-    "latest_year": "2024-25",
-    "first_year": "2018-19",
-    "arrests_period": "2023-2025",
+    "school_year": "2024-25",
+    "first_school_year": "2018-19",
+    "arrest_period": "2023-2025",
     "settings": {
-      "measure": "out-of-school suspensions / October (BEDS day) enrollment",
-      "small_group_enrolled": 30,
-      "min_sent_home_to_compare": 10,
-      "small_group_note_below": 500,
-      "school_days": 180
+      "school_year_days": 180,
+      "small_group": 30,
+      "rate_steps": [
+        1,
+        2,
+        3,
+        5
+      ],
+      "district_type": "Public school district",
+      "arrest_years": 3
     },
     "sources": {
       "CUR-0012": {
@@ -33,6 +38,11 @@
         "file": "CUR-0011_under-18-felony-arrests-by-race_ny-counties.csv",
         "rows": 536,
         "md5": "0cd175c3dfa84281b8fe4d3e6119c86a"
+      },
+      "CUR-0003": {
+        "file": "CUR-0003_district-municipalities-served_westchester.csv",
+        "rows": 49,
+        "md5": "162faf65d2b47cd3d999f092089617f2"
       }
     },
     "boundaries": {
@@ -41,1112 +51,3821 @@
       "copied_to": "Geography.json",
       "districts": 41,
       "points_before": 67191,
-      "points_after": 8094,
+      "points_after": 8126,
       "tolerance_degrees": 0.0001,
       "decimals": 5
     }
   },
   "headlines": [
     {
-      "id": "sent_home",
-      "label": "students sent home at least once (out-of-school suspension), 2024-25",
-      "value": 2988,
-      "unit": "count",
-      "compare": {
-        "label": "of all students",
-        "value": 2.2,
-        "unit": "%"
-      },
-      "source": "CUR-0012, students_suspended_out_of_school and pct_suspended_out_of_school, Westchester County"
-    },
-    {
-      "id": "in_school",
-      "label": "students suspended in school, 2024-25",
-      "value": 2010,
-      "unit": "count",
-      "compare": {
-        "label": "of all students",
-        "value": 1.5,
-        "unit": "%"
-      },
-      "source": "CUR-0012, students_suspended_in_school and pct_suspended_in_school, Westchester County"
-    },
-    {
-      "id": "days",
-      "label": "school days students spent sent home, 2024-25",
+      "id": "days_lost",
       "value": 20512,
       "unit": "count",
-      "compare": {
-        "label": "students home on an average school day",
-        "value": 114,
-        "unit": "count"
-      },
-      "source": "CUR-0012, days_out_of_school_suspension, Westchester County; divided by a 180-day school year"
+      "label": "school days lost when students were sent home",
+      "note": "Westchester, 2024-25 school year",
+      "source": "CUR-0012, days_out_of_school_suspension, All Students"
     },
     {
-      "id": "gap",
-      "label": "how many times as often Black students are sent home as White students, 2024-25",
-      "value": 6.7,
-      "unit": "times",
-      "compare": {
-        "label": "New York State",
-        "value": 2.5,
-        "unit": "times"
-      },
-      "source": "CUR-0012, students_suspended_out_of_school / enrollment_beds_day, Black and White, Westchester and NYS"
+      "id": "young_children",
+      "value": 206,
+      "unit": "count",
+      "label": "children in pre-K to grade 3 were suspended",
+      "note": "173 of them were sent home",
+      "source": "CUR-0012, students_suspended_any and students_suspended_out_of_school, grades pre-K to 3"
+    },
+    {
+      "id": "black_students",
+      "value": 6.6,
+      "unit": "per100",
+      "label": "Black students were sent home",
+      "note": "All students: 2.2 out of 100",
+      "source": "CUR-0012, pct_suspended_out_of_school, Black and All Students"
     }
   ],
   "who": {
     "year": "2024-25",
+    "unit": "per100",
+    "measure": "Students sent home (suspended out of school) at least once, out of every 100 enrolled in October",
+    "source": "CUR-0012, pct_suspended_out_of_school with enrollment_beds_day and students_suspended_out_of_school",
     "average": {
-      "sent_home": 2988,
+      "id": "all",
+      "label": "All students",
+      "status": "ok",
       "enrolled": 138515,
-      "rate": 2.2,
-      "one_in": 46,
-      "too_few": false,
-      "too_few_to_compare": false,
-      "label": "The average: all students",
-      "per_100": 2
+      "sent_home": 2988,
+      "per_100": 2.2
     },
+    "race": [
+      {
+        "id": "black",
+        "label": "Black students",
+        "status": "ok",
+        "enrolled": 14782,
+        "sent_home": 975,
+        "per_100": 6.6,
+        "times_average": 3.0
+      },
+      {
+        "id": "hispanic",
+        "label": "Hispanic students",
+        "status": "ok",
+        "enrolled": 53671,
+        "sent_home": 1335,
+        "per_100": 2.5,
+        "times_average": 1.1
+      },
+      {
+        "id": "multiracial",
+        "label": "Multiracial students",
+        "status": "ok",
+        "enrolled": 6054,
+        "sent_home": 88,
+        "per_100": 1.5,
+        "times_average": 0.7
+      },
+      {
+        "id": "white",
+        "label": "White students",
+        "status": "ok",
+        "enrolled": 54334,
+        "sent_home": 532,
+        "per_100": 1,
+        "times_average": 0.5
+      },
+      {
+        "id": "asian",
+        "label": "Asian students",
+        "status": "ok",
+        "enrolled": 9312,
+        "sent_home": 53,
+        "per_100": 0.6,
+        "times_average": 0.3
+      }
+    ],
     "groups": [
       {
-        "sent_home": 48,
-        "enrolled": 245,
-        "rate": 19.6,
-        "one_in": 5,
-        "too_few": false,
-        "too_few_to_compare": false,
         "id": "foster_care",
-        "group": "In Foster Care",
         "label": "Children in foster care",
-        "words": "children in foster care",
-        "per_100": 20,
-        "times_average": 9.1,
-        "small": true
+        "status": "ok",
+        "enrolled": 245,
+        "sent_home": 48,
+        "per_100": 19.6,
+        "times_average": 8.9
       },
       {
-        "sent_home": 149,
-        "enrolled": 2154,
-        "rate": 6.9,
-        "one_in": 14,
-        "too_few": false,
-        "too_few_to_compare": false,
         "id": "homeless",
-        "group": "Homeless/McKinney-Vento",
         "label": "Homeless students",
-        "words": "homeless students",
-        "per_100": 7,
-        "times_average": 3.2,
-        "small": false
+        "status": "ok",
+        "enrolled": 2154,
+        "sent_home": 149,
+        "per_100": 6.9,
+        "times_average": 3.1
       },
       {
-        "sent_home": 975,
-        "enrolled": 14782,
-        "rate": 6.6,
-        "one_in": 15,
-        "too_few": false,
-        "too_few_to_compare": false,
-        "id": "black",
-        "group": "Black",
-        "label": "Black students",
-        "words": "Black students",
-        "per_100": 7,
-        "times_average": 3.1,
-        "small": false
-      },
-      {
-        "sent_home": 1032,
-        "enrolled": 23569,
-        "rate": 4.4,
-        "one_in": 23,
-        "too_few": false,
-        "too_few_to_compare": false,
         "id": "disabilities",
-        "group": "Students with Disabilities",
         "label": "Students with disabilities",
-        "words": "students with disabilities",
-        "per_100": 4,
-        "times_average": 2.0,
-        "small": false
+        "status": "ok",
+        "enrolled": 23569,
+        "sent_home": 1032,
+        "per_100": 4.4,
+        "times_average": 2.0
       },
       {
-        "sent_home": 2038,
-        "enrolled": 54607,
-        "rate": 3.7,
-        "one_in": 27,
-        "too_few": false,
-        "too_few_to_compare": false,
         "id": "low_income",
-        "group": "Economically Disadvantaged",
         "label": "Students from low-income families",
-        "words": "students from low-income families",
-        "per_100": 4,
-        "times_average": 1.7,
-        "small": false
+        "status": "ok",
+        "enrolled": 54607,
+        "sent_home": 2038,
+        "per_100": 3.7,
+        "times_average": 1.7
       }
     ],
     "by_id": {
+      "black": {
+        "id": "black",
+        "label": "Black students",
+        "status": "ok",
+        "enrolled": 14782,
+        "sent_home": 975,
+        "per_100": 6.6,
+        "times_average": 3.0
+      },
+      "hispanic": {
+        "id": "hispanic",
+        "label": "Hispanic students",
+        "status": "ok",
+        "enrolled": 53671,
+        "sent_home": 1335,
+        "per_100": 2.5,
+        "times_average": 1.1
+      },
+      "multiracial": {
+        "id": "multiracial",
+        "label": "Multiracial students",
+        "status": "ok",
+        "enrolled": 6054,
+        "sent_home": 88,
+        "per_100": 1.5,
+        "times_average": 0.7
+      },
+      "white": {
+        "id": "white",
+        "label": "White students",
+        "status": "ok",
+        "enrolled": 54334,
+        "sent_home": 532,
+        "per_100": 1,
+        "times_average": 0.5
+      },
+      "asian": {
+        "id": "asian",
+        "label": "Asian students",
+        "status": "ok",
+        "enrolled": 9312,
+        "sent_home": 53,
+        "per_100": 0.6,
+        "times_average": 0.3
+      },
       "foster_care": {
-        "sent_home": 48,
-        "enrolled": 245,
-        "rate": 19.6,
-        "one_in": 5,
-        "too_few": false,
-        "too_few_to_compare": false,
         "id": "foster_care",
-        "group": "In Foster Care",
         "label": "Children in foster care",
-        "words": "children in foster care",
-        "per_100": 20,
-        "times_average": 9.1,
-        "small": true
+        "status": "ok",
+        "enrolled": 245,
+        "sent_home": 48,
+        "per_100": 19.6,
+        "times_average": 8.9
       },
       "homeless": {
-        "sent_home": 149,
-        "enrolled": 2154,
-        "rate": 6.9,
-        "one_in": 14,
-        "too_few": false,
-        "too_few_to_compare": false,
         "id": "homeless",
-        "group": "Homeless/McKinney-Vento",
         "label": "Homeless students",
-        "words": "homeless students",
-        "per_100": 7,
-        "times_average": 3.2,
-        "small": false
-      },
-      "black": {
-        "sent_home": 975,
-        "enrolled": 14782,
-        "rate": 6.6,
-        "one_in": 15,
-        "too_few": false,
-        "too_few_to_compare": false,
-        "id": "black",
-        "group": "Black",
-        "label": "Black students",
-        "words": "Black students",
-        "per_100": 7,
-        "times_average": 3.1,
-        "small": false
+        "status": "ok",
+        "enrolled": 2154,
+        "sent_home": 149,
+        "per_100": 6.9,
+        "times_average": 3.1
       },
       "disabilities": {
-        "sent_home": 1032,
-        "enrolled": 23569,
-        "rate": 4.4,
-        "one_in": 23,
-        "too_few": false,
-        "too_few_to_compare": false,
         "id": "disabilities",
-        "group": "Students with Disabilities",
         "label": "Students with disabilities",
-        "words": "students with disabilities",
-        "per_100": 4,
-        "times_average": 2.0,
-        "small": false
+        "status": "ok",
+        "enrolled": 23569,
+        "sent_home": 1032,
+        "per_100": 4.4,
+        "times_average": 2.0
       },
       "low_income": {
-        "sent_home": 2038,
-        "enrolled": 54607,
-        "rate": 3.7,
-        "one_in": 27,
-        "too_few": false,
-        "too_few_to_compare": false,
         "id": "low_income",
-        "group": "Economically Disadvantaged",
         "label": "Students from low-income families",
-        "words": "students from low-income families",
-        "per_100": 4,
-        "times_average": 1.7,
-        "small": false
+        "status": "ok",
+        "enrolled": 54607,
+        "sent_home": 2038,
+        "per_100": 3.7,
+        "times_average": 1.7
       }
     },
-    "left_out": [],
-    "title": {
-      "names": "Children in foster care, homeless students and Black students",
-      "times": "3 to 9 times"
-    },
-    "figures_in_longest_row": 20,
-    "trend": {
-      "first_year": "2018-19",
-      "count_word": "five",
-      "same_top_groups": true
-    },
-    "source": "CUR-0012, Westchester County (out-of-school suspensions over October enrollment)"
-  },
-  "districts": {
-    "year": "2024-25",
-    "legend": {
-      "label": "Share of students sent home, 2024-25",
-      "steps": [
-        1,
-        2,
-        3,
-        5
-      ]
-    },
-    "county": {
-      "label": "Westchester average",
-      "sent_home": 2988,
-      "enrolled": 138515,
-      "rate": 2.2,
-      "one_in": 46
-    },
-    "places": {
-      "660101030000": {
-        "name": "KATONAH-LEWISBORO UFSD",
-        "label": "Katonah-Lewisboro",
-        "towns": "Town of Lewisboro; Town of Bedford; Town of Pound Ridge; Town of North Salem",
-        "municipalities": "Town of Lewisboro (outside villages) (66%); Town of Bedford (outside villages) (31%); Town of Pound Ridge (outside villages) (1%); Town of North Salem (outside villages) (1%)",
-        "enrolled": 2785,
-        "sent_home": 21,
-        "rate": 0.8,
-        "one_in": 133,
-        "too_few": false,
-        "in_school": 44,
-        "in_school_none_reported": false,
-        "days_sent_home": 89,
-        "days_per_100": 3.2
-      },
-      "660102060000": {
-        "name": "BEDFORD CSD",
-        "label": "Bedford",
-        "towns": "Town of Bedford; Town of Mount Kisco; Town of Pound Ridge; Town of New Castle; Town of North Castle",
-        "municipalities": "Town of Bedford (outside villages) (42%); Town/Village of Mount Kisco (36%); Town of Pound Ridge (outside villages) (16%); Town of New Castle (outside villages) (4%); Town of North Castle (outside villages) (1%)",
-        "enrolled": 3480,
-        "sent_home": 51,
-        "rate": 1.5,
-        "one_in": 68,
-        "too_few": false,
-        "in_school": 79,
-        "in_school_none_reported": false,
-        "days_sent_home": 274,
-        "days_per_100": 7.9
-      },
-      "660202030000": {
-        "name": "CROTON-HARMON UFSD",
-        "label": "Croton-Harmon",
-        "towns": "Town of Cortlandt; Town of Yorktown",
-        "municipalities": "Village of Croton-on-Hudson (82%); Town of Cortlandt (outside villages) (17%); Town of Yorktown (outside villages) (1%)",
-        "enrolled": 1553,
-        "sent_home": 3,
-        "rate": 0.2,
-        "one_in": 518,
-        "too_few": false,
-        "in_school": 13,
-        "in_school_none_reported": false,
-        "days_sent_home": 4,
-        "days_per_100": 0.3
-      },
-      "660203060000": {
-        "name": "HENDRICK HUDSON CSD",
-        "label": "Hendrick Hudson",
-        "towns": "Town of Cortlandt",
-        "municipalities": "Town of Cortlandt (outside villages) (80%); Village of Buchanan (16%); Village of Croton-on-Hudson (4%)",
-        "enrolled": 2145,
-        "sent_home": 47,
-        "rate": 2.2,
-        "one_in": 46,
-        "too_few": false,
-        "in_school": 61,
-        "in_school_none_reported": false,
-        "days_sent_home": 258,
-        "days_per_100": 12.0
-      },
-      "660301030000": {
-        "name": "EASTCHESTER UFSD",
-        "label": "Eastchester",
-        "towns": "Town of Eastchester",
-        "municipalities": "Town of Eastchester (outside villages) (87%); Village of Tuckahoe (13%)",
-        "enrolled": 2920,
-        "sent_home": 38,
-        "rate": 1.3,
-        "one_in": 77,
-        "too_few": false,
-        "in_school": 67,
-        "in_school_none_reported": false,
-        "days_sent_home": 186,
-        "days_per_100": 6.4
-      },
-      "660302030000": {
-        "name": "TUCKAHOE UFSD",
-        "label": "Tuckahoe",
-        "towns": "Town of Eastchester",
-        "municipalities": "Village of Tuckahoe (51%); Town of Eastchester (outside villages) (49%)",
-        "enrolled": 1043,
-        "sent_home": 15,
-        "rate": 1.4,
-        "one_in": 70,
-        "too_few": false,
-        "in_school": 22,
-        "in_school_none_reported": false,
-        "days_sent_home": 58,
-        "days_per_100": 5.6
-      },
-      "660303030000": {
-        "name": "BRONXVILLE UFSD",
-        "label": "Bronxville",
-        "towns": "Town of Eastchester",
-        "municipalities": "Village of Bronxville (100%)",
-        "enrolled": 1570,
-        "sent_home": 17,
-        "rate": 1.1,
-        "one_in": 92,
-        "too_few": false,
-        "in_school": 2,
-        "in_school_none_reported": false,
-        "days_sent_home": 69,
-        "days_per_100": 4.4
-      },
-      "660401030000": {
-        "name": "UFSD-TARRYTOWNS",
-        "label": "Tarrytowns",
-        "towns": "Town of Mount Pleasant; Town of Greenburgh",
-        "municipalities": "Village of Sleepy Hollow (55%); Village of Tarrytown (40%); Town of Greenburgh (outside villages) (4%); Town of Mount Pleasant (outside villages) (1%)",
-        "enrolled": 2624,
-        "sent_home": 55,
-        "rate": 2.1,
-        "one_in": 48,
-        "too_few": false,
-        "in_school": 51,
-        "in_school_none_reported": false,
-        "days_sent_home": 171,
-        "days_per_100": 6.5
-      },
-      "660402020000": {
-        "name": "IRVINGTON UFSD",
-        "label": "Irvington",
-        "towns": "Town of Greenburgh",
-        "municipalities": "Village of Irvington (65%); Village of Tarrytown (24%); Town of Greenburgh (outside villages) (11%)",
-        "enrolled": 1698,
-        "sent_home": 10,
-        "rate": 0.6,
-        "one_in": 170,
-        "too_few": false,
-        "in_school": 8,
-        "in_school_none_reported": false,
-        "days_sent_home": 75,
-        "days_per_100": 4.4
-      },
-      "660403030000": {
-        "name": "DOBBS FERRY UFSD",
-        "label": "Dobbs Ferry",
-        "towns": "Town of Greenburgh",
-        "municipalities": "Village of Dobbs Ferry (97%); Village of Irvington (3%)",
-        "enrolled": 1480,
-        "sent_home": 15,
-        "rate": 1,
-        "one_in": 99,
-        "too_few": false,
-        "in_school": 19,
-        "in_school_none_reported": false,
-        "days_sent_home": 44,
-        "days_per_100": 3.0
-      },
-      "660404030000": {
-        "name": "HASTINGS-ON-HUDSON UFSD",
-        "label": "Hastings-on-Hudson",
-        "towns": "Town of Greenburgh",
-        "municipalities": "Village of Hastings-on-Hudson (94%); Town of Greenburgh (outside villages) (6%)",
-        "enrolled": 1593,
-        "sent_home": 5,
-        "rate": 0.3,
-        "one_in": 319,
-        "too_few": false,
-        "in_school": 13,
-        "in_school_none_reported": false,
-        "days_sent_home": 40,
-        "days_per_100": 2.5
-      },
-      "660405030000": {
-        "name": "ARDSLEY UFSD",
-        "label": "Ardsley",
-        "towns": "Town of Greenburgh",
-        "municipalities": "Village of Ardsley (45%); Town of Greenburgh (outside villages) (39%); Village of Dobbs Ferry (16%)",
-        "enrolled": 2317,
-        "sent_home": 30,
-        "rate": 1.3,
-        "one_in": 77,
-        "too_few": false,
-        "in_school": 16,
-        "in_school_none_reported": false,
-        "days_sent_home": 119,
-        "days_per_100": 5.1
-      },
-      "660406030000": {
-        "name": "EDGEMONT UFSD",
-        "label": "Edgemont",
-        "towns": "Town of Greenburgh",
-        "municipalities": "Town of Greenburgh (outside villages) (100%)",
-        "enrolled": 1827,
-        "sent_home": 31,
-        "rate": 1.7,
-        "one_in": 59,
-        "too_few": false,
-        "in_school": 6,
-        "in_school_none_reported": false,
-        "days_sent_home": 125,
-        "days_per_100": 6.8
-      },
-      "660407060000": {
-        "name": "GREENBURGH CSD",
-        "label": "Greenburgh",
-        "towns": "Town of Greenburgh",
-        "municipalities": "Town of Greenburgh (outside villages) (97%); Village of Elmsford (3%)",
-        "enrolled": 1558,
-        "sent_home": 33,
-        "rate": 2.1,
-        "one_in": 47,
-        "too_few": false,
-        "in_school": 46,
-        "in_school_none_reported": false,
-        "days_sent_home": 144,
-        "days_per_100": 9.2
-      },
-      "660409020000": {
-        "name": "ELMSFORD UFSD",
-        "label": "Elmsford",
-        "towns": "Town of Greenburgh",
-        "municipalities": "Village of Elmsford (50%); Town of Greenburgh (outside villages) (49%); Village of Irvington (<1%)",
-        "enrolled": 999,
-        "sent_home": 47,
-        "rate": 4.7,
-        "one_in": 21,
-        "too_few": false,
-        "in_school": 70,
-        "in_school_none_reported": false,
-        "days_sent_home": 220,
-        "days_per_100": 22.0
-      },
-      "660501060000": {
-        "name": "HARRISON CSD",
-        "label": "Harrison",
-        "towns": "Town of Harrison",
-        "municipalities": "Town/Village of Harrison (100%)",
-        "enrolled": 3788,
-        "sent_home": 45,
-        "rate": 1.2,
-        "one_in": 84,
-        "too_few": false,
-        "in_school": 64,
-        "in_school_none_reported": false,
-        "days_sent_home": 335,
-        "days_per_100": 8.8
-      },
-      "660701030000": {
-        "name": "MAMARONECK UFSD",
-        "label": "Mamaroneck",
-        "towns": "Town of Mamaroneck",
-        "municipalities": "Town of Mamaroneck (outside villages) (40%); Village of Mamaroneck (35%); Village of Larchmont (25%)",
-        "enrolled": 5517,
-        "sent_home": 34,
-        "rate": 0.6,
-        "one_in": 162,
-        "too_few": false,
-        "in_school": 98,
-        "in_school_none_reported": false,
-        "days_sent_home": 240,
-        "days_per_100": 4.4
-      },
-      "660801060000": {
-        "name": "MT PLEASANT CSD",
-        "label": "Mount Pleasant",
-        "towns": "Town of Mount Pleasant",
-        "municipalities": "Town of Mount Pleasant (outside villages) (87%); Village of Pleasantville (13%)",
-        "enrolled": 1941,
-        "sent_home": 21,
-        "rate": 1.1,
-        "one_in": 92,
-        "too_few": false,
-        "in_school": 44,
-        "in_school_none_reported": false,
-        "days_sent_home": 103,
-        "days_per_100": 5.3
-      },
-      "660802040000": {
-        "name": "POCANTICO HILLS CSD",
-        "label": "Pocantico Hills",
-        "towns": "Town of Mount Pleasant; Town of Greenburgh",
-        "municipalities": "Town of Greenburgh (outside villages) (50%); Town of Mount Pleasant (outside villages) (38%); Village of Sleepy Hollow (13%)",
-        "enrolled": 322,
-        "sent_home": 1,
-        "rate": 0.3,
-        "one_in": 322,
-        "too_few": false,
-        "in_school": 13,
-        "in_school_none_reported": false,
-        "days_sent_home": 10,
-        "days_per_100": 3.1
-      },
-      "660805030000": {
-        "name": "VALHALLA UFSD",
-        "label": "Valhalla",
-        "towns": "Town of Mount Pleasant; Town of Greenburgh; Town of North Castle",
-        "municipalities": "Town of Mount Pleasant (outside villages) (42%); Town of Greenburgh (outside villages) (34%); Town of North Castle (outside villages) (24%)",
-        "enrolled": 1425,
-        "sent_home": 33,
-        "rate": 2.3,
-        "one_in": 43,
-        "too_few": false,
-        "in_school": 2,
-        "in_school_none_reported": false,
-        "days_sent_home": 95,
-        "days_per_100": 6.7
-      },
-      "660809030000": {
-        "name": "PLEASANTVILLE UFSD",
-        "label": "Pleasantville",
-        "towns": "Town of Mount Pleasant; Town of New Castle",
-        "municipalities": "Village of Pleasantville (70%); Town of Mount Pleasant (outside villages) (30%); Town of New Castle (outside villages) (<1%)",
-        "enrolled": 1566,
-        "sent_home": 11,
-        "rate": 0.7,
-        "one_in": 142,
-        "too_few": false,
-        "in_school": 11,
-        "in_school_none_reported": false,
-        "days_sent_home": 29,
-        "days_per_100": 1.9
-      },
-      "660900010000": {
-        "name": "MT VERNON SCHOOL DISTRICT",
-        "label": "Mount Vernon",
-        "towns": "City of Mount Vernon",
-        "municipalities": "City of Mount Vernon (100%)",
-        "enrolled": 6714,
-        "sent_home": 428,
-        "rate": 6.4,
-        "one_in": 16,
-        "too_few": false,
-        "in_school": 72,
-        "in_school_none_reported": false,
-        "days_sent_home": 4311,
-        "days_per_100": 64.2
-      },
-      "661004060000": {
-        "name": "CHAPPAQUA CSD",
-        "label": "Chappaqua",
-        "towns": "Town of New Castle; Town of Mount Pleasant",
-        "municipalities": "Town of New Castle (outside villages) (92%); Town of Mount Pleasant (outside villages) (8%)",
-        "enrolled": 3509,
-        "sent_home": 30,
-        "rate": 0.9,
-        "one_in": 117,
-        "too_few": false,
-        "in_school": 88,
-        "in_school_none_reported": false,
-        "days_sent_home": 117,
-        "days_per_100": 3.3
-      },
-      "661100010000": {
-        "name": "NEW ROCHELLE CITY SD",
-        "label": "New Rochelle",
-        "towns": "City of New Rochelle",
-        "municipalities": "City of New Rochelle (100%)",
-        "enrolled": 9848,
-        "sent_home": 247,
-        "rate": 2.5,
-        "one_in": 40,
-        "too_few": false,
-        "in_school": 133,
-        "in_school_none_reported": false,
-        "days_sent_home": 1689,
-        "days_per_100": 17.2
-      },
-      "661201060000": {
-        "name": "BYRAM HILLS CSD",
-        "label": "Byram Hills",
-        "towns": "Town of North Castle; Town of Mount Pleasant; Town of Bedford; Town of New Castle",
-        "municipalities": "Town of North Castle (outside villages) (81%); Town of Mount Pleasant (outside villages) (18%); Town of Bedford (outside villages) (0%); Town of New Castle (outside villages) (<1%); Village of Pleasantville (<1%)",
-        "enrolled": 2332,
-        "sent_home": 17,
-        "rate": 0.7,
-        "one_in": 137,
-        "too_few": false,
-        "in_school": 32,
-        "in_school_none_reported": false,
-        "days_sent_home": 48,
-        "days_per_100": 2.1
-      },
-      "661301040000": {
-        "name": "NORTH SALEM CSD",
-        "label": "North Salem",
-        "towns": "Town of North Salem; Town of Somers",
-        "municipalities": "Town of North Salem (outside villages) (66%); Town of Somers (outside villages) (11%); part of Putnam County (24%)",
-        "enrolled": 923,
-        "sent_home": 4,
-        "rate": 0.4,
-        "one_in": 231,
-        "too_few": false,
-        "in_school": 22,
-        "in_school_none_reported": false,
-        "days_sent_home": 15,
-        "days_per_100": 1.6
-      },
-      "661401030000": {
-        "name": "OSSINING UFSD",
-        "label": "Ossining",
-        "towns": "Town of Ossining; Town of New Castle; Town of Yorktown",
-        "municipalities": "Village of Ossining (79%); Town of Ossining (outside villages) (12%); Village of Briarcliff Manor (5%); Town of New Castle (outside villages) (4%); Town of Yorktown (outside villages) (1%)",
-        "enrolled": 4964,
-        "sent_home": 142,
-        "rate": 2.9,
-        "one_in": 35,
-        "too_few": false,
-        "in_school": 111,
-        "in_school_none_reported": false,
-        "days_sent_home": 1329,
-        "days_per_100": 26.8
-      },
-      "661402020000": {
-        "name": "BRIARCLIFF MANOR UFSD",
-        "label": "Briarcliff Manor",
-        "towns": "Town of Ossining; Town of Mount Pleasant",
-        "municipalities": "Village of Briarcliff Manor (67%); Town of Mount Pleasant (outside villages) (20%); Village of Briarcliff Manor (12%); Village of Pleasantville (1%)",
-        "enrolled": 1333,
-        "sent_home": 3,
-        "rate": 0.2,
-        "one_in": 444,
-        "too_few": false,
-        "in_school": 7,
-        "in_school_none_reported": false,
-        "days_sent_home": 10,
-        "days_per_100": 0.8
-      },
-      "661500010000": {
-        "name": "PEEKSKILL CITY SD",
-        "label": "Peekskill",
-        "towns": "City of Peekskill",
-        "municipalities": "City of Peekskill (100%)",
-        "enrolled": 3795,
-        "sent_home": 169,
-        "rate": 4.5,
-        "one_in": 22,
-        "too_few": false,
-        "in_school": 66,
-        "in_school_none_reported": false,
-        "days_sent_home": 1497,
-        "days_per_100": 39.4
-      },
-      "661601030000": {
-        "name": "PELHAM UFSD",
-        "label": "Pelham",
-        "towns": "Town of Pelham",
-        "municipalities": "Village of Pelham (54%); Village of Pelham Manor (46%)",
-        "enrolled": 2823,
-        "sent_home": 32,
-        "rate": 1.1,
-        "one_in": 88,
-        "too_few": false,
-        "in_school": 119,
-        "in_school_none_reported": false,
-        "days_sent_home": 282,
-        "days_per_100": 10.0
-      },
-      "661800010000": {
-        "name": "RYE CITY SD",
-        "label": "Rye City",
-        "towns": "City of Rye",
-        "municipalities": "City of Rye (100%)",
-        "enrolled": 2791,
-        "sent_home": 8,
-        "rate": 0.3,
-        "one_in": 349,
-        "too_few": false,
-        "in_school": 10,
-        "in_school_none_reported": false,
-        "days_sent_home": 22,
-        "days_per_100": 0.8
-      },
-      "661901030000": {
-        "name": "RYE NECK UFSD",
-        "label": "Rye Neck",
-        "towns": "Town of Rye; City of Rye",
-        "municipalities": "Village of Mamaroneck (84%); City of Rye (16%)",
-        "enrolled": 1424,
-        "sent_home": 14,
-        "rate": 1,
-        "one_in": 102,
-        "too_few": false,
-        "in_school": 14,
-        "in_school_none_reported": false,
-        "days_sent_home": 42,
-        "days_per_100": 2.9
-      },
-      "661904030000": {
-        "name": "PORT CHESTER-RYE UFSD",
-        "label": "Port Chester-Rye",
-        "towns": "Town of Rye",
-        "municipalities": "Village of Port Chester (93%); Village of Rye Brook (7%)",
-        "enrolled": 4377,
-        "sent_home": 139,
-        "rate": 3.2,
-        "one_in": 31,
-        "too_few": false,
-        "in_school": 81,
-        "in_school_none_reported": false,
-        "days_sent_home": 2425,
-        "days_per_100": 55.4
-      },
-      "661905020000": {
-        "name": "BLIND BROOK-RYE UFSD",
-        "label": "Blind Brook-Rye",
-        "towns": "Town of Rye",
-        "municipalities": "Village of Rye Brook (100%)",
-        "enrolled": 1288,
-        "sent_home": 6,
-        "rate": 0.5,
-        "one_in": 215,
-        "too_few": false,
-        "in_school": 12,
-        "in_school_none_reported": false,
-        "days_sent_home": 17,
-        "days_per_100": 1.3
-      },
-      "662001030000": {
-        "name": "SCARSDALE UFSD",
-        "label": "Scarsdale",
-        "towns": "Town of Scarsdale; Town of Mamaroneck",
-        "municipalities": "Town/Village of Scarsdale (96%); Town of Mamaroneck (outside villages) (4%)",
-        "enrolled": 4690,
-        "sent_home": 4,
-        "rate": 0.1,
-        "one_in": 1173,
-        "too_few": false,
-        "in_school": 33,
-        "in_school_none_reported": false,
-        "days_sent_home": 10,
-        "days_per_100": 0.2
-      },
-      "662101060000": {
-        "name": "SOMERS CSD",
-        "label": "Somers",
-        "towns": "Town of Somers",
-        "municipalities": "Town of Somers (outside villages) (100%)",
-        "enrolled": 2469,
-        "sent_home": 25,
-        "rate": 1,
-        "one_in": 99,
-        "too_few": false,
-        "in_school": 25,
-        "in_school_none_reported": false,
-        "days_sent_home": 80,
-        "days_per_100": 3.2
-      },
-      "662200010000": {
-        "name": "WHITE PLAINS CITY SD",
-        "label": "White Plains",
-        "towns": "City of White Plains",
-        "municipalities": "City of White Plains (100%)",
-        "enrolled": 6782,
-        "sent_home": 134,
-        "rate": 2,
-        "one_in": 51,
-        "too_few": false,
-        "in_school": 41,
-        "in_school_none_reported": false,
-        "days_sent_home": 1332,
-        "days_per_100": 19.6
-      },
-      "662300010000": {
-        "name": "YONKERS CITY SD",
-        "label": "Yonkers",
-        "towns": "City of Yonkers",
-        "municipalities": "City of Yonkers (100%)",
-        "enrolled": 23724,
-        "sent_home": 704,
-        "rate": 3,
-        "one_in": 34,
-        "too_few": false,
-        "in_school": 0,
-        "in_school_none_reported": true,
-        "days_sent_home": 2724,
-        "days_per_100": 11.5
-      },
-      "662401060000": {
-        "name": "LAKELAND CSD",
-        "label": "Lakeland",
-        "towns": "Town of Yorktown; Town of Cortlandt; Town of Somers",
-        "municipalities": "Town of Yorktown (outside villages) (45%); Town of Cortlandt (outside villages) (44%); Town of Somers (outside villages) (1%); part of Putnam County (11%)",
-        "enrolled": 5220,
-        "sent_home": 122,
-        "rate": 2.3,
-        "one_in": 43,
-        "too_few": false,
-        "in_school": 233,
-        "in_school_none_reported": false,
-        "days_sent_home": 954,
-        "days_per_100": 18.3
-      },
-      "662402060000": {
-        "name": "YORKTOWN CSD",
-        "label": "Yorktown",
-        "towns": "Town of Yorktown; Town of New Castle; Town of Cortlandt",
-        "municipalities": "Town of Yorktown (outside villages) (93%); Town of New Castle (outside villages) (5%); Town of Cortlandt (outside villages) (2%)",
-        "enrolled": 3454,
-        "sent_home": 73,
-        "rate": 2.1,
-        "one_in": 47,
-        "too_few": false,
-        "in_school": 59,
-        "in_school_none_reported": false,
-        "days_sent_home": 486,
-        "days_per_100": 14.1
-      }
-    },
-    "no_data": {
-      "480503040000": "Putnam Valley: almost all of this district is in Putnam County; the piece shown here has no Westchester data."
-    },
-    "count_public": 40,
-    "source": "CUR-0001 (students sent home) and CUR-0013 (days), public school districts; the average from CUR-0012"
+    "race_not_shown": [
+      "American Indian or Alaska Native students",
+      "Native Hawaiian or Pacific Islander students"
+    ],
+    "held_back": []
   },
   "lost": {
     "year": "2024-25",
-    "days": {
-      "sent_home": 20512,
-      "in_school": 3642,
-      "per_school_day": 114,
-      "per_student_sent_home": 6.9,
-      "school_days": 180
+    "unit": "days per 100 students",
+    "measure": "Days of out-of-school suspension for every 100 students enrolled in October",
+    "source": "CUR-0012, days_out_of_school_suspension with enrollment_beds_day; students_suspended_20plus_days",
+    "school_year_days": 180,
+    "total": {
+      "id": "all",
+      "label": "All students",
+      "days": 20512,
+      "enrolled": 138515,
+      "days_per_100": 14.8,
+      "pct_of_year": 8,
+      "students_sent_home": 2988,
+      "days_in_school": 3642
     },
-    "days_by_race": [
+    "race": [
       {
-        "group": "Black",
-        "label": "Black",
+        "id": "black",
+        "label": "Black students",
         "days": 7828,
         "enrolled": 14782,
-        "per_100": 53.0,
-        "too_few_to_compare": false
+        "days_per_100": 53.0,
+        "pct_of_year": 29,
+        "times_average": 3.6,
+        "share_of_days": 38,
+        "share_of_students": 11
       },
       {
-        "group": "Hispanic",
-        "label": "Hispanic",
+        "id": "hispanic",
+        "label": "Hispanic students",
         "days": 9172,
         "enrolled": 53671,
-        "per_100": 17.1,
-        "too_few_to_compare": false
+        "days_per_100": 17.1,
+        "pct_of_year": 9,
+        "times_average": 1.2,
+        "share_of_days": 45,
+        "share_of_students": 39
       },
       {
-        "group": "Multiracial",
-        "label": "Multiracial",
+        "id": "multiracial",
+        "label": "Multiracial students",
         "days": 622,
         "enrolled": 6054,
-        "per_100": 10.3,
-        "too_few_to_compare": false
+        "days_per_100": 10.3,
+        "pct_of_year": 6,
+        "times_average": 0.7,
+        "share_of_days": 3,
+        "share_of_students": 4
       },
       {
-        "group": "White",
-        "label": "White",
+        "id": "white",
+        "label": "White students",
         "days": 2672,
         "enrolled": 54334,
-        "per_100": 4.9,
-        "too_few_to_compare": false
+        "days_per_100": 4.9,
+        "pct_of_year": 3,
+        "times_average": 0.3,
+        "share_of_days": 13,
+        "share_of_students": 39
       },
       {
-        "group": "Asian",
-        "label": "Asian",
+        "id": "asian",
+        "label": "Asian students",
         "days": 206,
         "enrolled": 9312,
-        "per_100": 2.2,
-        "too_few_to_compare": false
-      },
-      {
-        "group": "American Indian/Alaska Native",
-        "label": "American Indian or Alaska Native",
-        "days": 8,
-        "enrolled": 236,
-        "per_100": 3.4,
-        "too_few_to_compare": true
-      },
-      {
-        "group": "Native Hawaiian/Other Pacific Islander",
-        "label": "Native Hawaiian or Pacific Islander",
-        "days": 4,
-        "enrolled": 126,
-        "per_100": 3.2,
-        "too_few_to_compare": true
+        "days_per_100": 2.2,
+        "pct_of_year": 1,
+        "times_average": 0.1,
+        "share_of_days": 1,
+        "share_of_students": 7
       }
     ],
-    "days_pair": {
-      "a": {
-        "group": "Black",
-        "label": "Black",
+    "by_id": {
+      "black": {
+        "id": "black",
+        "label": "Black students",
         "days": 7828,
         "enrolled": 14782,
-        "per_100": 53.0,
-        "too_few_to_compare": false
+        "days_per_100": 53.0,
+        "pct_of_year": 29,
+        "times_average": 3.6,
+        "share_of_days": 38,
+        "share_of_students": 11
       },
-      "b": {
-        "group": "White",
-        "label": "White",
+      "hispanic": {
+        "id": "hispanic",
+        "label": "Hispanic students",
+        "days": 9172,
+        "enrolled": 53671,
+        "days_per_100": 17.1,
+        "pct_of_year": 9,
+        "times_average": 1.2,
+        "share_of_days": 45,
+        "share_of_students": 39
+      },
+      "multiracial": {
+        "id": "multiracial",
+        "label": "Multiracial students",
+        "days": 622,
+        "enrolled": 6054,
+        "days_per_100": 10.3,
+        "pct_of_year": 6,
+        "times_average": 0.7,
+        "share_of_days": 3,
+        "share_of_students": 4
+      },
+      "white": {
+        "id": "white",
+        "label": "White students",
         "days": 2672,
         "enrolled": 54334,
-        "per_100": 4.9,
-        "too_few_to_compare": false
+        "days_per_100": 4.9,
+        "pct_of_year": 3,
+        "times_average": 0.3,
+        "share_of_days": 13,
+        "share_of_students": 39
+      },
+      "asian": {
+        "id": "asian",
+        "label": "Asian students",
+        "days": 206,
+        "enrolled": 9312,
+        "days_per_100": 2.2,
+        "pct_of_year": 1,
+        "times_average": 0.1,
+        "share_of_days": 1,
+        "share_of_students": 7
       }
     },
-    "days_times": 10.8,
-    "days_share": {
-      "days": 38.2,
-      "students": 10.7,
-      "group": "Black"
-    },
     "twenty_plus": {
-      "total": 183,
-      "by_race": [
-        {
-          "group": "Black",
-          "label": "Black",
-          "count": 70
-        },
-        {
-          "group": "Hispanic",
-          "label": "Hispanic",
-          "count": 82
-        },
-        {
-          "group": "Multiracial",
-          "label": "Multiracial",
-          "count": 8
-        },
-        {
-          "group": "White",
-          "label": "White",
-          "count": 22
-        },
-        {
-          "group": "Asian",
-          "label": "Asian",
-          "count": 1
-        },
-        {
-          "group": "American Indian/Alaska Native",
-          "label": "American Indian or Alaska Native",
-          "count": 0
-        },
-        {
-          "group": "Native Hawaiian/Other Pacific Islander",
-          "label": "Native Hawaiian or Pacific Islander",
-          "count": 0
-        }
-      ],
-      "share": 38.3,
-      "group": "Black"
+      "students": 183,
+      "group_label": "Black students",
+      "group_students": 70,
+      "group_pct": 38
     },
-    "young_children": {
-      "total": 206,
-      "sent_home": 173,
-      "days_sent_home": 861,
-      "grades": [
-        {
-          "label": "Pre-K",
-          "suspended": 8
-        },
-        {
-          "label": "Kindergarten",
-          "suspended": 44
-        },
-        {
-          "label": "Grades 1-3",
-          "suspended": 154
-        }
-      ],
-      "floor": false
+    "per_school_day": {
+      "students": 114,
+      "days": 20512,
+      "school_days": 180
     },
-    "source": "CUR-0012, Westchester County"
+    "top_grade": {
+      "grade": "Grade 09",
+      "words": "9th graders",
+      "days": 4824
+    }
   },
   "path": {
-    "groups": [
-      "Black",
-      "White"
-    ],
+    "school_year": "2024-25",
+    "arrest_period": "2023-2025",
+    "unit": "%",
+    "source": "CUR-0012 (enrollment_beds_day, students_suspended_any, students_suspended_out_of_school, students_suspended_20plus_days) and CUR-0011 (felony_arrests and the group's column)",
+    "group_label": "Black students",
+    "others_label": "All other students",
     "steps": [
       {
         "id": "enrolled",
-        "label": "Students enrolled",
-        "period": "2024-25",
+        "label": "Students",
         "total": 138515,
-        "counts": {
-          "Black": 14782,
-          "White": 54334
+        "group": {
+          "count": 14782,
+          "share": 10.7,
+          "share_whole": 11
         },
-        "shares": {
-          "Black": 10.7,
-          "White": 39.2
+        "others": {
+          "count": 123733,
+          "share": 89.3,
+          "share_whole": 89
         }
       },
       {
         "id": "suspended",
-        "label": "Suspended (in school or sent home)",
-        "period": "2024-25",
+        "label": "Suspended",
         "total": 4463,
-        "counts": {
-          "Black": 1205,
-          "White": 1065
+        "group": {
+          "count": 1205,
+          "share": 27.0,
+          "share_whole": 27
         },
-        "shares": {
-          "Black": 27.0,
-          "White": 23.9
+        "others": {
+          "count": 3258,
+          "share": 73.0,
+          "share_whole": 73
         }
       },
       {
         "id": "sent_home",
         "label": "Sent home",
-        "period": "2024-25",
         "total": 2988,
-        "counts": {
-          "Black": 975,
-          "White": 532
+        "group": {
+          "count": 975,
+          "share": 32.6,
+          "share_whole": 33
         },
-        "shares": {
-          "Black": 32.6,
-          "White": 17.8
+        "others": {
+          "count": 2013,
+          "share": 67.4,
+          "share_whole": 67
         }
       },
       {
         "id": "twenty_plus",
-        "label": "Suspended 20 days or more",
-        "period": "2024-25",
+        "label": "Suspended 20+ days",
         "total": 183,
-        "counts": {
-          "Black": 70,
-          "White": 22
+        "group": {
+          "count": 70,
+          "share": 38.3,
+          "share_whole": 38
         },
-        "shares": {
-          "Black": 38.3,
-          "White": 12.0
+        "others": {
+          "count": 113,
+          "share": 61.7,
+          "share_whole": 62
         }
       },
       {
         "id": "arrests",
-        "label": "Under-18 felony arrests",
-        "period": "2023-2025",
+        "label": "Felony arrests",
         "total": 475,
-        "counts": {
-          "Black": 248,
-          "White": 45
+        "group": {
+          "count": 248,
+          "share": 52.2,
+          "share_whole": 52
         },
-        "shares": {
-          "Black": 52.2,
-          "White": 9.5
+        "others": {
+          "count": 227,
+          "share": 47.8,
+          "share_whole": 48
         }
       }
     ],
-    "arrests": {
-      "period": "2023-2025",
-      "westchester": {
-        "felony_arrests": 475,
-        "count": 248,
-        "share": 52.2,
-        "too_few": false
+    "by_id": {
+      "enrolled": {
+        "id": "enrolled",
+        "label": "Students",
+        "total": 138515,
+        "group": {
+          "count": 14782,
+          "share": 10.7,
+          "share_whole": 11
+        },
+        "others": {
+          "count": 123733,
+          "share": 89.3,
+          "share_whole": 89
+        }
       },
-      "state": {
-        "felony_arrests": 17821,
-        "count": 10049,
-        "share": 56.4
+      "suspended": {
+        "id": "suspended",
+        "label": "Suspended",
+        "total": 4463,
+        "group": {
+          "count": 1205,
+          "share": 27.0,
+          "share_whole": 27
+        },
+        "others": {
+          "count": 3258,
+          "share": 73.0,
+          "share_whole": 73
+        }
+      },
+      "sent_home": {
+        "id": "sent_home",
+        "label": "Sent home",
+        "total": 2988,
+        "group": {
+          "count": 975,
+          "share": 32.6,
+          "share_whole": 33
+        },
+        "others": {
+          "count": 2013,
+          "share": 67.4,
+          "share_whole": 67
+        }
+      },
+      "twenty_plus": {
+        "id": "twenty_plus",
+        "label": "Suspended 20+ days",
+        "total": 183,
+        "group": {
+          "count": 70,
+          "share": 38.3,
+          "share_whole": 38
+        },
+        "others": {
+          "count": 113,
+          "share": 61.7,
+          "share_whole": 62
+        }
+      },
+      "arrests": {
+        "id": "arrests",
+        "label": "Felony arrests",
+        "total": 475,
+        "group": {
+          "count": 248,
+          "share": 52.2,
+          "share_whole": 52
+        },
+        "others": {
+          "count": 227,
+          "share": 47.8,
+          "share_whole": 48
+        }
       }
     },
-    "source": "CUR-0012 (school steps) and CUR-0011 (felony arrests, years added together)"
+    "out_of_ten": {
+      "enrolled": 1,
+      "suspended": 3,
+      "sent_home": 3,
+      "twenty_plus": 4,
+      "arrests": 5
+    },
+    "arrests_small_base": false
+  },
+  "change": {
+    "year": "2024-25",
+    "source": "CUR-0012 (students_suspended_20plus_days; grades pre-K to 3; days of suspension); CUR-0001 (district_type, for the number of charter schools)",
+    "twenty_plus": {
+      "students": 183,
+      "group_label": "Black students",
+      "group_students": 70,
+      "group_pct": 38
+    },
+    "young": {
+      "suspended": 206,
+      "sent_home": 173,
+      "days": 861,
+      "hidden_grades": [
+        "half-day pre-K"
+      ],
+      "note": ""
+    },
+    "days": {
+      "sent_home": 20512,
+      "in_school": 3642
+    },
+    "charter_schools": 3
+  },
+  "map": {
+    "year": "2024-25",
+    "years": [
+      "2018-19",
+      "2019-20",
+      "2020-21",
+      "2021-22",
+      "2022-23",
+      "2023-24",
+      "2024-25"
+    ],
+    "covid_years": [
+      "2019-20",
+      "2020-21"
+    ],
+    "unit": "per100",
+    "measure": "Students sent home (suspended out of school) at least once, out of every 100 enrolled in October",
+    "source": "CUR-0001 (all students and race), CUR-0013 (other groups, days), CUR-0003 (places served), CUR-0012 (county and state)",
+    "steps": [
+      1,
+      2,
+      3,
+      5
+    ],
+    "legend": [
+      "Under 1",
+      "1 to 1.9",
+      "2 to 2.9",
+      "3 to 4.9",
+      "5 or more"
+    ],
+    "county": {
+      "id": "county",
+      "label": "Westchester",
+      "status": "ok",
+      "enrolled": 138515,
+      "sent_home": 2988,
+      "per_100": 2.2,
+      "name": "Westchester County"
+    },
+    "state": {
+      "id": "state",
+      "label": "New York State",
+      "status": "ok",
+      "enrolled": 2433443,
+      "sent_home": 76286,
+      "per_100": 3.1,
+      "name": "New York State"
+    },
+    "lowest": {
+      "name": "Scarsdale UFSD",
+      "per_100": 0.1
+    },
+    "highest": {
+      "name": "Mount Vernon City SD",
+      "per_100": 6.4
+    },
+    "district_count": 40,
+    "left_out": {
+      "Special act district": 6,
+      "Charter school": 3
+    },
+    "districts": {
+      "660405030000": {
+        "name": "Ardsley UFSD",
+        "serves": [
+          "Village of Ardsley",
+          "Town of Greenburgh (outside villages)",
+          "Village of Dobbs Ferry"
+        ],
+        "search": [
+          "ardsley",
+          "greenburgh",
+          "dobbs ferry"
+        ],
+        "note": null,
+        "enrolled": 2317,
+        "sent_home": 30,
+        "per_100": 1.3,
+        "step": 1,
+        "twenty_plus": 1,
+        "days_per_100": 5.1,
+        "race": [
+          {
+            "id": "black",
+            "label": "Black students",
+            "status": "too_few",
+            "enrolled": 70,
+            "sent_home": null,
+            "per_100": null
+          },
+          {
+            "id": "hispanic",
+            "label": "Hispanic students",
+            "status": "ok",
+            "enrolled": 347,
+            "sent_home": 6,
+            "per_100": 1.7
+          },
+          {
+            "id": "white",
+            "label": "White students",
+            "status": "ok",
+            "enrolled": 1201,
+            "sent_home": 20,
+            "per_100": 1.7
+          }
+        ],
+        "groups": [
+          {
+            "id": "disabilities",
+            "label": "Students with disabilities",
+            "status": "ok",
+            "enrolled": 349,
+            "sent_home": 11,
+            "per_100": 3.2
+          },
+          {
+            "id": "low_income",
+            "label": "Students from low-income families",
+            "status": "ok",
+            "enrolled": 325,
+            "sent_home": 7,
+            "per_100": 2.2
+          },
+          {
+            "id": "homeless",
+            "label": "Homeless students",
+            "status": "too_few",
+            "enrolled": 11,
+            "sent_home": null,
+            "per_100": null
+          }
+        ],
+        "trend": [
+          2.1,
+          0.9,
+          0.4,
+          2.2,
+          1.9,
+          1.2,
+          1.3
+        ]
+      },
+      "660102060000": {
+        "name": "Bedford CSD",
+        "serves": [
+          "Town of Bedford (outside villages)",
+          "Town/Village of Mount Kisco",
+          "Town of Pound Ridge (outside villages)",
+          "Town of New Castle (outside villages)",
+          "Town of North Castle (outside villages)"
+        ],
+        "search": [
+          "bedford",
+          "mount kisco",
+          "pound ridge",
+          "new castle",
+          "north castle"
+        ],
+        "note": null,
+        "enrolled": 3480,
+        "sent_home": 51,
+        "per_100": 1.5,
+        "step": 1,
+        "twenty_plus": 3,
+        "days_per_100": 7.9,
+        "race": [
+          {
+            "id": "black",
+            "label": "Black students",
+            "status": "ok",
+            "enrolled": 101,
+            "sent_home": 8,
+            "per_100": 7.9
+          },
+          {
+            "id": "hispanic",
+            "label": "Hispanic students",
+            "status": "ok",
+            "enrolled": 1428,
+            "sent_home": 23,
+            "per_100": 1.6
+          },
+          {
+            "id": "white",
+            "label": "White students",
+            "status": "ok",
+            "enrolled": 1703,
+            "sent_home": 17,
+            "per_100": 1
+          }
+        ],
+        "groups": [
+          {
+            "id": "disabilities",
+            "label": "Students with disabilities",
+            "status": "ok",
+            "enrolled": 627,
+            "sent_home": 32,
+            "per_100": 5.1
+          },
+          {
+            "id": "low_income",
+            "label": "Students from low-income families",
+            "status": "ok",
+            "enrolled": 1140,
+            "sent_home": 29,
+            "per_100": 2.5
+          },
+          {
+            "id": "homeless",
+            "label": "Homeless students",
+            "status": "too_few",
+            "enrolled": 20,
+            "sent_home": null,
+            "per_100": null
+          }
+        ],
+        "trend": [
+          0.8,
+          1.5,
+          0.5,
+          2.3,
+          2.5,
+          2.1,
+          1.5
+        ]
+      },
+      "661905020000": {
+        "name": "Blind Brook-Rye UFSD",
+        "serves": [
+          "Village of Rye Brook"
+        ],
+        "search": [
+          "rye brook"
+        ],
+        "note": null,
+        "enrolled": 1288,
+        "sent_home": 6,
+        "per_100": 0.5,
+        "step": 0,
+        "twenty_plus": 0,
+        "days_per_100": 1.3,
+        "race": [
+          {
+            "id": "black",
+            "label": "Black students",
+            "status": "too_few",
+            "enrolled": 18,
+            "sent_home": null,
+            "per_100": null
+          },
+          {
+            "id": "hispanic",
+            "label": "Hispanic students",
+            "status": "ok",
+            "enrolled": 135,
+            "sent_home": 0,
+            "per_100": 0
+          },
+          {
+            "id": "white",
+            "label": "White students",
+            "status": "ok",
+            "enrolled": 943,
+            "sent_home": 5,
+            "per_100": 0.5
+          }
+        ],
+        "groups": [
+          {
+            "id": "disabilities",
+            "label": "Students with disabilities",
+            "status": "ok",
+            "enrolled": 181,
+            "sent_home": 3,
+            "per_100": 1.7
+          },
+          {
+            "id": "low_income",
+            "label": "Students from low-income families",
+            "status": "not_reported",
+            "enrolled": null,
+            "sent_home": null,
+            "per_100": null
+          },
+          {
+            "id": "homeless",
+            "label": "Homeless students",
+            "status": "not_reported",
+            "enrolled": null,
+            "sent_home": null,
+            "per_100": null
+          }
+        ],
+        "trend": [
+          0.4,
+          0.2,
+          0.2,
+          0.5,
+          0.6,
+          0.5,
+          0.5
+        ]
+      },
+      "661402020000": {
+        "name": "Briarcliff Manor UFSD",
+        "serves": [
+          "Village of Briarcliff Manor",
+          "Town of Mount Pleasant (outside villages)",
+          "Village of Pleasantville"
+        ],
+        "search": [
+          "briarcliff manor",
+          "mount pleasant",
+          "pleasantville"
+        ],
+        "note": null,
+        "enrolled": 1333,
+        "sent_home": 3,
+        "per_100": 0.2,
+        "step": 0,
+        "twenty_plus": 0,
+        "days_per_100": 0.8,
+        "race": [
+          {
+            "id": "black",
+            "label": "Black students",
+            "status": "ok",
+            "enrolled": 30,
+            "sent_home": 2,
+            "per_100": 6.7
+          },
+          {
+            "id": "hispanic",
+            "label": "Hispanic students",
+            "status": "ok",
+            "enrolled": 164,
+            "sent_home": 0,
+            "per_100": 0
+          },
+          {
+            "id": "white",
+            "label": "White students",
+            "status": "ok",
+            "enrolled": 827,
+            "sent_home": 1,
+            "per_100": 0.1
+          }
+        ],
+        "groups": [
+          {
+            "id": "disabilities",
+            "label": "Students with disabilities",
+            "status": "ok",
+            "enrolled": 108,
+            "sent_home": 2,
+            "per_100": 1.9
+          },
+          {
+            "id": "low_income",
+            "label": "Students from low-income families",
+            "status": "ok",
+            "enrolled": 53,
+            "sent_home": 2,
+            "per_100": 3.8
+          },
+          {
+            "id": "homeless",
+            "label": "Homeless students",
+            "status": "not_reported",
+            "enrolled": null,
+            "sent_home": null,
+            "per_100": null
+          }
+        ],
+        "trend": [
+          1,
+          0.7,
+          0.1,
+          0.1,
+          0.3,
+          0.4,
+          0.2
+        ]
+      },
+      "660303030000": {
+        "name": "Bronxville UFSD",
+        "serves": [
+          "Village of Bronxville"
+        ],
+        "search": [
+          "bronxville"
+        ],
+        "note": null,
+        "enrolled": 1570,
+        "sent_home": 17,
+        "per_100": 1.1,
+        "step": 1,
+        "twenty_plus": 0,
+        "days_per_100": 4.4,
+        "race": [
+          {
+            "id": "black",
+            "label": "Black students",
+            "status": "too_few",
+            "enrolled": 4,
+            "sent_home": null,
+            "per_100": null
+          },
+          {
+            "id": "hispanic",
+            "label": "Hispanic students",
+            "status": "ok",
+            "enrolled": 153,
+            "sent_home": 2,
+            "per_100": 1.3
+          },
+          {
+            "id": "white",
+            "label": "White students",
+            "status": "ok",
+            "enrolled": 1178,
+            "sent_home": 13,
+            "per_100": 1.1
+          }
+        ],
+        "groups": [
+          {
+            "id": "disabilities",
+            "label": "Students with disabilities",
+            "status": "ok",
+            "enrolled": 156,
+            "sent_home": 4,
+            "per_100": 2.6
+          },
+          {
+            "id": "low_income",
+            "label": "Students from low-income families",
+            "status": "ok",
+            "enrolled": 67,
+            "sent_home": 5,
+            "per_100": 7.5
+          },
+          {
+            "id": "homeless",
+            "label": "Homeless students",
+            "status": "not_reported",
+            "enrolled": null,
+            "sent_home": null,
+            "per_100": null
+          }
+        ],
+        "trend": [
+          0.1,
+          0.3,
+          0.6,
+          0.6,
+          0.8,
+          1.2,
+          1.1
+        ]
+      },
+      "661201060000": {
+        "name": "Byram Hills CSD",
+        "serves": [
+          "Town of North Castle (outside villages)",
+          "Town of Mount Pleasant (outside villages)",
+          "Town of New Castle (outside villages)",
+          "Village of Pleasantville"
+        ],
+        "search": [
+          "north castle",
+          "mount pleasant",
+          "new castle",
+          "pleasantville"
+        ],
+        "note": null,
+        "enrolled": 2332,
+        "sent_home": 17,
+        "per_100": 0.7,
+        "step": 0,
+        "twenty_plus": 0,
+        "days_per_100": 2.1,
+        "race": [
+          {
+            "id": "black",
+            "label": "Black students",
+            "status": "too_few",
+            "enrolled": 13,
+            "sent_home": null,
+            "per_100": null
+          },
+          {
+            "id": "hispanic",
+            "label": "Hispanic students",
+            "status": "ok",
+            "enrolled": 164,
+            "sent_home": 1,
+            "per_100": 0.6
+          },
+          {
+            "id": "white",
+            "label": "White students",
+            "status": "ok",
+            "enrolled": 1861,
+            "sent_home": 14,
+            "per_100": 0.8
+          }
+        ],
+        "groups": [
+          {
+            "id": "disabilities",
+            "label": "Students with disabilities",
+            "status": "ok",
+            "enrolled": 310,
+            "sent_home": 7,
+            "per_100": 2.3
+          },
+          {
+            "id": "low_income",
+            "label": "Students from low-income families",
+            "status": "ok",
+            "enrolled": 112,
+            "sent_home": 1,
+            "per_100": 0.9
+          },
+          {
+            "id": "homeless",
+            "label": "Homeless students",
+            "status": "too_few",
+            "enrolled": 3,
+            "sent_home": null,
+            "per_100": null
+          }
+        ],
+        "trend": [
+          0.6,
+          0.2,
+          0.3,
+          0.9,
+          0.5,
+          0.9,
+          0.7
+        ]
+      },
+      "661004060000": {
+        "name": "Chappaqua CSD",
+        "serves": [
+          "Town of New Castle (outside villages)",
+          "Town of Mount Pleasant (outside villages)"
+        ],
+        "search": [
+          "new castle",
+          "mount pleasant"
+        ],
+        "note": null,
+        "enrolled": 3509,
+        "sent_home": 30,
+        "per_100": 0.9,
+        "step": 0,
+        "twenty_plus": 2,
+        "days_per_100": 3.3,
+        "race": [
+          {
+            "id": "black",
+            "label": "Black students",
+            "status": "too_few",
+            "enrolled": 42,
+            "sent_home": null,
+            "per_100": null
+          },
+          {
+            "id": "hispanic",
+            "label": "Hispanic students",
+            "status": "ok",
+            "enrolled": 251,
+            "sent_home": 6,
+            "per_100": 2.4
+          },
+          {
+            "id": "white",
+            "label": "White students",
+            "status": "ok",
+            "enrolled": 2432,
+            "sent_home": 18,
+            "per_100": 0.7
+          }
+        ],
+        "groups": [
+          {
+            "id": "disabilities",
+            "label": "Students with disabilities",
+            "status": "ok",
+            "enrolled": 423,
+            "sent_home": 8,
+            "per_100": 1.9
+          },
+          {
+            "id": "low_income",
+            "label": "Students from low-income families",
+            "status": "ok",
+            "enrolled": 216,
+            "sent_home": 9,
+            "per_100": 4.2
+          },
+          {
+            "id": "homeless",
+            "label": "Homeless students",
+            "status": "too_few",
+            "enrolled": 7,
+            "sent_home": null,
+            "per_100": null
+          }
+        ],
+        "trend": [
+          0.6,
+          0.6,
+          0.2,
+          1,
+          1.9,
+          1.5,
+          0.9
+        ]
+      },
+      "660202030000": {
+        "name": "Croton-Harmon UFSD",
+        "serves": [
+          "Village of Croton-on-Hudson",
+          "Town of Cortlandt (outside villages)",
+          "Town of Yorktown (outside villages)"
+        ],
+        "search": [
+          "croton-on-hudson",
+          "cortlandt",
+          "yorktown"
+        ],
+        "note": null,
+        "enrolled": 1553,
+        "sent_home": 3,
+        "per_100": 0.2,
+        "step": 0,
+        "twenty_plus": 0,
+        "days_per_100": 0.3,
+        "race": [
+          {
+            "id": "black",
+            "label": "Black students",
+            "status": "too_few",
+            "enrolled": 22,
+            "sent_home": null,
+            "per_100": null
+          },
+          {
+            "id": "hispanic",
+            "label": "Hispanic students",
+            "status": "ok",
+            "enrolled": 284,
+            "sent_home": 1,
+            "per_100": 0.4
+          },
+          {
+            "id": "white",
+            "label": "White students",
+            "status": "ok",
+            "enrolled": 1073,
+            "sent_home": 2,
+            "per_100": 0.2
+          }
+        ],
+        "groups": [
+          {
+            "id": "disabilities",
+            "label": "Students with disabilities",
+            "status": "ok",
+            "enrolled": 237,
+            "sent_home": 1,
+            "per_100": 0.4
+          },
+          {
+            "id": "low_income",
+            "label": "Students from low-income families",
+            "status": "ok",
+            "enrolled": 253,
+            "sent_home": 0,
+            "per_100": 0
+          },
+          {
+            "id": "homeless",
+            "label": "Homeless students",
+            "status": "too_few",
+            "enrolled": 0,
+            "sent_home": null,
+            "per_100": null
+          }
+        ],
+        "trend": [
+          2,
+          1.2,
+          0.1,
+          0.7,
+          0.4,
+          0.3,
+          0.2
+        ]
+      },
+      "660403030000": {
+        "name": "Dobbs Ferry UFSD",
+        "serves": [
+          "Village of Dobbs Ferry",
+          "Village of Irvington"
+        ],
+        "search": [
+          "dobbs ferry",
+          "irvington"
+        ],
+        "note": null,
+        "enrolled": 1480,
+        "sent_home": 15,
+        "per_100": 1,
+        "step": 1,
+        "twenty_plus": 0,
+        "days_per_100": 3.0,
+        "race": [
+          {
+            "id": "black",
+            "label": "Black students",
+            "status": "too_few",
+            "enrolled": 40,
+            "sent_home": null,
+            "per_100": null
+          },
+          {
+            "id": "hispanic",
+            "label": "Hispanic students",
+            "status": "ok",
+            "enrolled": 294,
+            "sent_home": 3,
+            "per_100": 1
+          },
+          {
+            "id": "white",
+            "label": "White students",
+            "status": "ok",
+            "enrolled": 928,
+            "sent_home": 9,
+            "per_100": 1
+          }
+        ],
+        "groups": [
+          {
+            "id": "disabilities",
+            "label": "Students with disabilities",
+            "status": "ok",
+            "enrolled": 188,
+            "sent_home": 4,
+            "per_100": 2.1
+          },
+          {
+            "id": "low_income",
+            "label": "Students from low-income families",
+            "status": "ok",
+            "enrolled": 290,
+            "sent_home": 2,
+            "per_100": 0.7
+          },
+          {
+            "id": "homeless",
+            "label": "Homeless students",
+            "status": "too_few",
+            "enrolled": 1,
+            "sent_home": null,
+            "per_100": null
+          }
+        ],
+        "trend": [
+          1.2,
+          0.9,
+          0.2,
+          1,
+          2.1,
+          1.2,
+          1
+        ]
+      },
+      "660301030000": {
+        "name": "Eastchester UFSD",
+        "serves": [
+          "Town of Eastchester (outside villages)",
+          "Village of Tuckahoe"
+        ],
+        "search": [
+          "eastchester",
+          "tuckahoe"
+        ],
+        "note": null,
+        "enrolled": 2920,
+        "sent_home": 38,
+        "per_100": 1.3,
+        "step": 1,
+        "twenty_plus": 2,
+        "days_per_100": 6.4,
+        "race": [
+          {
+            "id": "black",
+            "label": "Black students",
+            "status": "ok",
+            "enrolled": 57,
+            "sent_home": 2,
+            "per_100": 3.5
+          },
+          {
+            "id": "hispanic",
+            "label": "Hispanic students",
+            "status": "ok",
+            "enrolled": 426,
+            "sent_home": 5,
+            "per_100": 1.2
+          },
+          {
+            "id": "white",
+            "label": "White students",
+            "status": "ok",
+            "enrolled": 1885,
+            "sent_home": 29,
+            "per_100": 1.5
+          }
+        ],
+        "groups": [
+          {
+            "id": "disabilities",
+            "label": "Students with disabilities",
+            "status": "ok",
+            "enrolled": 463,
+            "sent_home": 18,
+            "per_100": 3.9
+          },
+          {
+            "id": "low_income",
+            "label": "Students from low-income families",
+            "status": "ok",
+            "enrolled": 66,
+            "sent_home": 1,
+            "per_100": 1.5
+          },
+          {
+            "id": "homeless",
+            "label": "Homeless students",
+            "status": "too_few",
+            "enrolled": 3,
+            "sent_home": null,
+            "per_100": null
+          }
+        ],
+        "trend": [
+          1.8,
+          1.4,
+          0.5,
+          1.6,
+          1.5,
+          1.4,
+          1.3
+        ]
+      },
+      "660406030000": {
+        "name": "Edgemont UFSD",
+        "serves": [
+          "Town of Greenburgh (outside villages)"
+        ],
+        "search": [
+          "greenburgh"
+        ],
+        "note": null,
+        "enrolled": 1827,
+        "sent_home": 31,
+        "per_100": 1.7,
+        "step": 1,
+        "twenty_plus": 0,
+        "days_per_100": 6.8,
+        "race": [
+          {
+            "id": "black",
+            "label": "Black students",
+            "status": "too_few",
+            "enrolled": 35,
+            "sent_home": null,
+            "per_100": null
+          },
+          {
+            "id": "hispanic",
+            "label": "Hispanic students",
+            "status": "ok",
+            "enrolled": 193,
+            "sent_home": 7,
+            "per_100": 3.6
+          },
+          {
+            "id": "white",
+            "label": "White students",
+            "status": "ok",
+            "enrolled": 757,
+            "sent_home": 11,
+            "per_100": 1.5
+          }
+        ],
+        "groups": [
+          {
+            "id": "disabilities",
+            "label": "Students with disabilities",
+            "status": "ok",
+            "enrolled": 227,
+            "sent_home": 10,
+            "per_100": 4.4
+          },
+          {
+            "id": "low_income",
+            "label": "Students from low-income families",
+            "status": "too_few",
+            "enrolled": 7,
+            "sent_home": null,
+            "per_100": null
+          },
+          {
+            "id": "homeless",
+            "label": "Homeless students",
+            "status": "not_reported",
+            "enrolled": null,
+            "sent_home": null,
+            "per_100": null
+          }
+        ],
+        "trend": [
+          1.3,
+          0.5,
+          0,
+          0.6,
+          0.4,
+          1.8,
+          1.7
+        ]
+      },
+      "660409020000": {
+        "name": "Elmsford UFSD",
+        "serves": [
+          "Village of Elmsford",
+          "Town of Greenburgh (outside villages)",
+          "Village of Irvington"
+        ],
+        "search": [
+          "elmsford",
+          "greenburgh",
+          "irvington"
+        ],
+        "note": null,
+        "enrolled": 999,
+        "sent_home": 47,
+        "per_100": 4.7,
+        "step": 3,
+        "twenty_plus": 1,
+        "days_per_100": 22.0,
+        "race": [
+          {
+            "id": "black",
+            "label": "Black students",
+            "status": "ok",
+            "enrolled": 221,
+            "sent_home": 27,
+            "per_100": 12.2
+          },
+          {
+            "id": "hispanic",
+            "label": "Hispanic students",
+            "status": "ok",
+            "enrolled": 629,
+            "sent_home": 16,
+            "per_100": 2.5
+          },
+          {
+            "id": "white",
+            "label": "White students",
+            "status": "ok",
+            "enrolled": 59,
+            "sent_home": 1,
+            "per_100": 1.7
+          }
+        ],
+        "groups": [
+          {
+            "id": "disabilities",
+            "label": "Students with disabilities",
+            "status": "ok",
+            "enrolled": 128,
+            "sent_home": 9,
+            "per_100": 7
+          },
+          {
+            "id": "low_income",
+            "label": "Students from low-income families",
+            "status": "ok",
+            "enrolled": 501,
+            "sent_home": 26,
+            "per_100": 5.2
+          },
+          {
+            "id": "homeless",
+            "label": "Homeless students",
+            "status": "too_few",
+            "enrolled": 21,
+            "sent_home": null,
+            "per_100": null
+          }
+        ],
+        "trend": [
+          1,
+          0.8,
+          1,
+          2.5,
+          5,
+          4.5,
+          4.7
+        ]
+      },
+      "660407060000": {
+        "name": "Greenburgh CSD",
+        "serves": [
+          "Town of Greenburgh (outside villages)",
+          "Village of Elmsford"
+        ],
+        "search": [
+          "greenburgh",
+          "elmsford"
+        ],
+        "note": null,
+        "enrolled": 1558,
+        "sent_home": 33,
+        "per_100": 2.1,
+        "step": 2,
+        "twenty_plus": 0,
+        "days_per_100": 9.2,
+        "race": [
+          {
+            "id": "black",
+            "label": "Black students",
+            "status": "ok",
+            "enrolled": 432,
+            "sent_home": 16,
+            "per_100": 3.7
+          },
+          {
+            "id": "hispanic",
+            "label": "Hispanic students",
+            "status": "ok",
+            "enrolled": 777,
+            "sent_home": 16,
+            "per_100": 2.1
+          },
+          {
+            "id": "white",
+            "label": "White students",
+            "status": "ok",
+            "enrolled": 194,
+            "sent_home": 1,
+            "per_100": 0.5
+          }
+        ],
+        "groups": [
+          {
+            "id": "disabilities",
+            "label": "Students with disabilities",
+            "status": "ok",
+            "enrolled": 328,
+            "sent_home": 13,
+            "per_100": 4
+          },
+          {
+            "id": "low_income",
+            "label": "Students from low-income families",
+            "status": "ok",
+            "enrolled": 743,
+            "sent_home": 23,
+            "per_100": 3.1
+          },
+          {
+            "id": "homeless",
+            "label": "Homeless students",
+            "status": "too_few",
+            "enrolled": 18,
+            "sent_home": null,
+            "per_100": null
+          }
+        ],
+        "trend": [
+          2.5,
+          2.5,
+          0.4,
+          2.9,
+          4.8,
+          3.6,
+          2.1
+        ]
+      },
+      "660501060000": {
+        "name": "Harrison CSD",
+        "serves": [
+          "Town/Village of Harrison"
+        ],
+        "search": [
+          "harrison"
+        ],
+        "note": null,
+        "enrolled": 3788,
+        "sent_home": 45,
+        "per_100": 1.2,
+        "step": 1,
+        "twenty_plus": 5,
+        "days_per_100": 8.8,
+        "race": [
+          {
+            "id": "black",
+            "label": "Black students",
+            "status": "too_few",
+            "enrolled": 107,
+            "sent_home": null,
+            "per_100": null
+          },
+          {
+            "id": "hispanic",
+            "label": "Hispanic students",
+            "status": "ok",
+            "enrolled": 791,
+            "sent_home": 15,
+            "per_100": 1.9
+          },
+          {
+            "id": "white",
+            "label": "White students",
+            "status": "ok",
+            "enrolled": 2162,
+            "sent_home": 18,
+            "per_100": 0.8
+          }
+        ],
+        "groups": [
+          {
+            "id": "disabilities",
+            "label": "Students with disabilities",
+            "status": "ok",
+            "enrolled": 671,
+            "sent_home": 18,
+            "per_100": 2.7
+          },
+          {
+            "id": "low_income",
+            "label": "Students from low-income families",
+            "status": "ok",
+            "enrolled": 796,
+            "sent_home": 20,
+            "per_100": 2.5
+          },
+          {
+            "id": "homeless",
+            "label": "Homeless students",
+            "status": "too_few",
+            "enrolled": 15,
+            "sent_home": null,
+            "per_100": null
+          }
+        ],
+        "trend": [
+          0.9,
+          0.6,
+          0.6,
+          1.9,
+          1,
+          1,
+          1.2
+        ]
+      },
+      "660404030000": {
+        "name": "Hastings-on-Hudson UFSD",
+        "serves": [
+          "Village of Hastings-on-Hudson",
+          "Town of Greenburgh (outside villages)"
+        ],
+        "search": [
+          "hastings-on-hudson",
+          "greenburgh"
+        ],
+        "note": null,
+        "enrolled": 1593,
+        "sent_home": 5,
+        "per_100": 0.3,
+        "step": 0,
+        "twenty_plus": 1,
+        "days_per_100": 2.5,
+        "race": [
+          {
+            "id": "black",
+            "label": "Black students",
+            "status": "ok",
+            "enrolled": 33,
+            "sent_home": 0,
+            "per_100": 0
+          },
+          {
+            "id": "hispanic",
+            "label": "Hispanic students",
+            "status": "ok",
+            "enrolled": 236,
+            "sent_home": 2,
+            "per_100": 0.8
+          },
+          {
+            "id": "white",
+            "label": "White students",
+            "status": "ok",
+            "enrolled": 1095,
+            "sent_home": 3,
+            "per_100": 0.3
+          }
+        ],
+        "groups": [
+          {
+            "id": "disabilities",
+            "label": "Students with disabilities",
+            "status": "ok",
+            "enrolled": 221,
+            "sent_home": 2,
+            "per_100": 0.9
+          },
+          {
+            "id": "low_income",
+            "label": "Students from low-income families",
+            "status": "ok",
+            "enrolled": 74,
+            "sent_home": 1,
+            "per_100": 1.4
+          },
+          {
+            "id": "homeless",
+            "label": "Homeless students",
+            "status": "not_reported",
+            "enrolled": null,
+            "sent_home": null,
+            "per_100": null
+          }
+        ],
+        "trend": [
+          0.8,
+          0.3,
+          0.1,
+          0.8,
+          0.3,
+          0.2,
+          0.3
+        ]
+      },
+      "660203060000": {
+        "name": "Hendrick Hudson CSD",
+        "serves": [
+          "Town of Cortlandt (outside villages)",
+          "Village of Buchanan",
+          "Village of Croton-on-Hudson"
+        ],
+        "search": [
+          "cortlandt",
+          "buchanan",
+          "croton-on-hudson"
+        ],
+        "note": "Newer boundaries (NCES 2025, county GIS) add part of the City of Peekskill (about 1,100 residents, 273 children) to this district; not in the 2020 Census figures",
+        "enrolled": 2145,
+        "sent_home": 47,
+        "per_100": 2.2,
+        "step": 2,
+        "twenty_plus": 2,
+        "days_per_100": 12.0,
+        "race": [
+          {
+            "id": "black",
+            "label": "Black students",
+            "status": "ok",
+            "enrolled": 133,
+            "sent_home": 10,
+            "per_100": 7.5
+          },
+          {
+            "id": "hispanic",
+            "label": "Hispanic students",
+            "status": "ok",
+            "enrolled": 825,
+            "sent_home": 19,
+            "per_100": 2.3
+          },
+          {
+            "id": "white",
+            "label": "White students",
+            "status": "ok",
+            "enrolled": 994,
+            "sent_home": 16,
+            "per_100": 1.6
+          }
+        ],
+        "groups": [
+          {
+            "id": "disabilities",
+            "label": "Students with disabilities",
+            "status": "ok",
+            "enrolled": 385,
+            "sent_home": 20,
+            "per_100": 5.2
+          },
+          {
+            "id": "low_income",
+            "label": "Students from low-income families",
+            "status": "ok",
+            "enrolled": 789,
+            "sent_home": 24,
+            "per_100": 3
+          },
+          {
+            "id": "homeless",
+            "label": "Homeless students",
+            "status": "too_few",
+            "enrolled": 2,
+            "sent_home": null,
+            "per_100": null
+          }
+        ],
+        "trend": [
+          4.3,
+          2.4,
+          1,
+          3.2,
+          2.7,
+          3.2,
+          2.2
+        ]
+      },
+      "660402020000": {
+        "name": "Irvington UFSD",
+        "serves": [
+          "Village of Irvington",
+          "Village of Tarrytown",
+          "Town of Greenburgh (outside villages)"
+        ],
+        "search": [
+          "irvington",
+          "tarrytown",
+          "greenburgh"
+        ],
+        "note": null,
+        "enrolled": 1698,
+        "sent_home": 10,
+        "per_100": 0.6,
+        "step": 0,
+        "twenty_plus": 1,
+        "days_per_100": 4.4,
+        "race": [
+          {
+            "id": "black",
+            "label": "Black students",
+            "status": "too_few",
+            "enrolled": 55,
+            "sent_home": null,
+            "per_100": null
+          },
+          {
+            "id": "hispanic",
+            "label": "Hispanic students",
+            "status": "ok",
+            "enrolled": 209,
+            "sent_home": 1,
+            "per_100": 0.5
+          },
+          {
+            "id": "white",
+            "label": "White students",
+            "status": "ok",
+            "enrolled": 1143,
+            "sent_home": 9,
+            "per_100": 0.8
+          }
+        ],
+        "groups": [
+          {
+            "id": "disabilities",
+            "label": "Students with disabilities",
+            "status": "ok",
+            "enrolled": 217,
+            "sent_home": 5,
+            "per_100": 2.3
+          },
+          {
+            "id": "low_income",
+            "label": "Students from low-income families",
+            "status": "ok",
+            "enrolled": 173,
+            "sent_home": 2,
+            "per_100": 1.2
+          },
+          {
+            "id": "homeless",
+            "label": "Homeless students",
+            "status": "not_reported",
+            "enrolled": null,
+            "sent_home": null,
+            "per_100": null
+          }
+        ],
+        "trend": [
+          1.8,
+          0.7,
+          0.4,
+          1,
+          0.5,
+          0,
+          0.6
+        ]
+      },
+      "660101030000": {
+        "name": "Katonah-Lewisboro UFSD",
+        "serves": [
+          "Town of Lewisboro (outside villages)",
+          "Town of Bedford (outside villages)",
+          "Town of Pound Ridge (outside villages)",
+          "Town of North Salem (outside villages)"
+        ],
+        "search": [
+          "lewisboro",
+          "bedford",
+          "pound ridge",
+          "north salem"
+        ],
+        "note": null,
+        "enrolled": 2785,
+        "sent_home": 21,
+        "per_100": 0.8,
+        "step": 0,
+        "twenty_plus": 1,
+        "days_per_100": 3.2,
+        "race": [
+          {
+            "id": "black",
+            "label": "Black students",
+            "status": "too_few",
+            "enrolled": 39,
+            "sent_home": null,
+            "per_100": null
+          },
+          {
+            "id": "hispanic",
+            "label": "Hispanic students",
+            "status": "ok",
+            "enrolled": 368,
+            "sent_home": 5,
+            "per_100": 1.4
+          },
+          {
+            "id": "white",
+            "label": "White students",
+            "status": "ok",
+            "enrolled": 2077,
+            "sent_home": 15,
+            "per_100": 0.7
+          }
+        ],
+        "groups": [
+          {
+            "id": "disabilities",
+            "label": "Students with disabilities",
+            "status": "ok",
+            "enrolled": 452,
+            "sent_home": 7,
+            "per_100": 1.5
+          },
+          {
+            "id": "low_income",
+            "label": "Students from low-income families",
+            "status": "ok",
+            "enrolled": 291,
+            "sent_home": 4,
+            "per_100": 1.4
+          },
+          {
+            "id": "homeless",
+            "label": "Homeless students",
+            "status": "not_reported",
+            "enrolled": null,
+            "sent_home": null,
+            "per_100": null
+          }
+        ],
+        "trend": [
+          1,
+          0.5,
+          0.2,
+          0.7,
+          0.7,
+          0.8,
+          0.8
+        ]
+      },
+      "662401060000": {
+        "name": "Lakeland CSD",
+        "serves": [
+          "Town of Yorktown (outside villages)",
+          "Town of Cortlandt (outside villages)",
+          "Town of Somers (outside villages)",
+          "part of Putnam County"
+        ],
+        "search": [
+          "yorktown",
+          "cortlandt",
+          "somers",
+          "part of putnam county"
+        ],
+        "note": null,
+        "enrolled": 5220,
+        "sent_home": 122,
+        "per_100": 2.3,
+        "step": 2,
+        "twenty_plus": 12,
+        "days_per_100": 18.3,
+        "race": [
+          {
+            "id": "black",
+            "label": "Black students",
+            "status": "ok",
+            "enrolled": 359,
+            "sent_home": 19,
+            "per_100": 5.3
+          },
+          {
+            "id": "hispanic",
+            "label": "Hispanic students",
+            "status": "ok",
+            "enrolled": 1730,
+            "sent_home": 47,
+            "per_100": 2.7
+          },
+          {
+            "id": "white",
+            "label": "White students",
+            "status": "ok",
+            "enrolled": 2691,
+            "sent_home": 51,
+            "per_100": 1.9
+          }
+        ],
+        "groups": [
+          {
+            "id": "disabilities",
+            "label": "Students with disabilities",
+            "status": "ok",
+            "enrolled": 918,
+            "sent_home": 54,
+            "per_100": 5.9
+          },
+          {
+            "id": "low_income",
+            "label": "Students from low-income families",
+            "status": "ok",
+            "enrolled": 1651,
+            "sent_home": 60,
+            "per_100": 3.6
+          },
+          {
+            "id": "homeless",
+            "label": "Homeless students",
+            "status": "too_few",
+            "enrolled": 19,
+            "sent_home": null,
+            "per_100": null
+          }
+        ],
+        "trend": [
+          2.1,
+          1.2,
+          0.3,
+          1.9,
+          2.1,
+          1.9,
+          2.3
+        ]
+      },
+      "660701030000": {
+        "name": "Mamaroneck UFSD",
+        "serves": [
+          "Town of Mamaroneck (outside villages)",
+          "Village of Mamaroneck",
+          "Village of Larchmont"
+        ],
+        "search": [
+          "mamaroneck",
+          "mamaroneck",
+          "larchmont"
+        ],
+        "note": null,
+        "enrolled": 5517,
+        "sent_home": 34,
+        "per_100": 0.6,
+        "step": 0,
+        "twenty_plus": 3,
+        "days_per_100": 4.4,
+        "race": [
+          {
+            "id": "black",
+            "label": "Black students",
+            "status": "ok",
+            "enrolled": 127,
+            "sent_home": 7,
+            "per_100": 5.5
+          },
+          {
+            "id": "hispanic",
+            "label": "Hispanic students",
+            "status": "ok",
+            "enrolled": 1311,
+            "sent_home": 6,
+            "per_100": 0.5
+          },
+          {
+            "id": "white",
+            "label": "White students",
+            "status": "ok",
+            "enrolled": 3543,
+            "sent_home": 20,
+            "per_100": 0.6
+          }
+        ],
+        "groups": [
+          {
+            "id": "disabilities",
+            "label": "Students with disabilities",
+            "status": "ok",
+            "enrolled": 806,
+            "sent_home": 11,
+            "per_100": 1.4
+          },
+          {
+            "id": "low_income",
+            "label": "Students from low-income families",
+            "status": "ok",
+            "enrolled": 1157,
+            "sent_home": 10,
+            "per_100": 0.9
+          },
+          {
+            "id": "homeless",
+            "label": "Homeless students",
+            "status": "too_few",
+            "enrolled": 21,
+            "sent_home": null,
+            "per_100": null
+          }
+        ],
+        "trend": [
+          0.5,
+          0.8,
+          0.1,
+          0.8,
+          0.8,
+          0.4,
+          0.6
+        ]
+      },
+      "660801060000": {
+        "name": "Mount Pleasant CSD",
+        "serves": [
+          "Town of Mount Pleasant (outside villages)",
+          "Village of Pleasantville"
+        ],
+        "search": [
+          "mount pleasant",
+          "pleasantville"
+        ],
+        "note": null,
+        "enrolled": 1941,
+        "sent_home": 21,
+        "per_100": 1.1,
+        "step": 1,
+        "twenty_plus": 1,
+        "days_per_100": 5.3,
+        "race": [
+          {
+            "id": "black",
+            "label": "Black students",
+            "status": "too_few",
+            "enrolled": 22,
+            "sent_home": null,
+            "per_100": null
+          },
+          {
+            "id": "hispanic",
+            "label": "Hispanic students",
+            "status": "ok",
+            "enrolled": 292,
+            "sent_home": 1,
+            "per_100": 0.3
+          },
+          {
+            "id": "white",
+            "label": "White students",
+            "status": "ok",
+            "enrolled": 1465,
+            "sent_home": 18,
+            "per_100": 1.2
+          }
+        ],
+        "groups": [
+          {
+            "id": "disabilities",
+            "label": "Students with disabilities",
+            "status": "ok",
+            "enrolled": 380,
+            "sent_home": 11,
+            "per_100": 2.9
+          },
+          {
+            "id": "low_income",
+            "label": "Students from low-income families",
+            "status": "ok",
+            "enrolled": 268,
+            "sent_home": 5,
+            "per_100": 1.9
+          },
+          {
+            "id": "homeless",
+            "label": "Homeless students",
+            "status": "not_reported",
+            "enrolled": null,
+            "sent_home": null,
+            "per_100": null
+          }
+        ],
+        "trend": [
+          0,
+          0.6,
+          0.6,
+          2.2,
+          1.6,
+          2,
+          1.1
+        ]
+      },
+      "660900010000": {
+        "name": "Mount Vernon City SD",
+        "serves": [
+          "City of Mount Vernon"
+        ],
+        "search": [
+          "mount vernon"
+        ],
+        "note": null,
+        "enrolled": 6714,
+        "sent_home": 428,
+        "per_100": 6.4,
+        "step": 4,
+        "twenty_plus": 42,
+        "days_per_100": 64.2,
+        "race": [
+          {
+            "id": "black",
+            "label": "Black students",
+            "status": "ok",
+            "enrolled": 4003,
+            "sent_home": 319,
+            "per_100": 8
+          },
+          {
+            "id": "hispanic",
+            "label": "Hispanic students",
+            "status": "ok",
+            "enrolled": 2148,
+            "sent_home": 96,
+            "per_100": 4.5
+          },
+          {
+            "id": "white",
+            "label": "White students",
+            "status": "ok",
+            "enrolled": 325,
+            "sent_home": 8,
+            "per_100": 2.5
+          }
+        ],
+        "groups": [
+          {
+            "id": "disabilities",
+            "label": "Students with disabilities",
+            "status": "ok",
+            "enrolled": 1389,
+            "sent_home": 116,
+            "per_100": 8.4
+          },
+          {
+            "id": "low_income",
+            "label": "Students from low-income families",
+            "status": "ok",
+            "enrolled": 5074,
+            "sent_home": 358,
+            "per_100": 7.1
+          },
+          {
+            "id": "homeless",
+            "label": "Homeless students",
+            "status": "ok",
+            "enrolled": 862,
+            "sent_home": 82,
+            "per_100": 9.5
+          }
+        ],
+        "trend": [
+          6.8,
+          4.7,
+          0.2,
+          0,
+          6,
+          7.7,
+          6.4
+        ]
+      },
+      "661100010000": {
+        "name": "New Rochelle City SD",
+        "serves": [
+          "City of New Rochelle"
+        ],
+        "search": [
+          "new rochelle"
+        ],
+        "note": null,
+        "enrolled": 9848,
+        "sent_home": 247,
+        "per_100": 2.5,
+        "step": 2,
+        "twenty_plus": 14,
+        "days_per_100": 17.2,
+        "race": [
+          {
+            "id": "black",
+            "label": "Black students",
+            "status": "ok",
+            "enrolled": 1807,
+            "sent_home": 94,
+            "per_100": 5.2
+          },
+          {
+            "id": "hispanic",
+            "label": "Hispanic students",
+            "status": "ok",
+            "enrolled": 5373,
+            "sent_home": 120,
+            "per_100": 2.2
+          },
+          {
+            "id": "white",
+            "label": "White students",
+            "status": "ok",
+            "enrolled": 2006,
+            "sent_home": 24,
+            "per_100": 1.2
+          }
+        ],
+        "groups": [
+          {
+            "id": "disabilities",
+            "label": "Students with disabilities",
+            "status": "ok",
+            "enrolled": 1900,
+            "sent_home": 94,
+            "per_100": 4.9
+          },
+          {
+            "id": "low_income",
+            "label": "Students from low-income families",
+            "status": "ok",
+            "enrolled": 6007,
+            "sent_home": 192,
+            "per_100": 3.2
+          },
+          {
+            "id": "homeless",
+            "label": "Homeless students",
+            "status": "ok",
+            "enrolled": 115,
+            "sent_home": 10,
+            "per_100": 8.7
+          }
+        ],
+        "trend": [
+          3.9,
+          2.1,
+          0.1,
+          2.6,
+          2.9,
+          2.6,
+          2.5
+        ]
+      },
+      "661301040000": {
+        "name": "North Salem CSD",
+        "serves": [
+          "Town of North Salem (outside villages)",
+          "Town of Somers (outside villages)",
+          "part of Putnam County"
+        ],
+        "search": [
+          "north salem",
+          "somers",
+          "part of putnam county"
+        ],
+        "note": null,
+        "enrolled": 923,
+        "sent_home": 4,
+        "per_100": 0.4,
+        "step": 0,
+        "twenty_plus": 0,
+        "days_per_100": 1.6,
+        "race": [
+          {
+            "id": "black",
+            "label": "Black students",
+            "status": "too_few",
+            "enrolled": 22,
+            "sent_home": null,
+            "per_100": null
+          },
+          {
+            "id": "hispanic",
+            "label": "Hispanic students",
+            "status": "ok",
+            "enrolled": 195,
+            "sent_home": 2,
+            "per_100": 1
+          },
+          {
+            "id": "white",
+            "label": "White students",
+            "status": "ok",
+            "enrolled": 653,
+            "sent_home": 2,
+            "per_100": 0.3
+          }
+        ],
+        "groups": [
+          {
+            "id": "disabilities",
+            "label": "Students with disabilities",
+            "status": "ok",
+            "enrolled": 169,
+            "sent_home": 3,
+            "per_100": 1.8
+          },
+          {
+            "id": "low_income",
+            "label": "Students from low-income families",
+            "status": "ok",
+            "enrolled": 179,
+            "sent_home": 0,
+            "per_100": 0
+          },
+          {
+            "id": "homeless",
+            "label": "Homeless students",
+            "status": "too_few",
+            "enrolled": 2,
+            "sent_home": null,
+            "per_100": null
+          }
+        ],
+        "trend": [
+          0.9,
+          0.8,
+          0.2,
+          1.3,
+          1.7,
+          0.9,
+          0.4
+        ]
+      },
+      "661401030000": {
+        "name": "Ossining UFSD",
+        "serves": [
+          "Village of Ossining",
+          "Town of Ossining (outside villages)",
+          "Village of Briarcliff Manor",
+          "Town of New Castle (outside villages)",
+          "Town of Yorktown (outside villages)"
+        ],
+        "search": [
+          "ossining",
+          "ossining",
+          "briarcliff manor",
+          "new castle",
+          "yorktown"
+        ],
+        "note": null,
+        "enrolled": 4964,
+        "sent_home": 142,
+        "per_100": 2.9,
+        "step": 2,
+        "twenty_plus": 19,
+        "days_per_100": 26.8,
+        "race": [
+          {
+            "id": "black",
+            "label": "Black students",
+            "status": "ok",
+            "enrolled": 384,
+            "sent_home": 28,
+            "per_100": 7.3
+          },
+          {
+            "id": "hispanic",
+            "label": "Hispanic students",
+            "status": "ok",
+            "enrolled": 3418,
+            "sent_home": 93,
+            "per_100": 2.7
+          },
+          {
+            "id": "white",
+            "label": "White students",
+            "status": "ok",
+            "enrolled": 864,
+            "sent_home": 12,
+            "per_100": 1.4
+          }
+        ],
+        "groups": [
+          {
+            "id": "disabilities",
+            "label": "Students with disabilities",
+            "status": "ok",
+            "enrolled": 756,
+            "sent_home": 35,
+            "per_100": 4.6
+          },
+          {
+            "id": "low_income",
+            "label": "Students from low-income families",
+            "status": "ok",
+            "enrolled": 2346,
+            "sent_home": 94,
+            "per_100": 4
+          },
+          {
+            "id": "homeless",
+            "label": "Homeless students",
+            "status": "ok",
+            "enrolled": 78,
+            "sent_home": 6,
+            "per_100": 7.7
+          }
+        ],
+        "trend": [
+          2.8,
+          1.8,
+          0.7,
+          3.8,
+          4.5,
+          2.2,
+          2.9
+        ]
+      },
+      "661500010000": {
+        "name": "Peekskill City SD",
+        "serves": [
+          "City of Peekskill"
+        ],
+        "search": [
+          "peekskill"
+        ],
+        "note": "Newer boundaries (NCES 2025, county GIS) put about 1,100 City of Peekskill residents (273 children) in Hendrick Hudson CSD instead of this district",
+        "enrolled": 3795,
+        "sent_home": 169,
+        "per_100": 4.5,
+        "step": 3,
+        "twenty_plus": 16,
+        "days_per_100": 39.4,
+        "race": [
+          {
+            "id": "black",
+            "label": "Black students",
+            "status": "ok",
+            "enrolled": 487,
+            "sent_home": 60,
+            "per_100": 12.3
+          },
+          {
+            "id": "hispanic",
+            "label": "Hispanic students",
+            "status": "ok",
+            "enrolled": 2919,
+            "sent_home": 87,
+            "per_100": 3
+          },
+          {
+            "id": "white",
+            "label": "White students",
+            "status": "ok",
+            "enrolled": 211,
+            "sent_home": 11,
+            "per_100": 5.2
+          }
+        ],
+        "groups": [
+          {
+            "id": "disabilities",
+            "label": "Students with disabilities",
+            "status": "ok",
+            "enrolled": 606,
+            "sent_home": 62,
+            "per_100": 10.2
+          },
+          {
+            "id": "low_income",
+            "label": "Students from low-income families",
+            "status": "ok",
+            "enrolled": 2389,
+            "sent_home": 130,
+            "per_100": 5.4
+          },
+          {
+            "id": "homeless",
+            "label": "Homeless students",
+            "status": "ok",
+            "enrolled": 42,
+            "sent_home": 4,
+            "per_100": 9.5
+          }
+        ],
+        "trend": [
+          6.1,
+          4.8,
+          0.4,
+          5.4,
+          5,
+          5.4,
+          4.5
+        ]
+      },
+      "661601030000": {
+        "name": "Pelham UFSD",
+        "serves": [
+          "Village of Pelham",
+          "Village of Pelham Manor"
+        ],
+        "search": [
+          "pelham",
+          "pelham manor"
+        ],
+        "note": null,
+        "enrolled": 2823,
+        "sent_home": 32,
+        "per_100": 1.1,
+        "step": 1,
+        "twenty_plus": 4,
+        "days_per_100": 10.0,
+        "race": [
+          {
+            "id": "black",
+            "label": "Black students",
+            "status": "too_few",
+            "enrolled": 134,
+            "sent_home": null,
+            "per_100": null
+          },
+          {
+            "id": "hispanic",
+            "label": "Hispanic students",
+            "status": "ok",
+            "enrolled": 453,
+            "sent_home": 9,
+            "per_100": 2
+          },
+          {
+            "id": "white",
+            "label": "White students",
+            "status": "ok",
+            "enrolled": 1777,
+            "sent_home": 15,
+            "per_100": 0.8
+          }
+        ],
+        "groups": [
+          {
+            "id": "disabilities",
+            "label": "Students with disabilities",
+            "status": "ok",
+            "enrolled": 364,
+            "sent_home": 11,
+            "per_100": 3
+          },
+          {
+            "id": "low_income",
+            "label": "Students from low-income families",
+            "status": "ok",
+            "enrolled": 380,
+            "sent_home": 10,
+            "per_100": 2.6
+          },
+          {
+            "id": "homeless",
+            "label": "Homeless students",
+            "status": "too_few",
+            "enrolled": 13,
+            "sent_home": null,
+            "per_100": null
+          }
+        ],
+        "trend": [
+          0.8,
+          0.4,
+          0.6,
+          1,
+          1.7,
+          1.3,
+          1.1
+        ]
+      },
+      "660809030000": {
+        "name": "Pleasantville UFSD",
+        "serves": [
+          "Village of Pleasantville",
+          "Town of Mount Pleasant (outside villages)",
+          "Town of New Castle (outside villages)"
+        ],
+        "search": [
+          "pleasantville",
+          "mount pleasant",
+          "new castle"
+        ],
+        "note": null,
+        "enrolled": 1566,
+        "sent_home": 11,
+        "per_100": 0.7,
+        "step": 0,
+        "twenty_plus": 0,
+        "days_per_100": 1.9,
+        "race": [
+          {
+            "id": "black",
+            "label": "Black students",
+            "status": "too_few",
+            "enrolled": 27,
+            "sent_home": null,
+            "per_100": null
+          },
+          {
+            "id": "hispanic",
+            "label": "Hispanic students",
+            "status": "ok",
+            "enrolled": 306,
+            "sent_home": 5,
+            "per_100": 1.6
+          },
+          {
+            "id": "white",
+            "label": "White students",
+            "status": "ok",
+            "enrolled": 1078,
+            "sent_home": 3,
+            "per_100": 0.3
+          }
+        ],
+        "groups": [
+          {
+            "id": "disabilities",
+            "label": "Students with disabilities",
+            "status": "ok",
+            "enrolled": 293,
+            "sent_home": 7,
+            "per_100": 2.4
+          },
+          {
+            "id": "low_income",
+            "label": "Students from low-income families",
+            "status": "ok",
+            "enrolled": 235,
+            "sent_home": 4,
+            "per_100": 1.7
+          },
+          {
+            "id": "homeless",
+            "label": "Homeless students",
+            "status": "too_few",
+            "enrolled": 5,
+            "sent_home": null,
+            "per_100": null
+          }
+        ],
+        "trend": [
+          1.2,
+          0.7,
+          0.2,
+          0.4,
+          0.6,
+          0.8,
+          0.7
+        ]
+      },
+      "660802040000": {
+        "name": "Pocantico Hills CSD",
+        "serves": [
+          "Town of Greenburgh (outside villages)",
+          "Town of Mount Pleasant (outside villages)",
+          "Village of Sleepy Hollow"
+        ],
+        "search": [
+          "greenburgh",
+          "mount pleasant",
+          "sleepy hollow"
+        ],
+        "note": null,
+        "enrolled": 322,
+        "sent_home": 1,
+        "per_100": 0.3,
+        "step": 0,
+        "twenty_plus": 0,
+        "days_per_100": 3.1,
+        "race": [
+          {
+            "id": "black",
+            "label": "Black students",
+            "status": "too_few",
+            "enrolled": 22,
+            "sent_home": null,
+            "per_100": null
+          },
+          {
+            "id": "hispanic",
+            "label": "Hispanic students",
+            "status": "ok",
+            "enrolled": 100,
+            "sent_home": 1,
+            "per_100": 1
+          },
+          {
+            "id": "white",
+            "label": "White students",
+            "status": "ok",
+            "enrolled": 125,
+            "sent_home": 0,
+            "per_100": 0
+          }
+        ],
+        "groups": [
+          {
+            "id": "disabilities",
+            "label": "Students with disabilities",
+            "status": "too_few",
+            "enrolled": 26,
+            "sent_home": null,
+            "per_100": null
+          },
+          {
+            "id": "low_income",
+            "label": "Students from low-income families",
+            "status": "ok",
+            "enrolled": 60,
+            "sent_home": 0,
+            "per_100": 0
+          },
+          {
+            "id": "homeless",
+            "label": "Homeless students",
+            "status": "too_few",
+            "enrolled": 0,
+            "sent_home": null,
+            "per_100": null
+          }
+        ],
+        "trend": [
+          1.3,
+          1,
+          1.6,
+          1,
+          0.3,
+          4.1,
+          0.3
+        ]
+      },
+      "661904030000": {
+        "name": "Port Chester-Rye UFSD",
+        "serves": [
+          "Village of Port Chester",
+          "Village of Rye Brook"
+        ],
+        "search": [
+          "port chester",
+          "rye brook"
+        ],
+        "note": null,
+        "enrolled": 4377,
+        "sent_home": 139,
+        "per_100": 3.2,
+        "step": 3,
+        "twenty_plus": 26,
+        "days_per_100": 55.4,
+        "race": [
+          {
+            "id": "black",
+            "label": "Black students",
+            "status": "ok",
+            "enrolled": 113,
+            "sent_home": 8,
+            "per_100": 7.1
+          },
+          {
+            "id": "hispanic",
+            "label": "Hispanic students",
+            "status": "ok",
+            "enrolled": 3772,
+            "sent_home": 124,
+            "per_100": 3.3
+          },
+          {
+            "id": "white",
+            "label": "White students",
+            "status": "ok",
+            "enrolled": 394,
+            "sent_home": 5,
+            "per_100": 1.3
+          }
+        ],
+        "groups": [
+          {
+            "id": "disabilities",
+            "label": "Students with disabilities",
+            "status": "ok",
+            "enrolled": 734,
+            "sent_home": 37,
+            "per_100": 5
+          },
+          {
+            "id": "low_income",
+            "label": "Students from low-income families",
+            "status": "ok",
+            "enrolled": 3310,
+            "sent_home": 101,
+            "per_100": 3.1
+          },
+          {
+            "id": "homeless",
+            "label": "Homeless students",
+            "status": "ok",
+            "enrolled": 173,
+            "sent_home": 9,
+            "per_100": 5.2
+          }
+        ],
+        "trend": [
+          0.8,
+          0.6,
+          0.4,
+          3.1,
+          3.8,
+          2.8,
+          3.2
+        ]
+      },
+      "661800010000": {
+        "name": "Rye City SD",
+        "serves": [
+          "City of Rye"
+        ],
+        "search": [
+          "rye"
+        ],
+        "note": null,
+        "enrolled": 2791,
+        "sent_home": 8,
+        "per_100": 0.3,
+        "step": 0,
+        "twenty_plus": 0,
+        "days_per_100": 0.8,
+        "race": [
+          {
+            "id": "black",
+            "label": "Black students",
+            "status": "too_few",
+            "enrolled": 26,
+            "sent_home": null,
+            "per_100": null
+          },
+          {
+            "id": "hispanic",
+            "label": "Hispanic students",
+            "status": "ok",
+            "enrolled": 257,
+            "sent_home": 1,
+            "per_100": 0.4
+          },
+          {
+            "id": "white",
+            "label": "White students",
+            "status": "ok",
+            "enrolled": 2133,
+            "sent_home": 6,
+            "per_100": 0.3
+          }
+        ],
+        "groups": [
+          {
+            "id": "disabilities",
+            "label": "Students with disabilities",
+            "status": "ok",
+            "enrolled": 350,
+            "sent_home": 6,
+            "per_100": 1.7
+          },
+          {
+            "id": "low_income",
+            "label": "Students from low-income families",
+            "status": "ok",
+            "enrolled": 65,
+            "sent_home": 1,
+            "per_100": 1.5
+          },
+          {
+            "id": "homeless",
+            "label": "Homeless students",
+            "status": "too_few",
+            "enrolled": 3,
+            "sent_home": null,
+            "per_100": null
+          }
+        ],
+        "trend": [
+          0.8,
+          0.8,
+          0.1,
+          0.8,
+          1.1,
+          0.9,
+          0.3
+        ]
+      },
+      "661901030000": {
+        "name": "Rye Neck UFSD",
+        "serves": [
+          "Village of Mamaroneck",
+          "City of Rye"
+        ],
+        "search": [
+          "mamaroneck",
+          "rye"
+        ],
+        "note": null,
+        "enrolled": 1424,
+        "sent_home": 14,
+        "per_100": 1,
+        "step": 1,
+        "twenty_plus": 0,
+        "days_per_100": 2.9,
+        "race": [
+          {
+            "id": "black",
+            "label": "Black students",
+            "status": "ok",
+            "enrolled": 36,
+            "sent_home": 0,
+            "per_100": 0
+          },
+          {
+            "id": "hispanic",
+            "label": "Hispanic students",
+            "status": "ok",
+            "enrolled": 316,
+            "sent_home": 5,
+            "per_100": 1.6
+          },
+          {
+            "id": "white",
+            "label": "White students",
+            "status": "ok",
+            "enrolled": 852,
+            "sent_home": 7,
+            "per_100": 0.8
+          }
+        ],
+        "groups": [
+          {
+            "id": "disabilities",
+            "label": "Students with disabilities",
+            "status": "ok",
+            "enrolled": 160,
+            "sent_home": 3,
+            "per_100": 1.9
+          },
+          {
+            "id": "low_income",
+            "label": "Students from low-income families",
+            "status": "ok",
+            "enrolled": 267,
+            "sent_home": 3,
+            "per_100": 1.1
+          },
+          {
+            "id": "homeless",
+            "label": "Homeless students",
+            "status": "too_few",
+            "enrolled": 5,
+            "sent_home": null,
+            "per_100": null
+          }
+        ],
+        "trend": [
+          0.9,
+          1.1,
+          0.1,
+          1.3,
+          2.2,
+          1.4,
+          1
+        ]
+      },
+      "662001030000": {
+        "name": "Scarsdale UFSD",
+        "serves": [
+          "Town/Village of Scarsdale",
+          "Town of Mamaroneck (outside villages)"
+        ],
+        "search": [
+          "scarsdale",
+          "mamaroneck"
+        ],
+        "note": null,
+        "enrolled": 4690,
+        "sent_home": 4,
+        "per_100": 0.1,
+        "step": 0,
+        "twenty_plus": 0,
+        "days_per_100": 0.2,
+        "race": [
+          {
+            "id": "black",
+            "label": "Black students",
+            "status": "too_few",
+            "enrolled": 51,
+            "sent_home": null,
+            "per_100": null
+          },
+          {
+            "id": "hispanic",
+            "label": "Hispanic students",
+            "status": "ok",
+            "enrolled": 407,
+            "sent_home": 0,
+            "per_100": 0
+          },
+          {
+            "id": "white",
+            "label": "White students",
+            "status": "ok",
+            "enrolled": 2571,
+            "sent_home": 2,
+            "per_100": 0.1
+          }
+        ],
+        "groups": [
+          {
+            "id": "disabilities",
+            "label": "Students with disabilities",
+            "status": "ok",
+            "enrolled": 705,
+            "sent_home": 1,
+            "per_100": 0.1
+          },
+          {
+            "id": "low_income",
+            "label": "Students from low-income families",
+            "status": "not_reported",
+            "enrolled": null,
+            "sent_home": null,
+            "per_100": null
+          },
+          {
+            "id": "homeless",
+            "label": "Homeless students",
+            "status": "not_reported",
+            "enrolled": null,
+            "sent_home": null,
+            "per_100": null
+          }
+        ],
+        "trend": [
+          0.5,
+          0.1,
+          0.1,
+          0.6,
+          0.3,
+          0.3,
+          0.1
+        ]
+      },
+      "662101060000": {
+        "name": "Somers CSD",
+        "serves": [
+          "Town of Somers (outside villages)"
+        ],
+        "search": [
+          "somers"
+        ],
+        "note": null,
+        "enrolled": 2469,
+        "sent_home": 25,
+        "per_100": 1,
+        "step": 1,
+        "twenty_plus": 0,
+        "days_per_100": 3.2,
+        "race": [
+          {
+            "id": "black",
+            "label": "Black students",
+            "status": "too_few",
+            "enrolled": 33,
+            "sent_home": null,
+            "per_100": null
+          },
+          {
+            "id": "hispanic",
+            "label": "Hispanic students",
+            "status": "ok",
+            "enrolled": 404,
+            "sent_home": 5,
+            "per_100": 1.2
+          },
+          {
+            "id": "white",
+            "label": "White students",
+            "status": "ok",
+            "enrolled": 1858,
+            "sent_home": 18,
+            "per_100": 1
+          }
+        ],
+        "groups": [
+          {
+            "id": "disabilities",
+            "label": "Students with disabilities",
+            "status": "ok",
+            "enrolled": 494,
+            "sent_home": 9,
+            "per_100": 1.8
+          },
+          {
+            "id": "low_income",
+            "label": "Students from low-income families",
+            "status": "ok",
+            "enrolled": 371,
+            "sent_home": 6,
+            "per_100": 1.6
+          },
+          {
+            "id": "homeless",
+            "label": "Homeless students",
+            "status": "not_reported",
+            "enrolled": null,
+            "sent_home": null,
+            "per_100": null
+          }
+        ],
+        "trend": [
+          2.7,
+          1.5,
+          0.7,
+          2.3,
+          2,
+          1.5,
+          1
+        ]
+      },
+      "660302030000": {
+        "name": "Tuckahoe UFSD",
+        "serves": [
+          "Village of Tuckahoe",
+          "Town of Eastchester (outside villages)"
+        ],
+        "search": [
+          "tuckahoe",
+          "eastchester"
+        ],
+        "note": null,
+        "enrolled": 1043,
+        "sent_home": 15,
+        "per_100": 1.4,
+        "step": 1,
+        "twenty_plus": 0,
+        "days_per_100": 5.6,
+        "race": [
+          {
+            "id": "black",
+            "label": "Black students",
+            "status": "ok",
+            "enrolled": 87,
+            "sent_home": 2,
+            "per_100": 2.3
+          },
+          {
+            "id": "hispanic",
+            "label": "Hispanic students",
+            "status": "ok",
+            "enrolled": 184,
+            "sent_home": 6,
+            "per_100": 3.3
+          },
+          {
+            "id": "white",
+            "label": "White students",
+            "status": "ok",
+            "enrolled": 661,
+            "sent_home": 6,
+            "per_100": 0.9
+          }
+        ],
+        "groups": [
+          {
+            "id": "disabilities",
+            "label": "Students with disabilities",
+            "status": "ok",
+            "enrolled": 172,
+            "sent_home": 4,
+            "per_100": 2.3
+          },
+          {
+            "id": "low_income",
+            "label": "Students from low-income families",
+            "status": "ok",
+            "enrolled": 266,
+            "sent_home": 10,
+            "per_100": 3.8
+          },
+          {
+            "id": "homeless",
+            "label": "Homeless students",
+            "status": "too_few",
+            "enrolled": 4,
+            "sent_home": null,
+            "per_100": null
+          }
+        ],
+        "trend": [
+          1.8,
+          0.8,
+          0.5,
+          1.2,
+          0.7,
+          2.1,
+          1.4
+        ]
+      },
+      "660401030000": {
+        "name": "Tarrytowns UFSD",
+        "serves": [
+          "Village of Sleepy Hollow",
+          "Village of Tarrytown",
+          "Town of Greenburgh (outside villages)",
+          "Town of Mount Pleasant (outside villages)"
+        ],
+        "search": [
+          "sleepy hollow",
+          "tarrytown",
+          "greenburgh",
+          "mount pleasant"
+        ],
+        "note": null,
+        "enrolled": 2624,
+        "sent_home": 55,
+        "per_100": 2.1,
+        "step": 2,
+        "twenty_plus": 1,
+        "days_per_100": 6.5,
+        "race": [
+          {
+            "id": "black",
+            "label": "Black students",
+            "status": "ok",
+            "enrolled": 69,
+            "sent_home": 6,
+            "per_100": 8.7
+          },
+          {
+            "id": "hispanic",
+            "label": "Hispanic students",
+            "status": "ok",
+            "enrolled": 1605,
+            "sent_home": 38,
+            "per_100": 2.4
+          },
+          {
+            "id": "white",
+            "label": "White students",
+            "status": "ok",
+            "enrolled": 783,
+            "sent_home": 9,
+            "per_100": 1.1
+          }
+        ],
+        "groups": [
+          {
+            "id": "disabilities",
+            "label": "Students with disabilities",
+            "status": "ok",
+            "enrolled": 361,
+            "sent_home": 20,
+            "per_100": 5.5
+          },
+          {
+            "id": "low_income",
+            "label": "Students from low-income families",
+            "status": "ok",
+            "enrolled": 1442,
+            "sent_home": 44,
+            "per_100": 3.1
+          },
+          {
+            "id": "homeless",
+            "label": "Homeless students",
+            "status": "ok",
+            "enrolled": 50,
+            "sent_home": 2,
+            "per_100": 4
+          }
+        ],
+        "trend": [
+          1.5,
+          1.1,
+          0.5,
+          1.1,
+          1.6,
+          2.3,
+          2.1
+        ]
+      },
+      "660805030000": {
+        "name": "Valhalla UFSD",
+        "serves": [
+          "Town of Mount Pleasant (outside villages)",
+          "Town of Greenburgh (outside villages)",
+          "Town of North Castle (outside villages)"
+        ],
+        "search": [
+          "mount pleasant",
+          "greenburgh",
+          "north castle"
+        ],
+        "note": null,
+        "enrolled": 1425,
+        "sent_home": 33,
+        "per_100": 2.3,
+        "step": 2,
+        "twenty_plus": 0,
+        "days_per_100": 6.7,
+        "race": [
+          {
+            "id": "black",
+            "label": "Black students",
+            "status": "too_few",
+            "enrolled": 78,
+            "sent_home": null,
+            "per_100": null
+          },
+          {
+            "id": "hispanic",
+            "label": "Hispanic students",
+            "status": "ok",
+            "enrolled": 478,
+            "sent_home": 12,
+            "per_100": 2.5
+          },
+          {
+            "id": "white",
+            "label": "White students",
+            "status": "ok",
+            "enrolled": 693,
+            "sent_home": 12,
+            "per_100": 1.7
+          }
+        ],
+        "groups": [
+          {
+            "id": "disabilities",
+            "label": "Students with disabilities",
+            "status": "ok",
+            "enrolled": 137,
+            "sent_home": 7,
+            "per_100": 5.1
+          },
+          {
+            "id": "low_income",
+            "label": "Students from low-income families",
+            "status": "ok",
+            "enrolled": 367,
+            "sent_home": 14,
+            "per_100": 3.8
+          },
+          {
+            "id": "homeless",
+            "label": "Homeless students",
+            "status": "too_few",
+            "enrolled": 2,
+            "sent_home": null,
+            "per_100": null
+          }
+        ],
+        "trend": [
+          2,
+          1.6,
+          1.5,
+          3.3,
+          2.1,
+          2.3,
+          2.3
+        ]
+      },
+      "662200010000": {
+        "name": "White Plains City SD",
+        "serves": [
+          "City of White Plains"
+        ],
+        "search": [
+          "white plains"
+        ],
+        "note": null,
+        "enrolled": 6782,
+        "sent_home": 134,
+        "per_100": 2,
+        "step": 2,
+        "twenty_plus": 18,
+        "days_per_100": 19.6,
+        "race": [
+          {
+            "id": "black",
+            "label": "Black students",
+            "status": "ok",
+            "enrolled": 744,
+            "sent_home": 42,
+            "per_100": 5.6
+          },
+          {
+            "id": "hispanic",
+            "label": "Hispanic students",
+            "status": "ok",
+            "enrolled": 4034,
+            "sent_home": 71,
+            "per_100": 1.8
+          },
+          {
+            "id": "white",
+            "label": "White students",
+            "status": "ok",
+            "enrolled": 1427,
+            "sent_home": 11,
+            "per_100": 0.8
+          }
+        ],
+        "groups": [
+          {
+            "id": "disabilities",
+            "label": "Students with disabilities",
+            "status": "ok",
+            "enrolled": 1241,
+            "sent_home": 58,
+            "per_100": 4.7
+          },
+          {
+            "id": "low_income",
+            "label": "Students from low-income families",
+            "status": "ok",
+            "enrolled": 3559,
+            "sent_home": 90,
+            "per_100": 2.5
+          },
+          {
+            "id": "homeless",
+            "label": "Homeless students",
+            "status": "ok",
+            "enrolled": 127,
+            "sent_home": 7,
+            "per_100": 5.5
+          }
+        ],
+        "trend": [
+          2.8,
+          1.7,
+          0.5,
+          2.8,
+          2.2,
+          1.8,
+          2
+        ]
+      },
+      "662300010000": {
+        "name": "Yonkers City SD",
+        "serves": [
+          "City of Yonkers"
+        ],
+        "search": [
+          "yonkers"
+        ],
+        "note": null,
+        "enrolled": 23724,
+        "sent_home": 704,
+        "per_100": 3,
+        "step": 3,
+        "twenty_plus": 1,
+        "days_per_100": 11.5,
+        "race": [
+          {
+            "id": "black",
+            "label": "Black students",
+            "status": "ok",
+            "enrolled": 3632,
+            "sent_home": 202,
+            "per_100": 5.6
+          },
+          {
+            "id": "hispanic",
+            "label": "Hispanic students",
+            "status": "ok",
+            "enrolled": 14977,
+            "sent_home": 427,
+            "per_100": 2.9
+          },
+          {
+            "id": "white",
+            "label": "White students",
+            "status": "ok",
+            "enrolled": 3142,
+            "sent_home": 41,
+            "per_100": 1.3
+          }
+        ],
+        "groups": [
+          {
+            "id": "disabilities",
+            "label": "Students with disabilities",
+            "status": "ok",
+            "enrolled": 4866,
+            "sent_home": 242,
+            "per_100": 5
+          },
+          {
+            "id": "low_income",
+            "label": "Students from low-income families",
+            "status": "ok",
+            "enrolled": 17392,
+            "sent_home": 628,
+            "per_100": 3.6
+          },
+          {
+            "id": "homeless",
+            "label": "Homeless students",
+            "status": "ok",
+            "enrolled": 517,
+            "sent_home": 22,
+            "per_100": 4.3
+          }
+        ],
+        "trend": [
+          4.8,
+          2.4,
+          0.1,
+          4.5,
+          4,
+          4.1,
+          3
+        ]
+      },
+      "662402060000": {
+        "name": "Yorktown CSD",
+        "serves": [
+          "Town of Yorktown (outside villages)",
+          "Town of New Castle (outside villages)",
+          "Town of Cortlandt (outside villages)"
+        ],
+        "search": [
+          "yorktown",
+          "new castle",
+          "cortlandt"
+        ],
+        "note": null,
+        "enrolled": 3454,
+        "sent_home": 73,
+        "per_100": 2.1,
+        "step": 2,
+        "twenty_plus": 3,
+        "days_per_100": 14.1,
+        "race": [
+          {
+            "id": "black",
+            "label": "Black students",
+            "status": "too_few",
+            "enrolled": 79,
+            "sent_home": null,
+            "per_100": null
+          },
+          {
+            "id": "hispanic",
+            "label": "Hispanic students",
+            "status": "ok",
+            "enrolled": 554,
+            "sent_home": 18,
+            "per_100": 3.2
+          },
+          {
+            "id": "white",
+            "label": "White students",
+            "status": "ok",
+            "enrolled": 2492,
+            "sent_home": 48,
+            "per_100": 1.9
+          }
+        ],
+        "groups": [
+          {
+            "id": "disabilities",
+            "label": "Students with disabilities",
+            "status": "ok",
+            "enrolled": 633,
+            "sent_home": 28,
+            "per_100": 4.4
+          },
+          {
+            "id": "low_income",
+            "label": "Students from low-income families",
+            "status": "ok",
+            "enrolled": 521,
+            "sent_home": 19,
+            "per_100": 3.6
+          },
+          {
+            "id": "homeless",
+            "label": "Homeless students",
+            "status": "too_few",
+            "enrolled": 3,
+            "sent_home": null,
+            "per_100": null
+          }
+        ],
+        "trend": [
+          1,
+          1,
+          0.4,
+          1.9,
+          1.4,
+          1.6,
+          2.1
+        ]
+      }
+    },
+    "other_outlines": {
+      "480503040000": "Putnam Valley CSD"
+    }
   }
 }
