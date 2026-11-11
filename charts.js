@@ -372,6 +372,7 @@ var PARTS = {
   "part-3":   function () { drawPath(DATA); },
   "part-4":   function () { },                 /* no chart: its numbers are filled into the text */
   "district": function () { loadMap(DATA); },
+  "about":    function () { },                 /* About the data: words only. It has no tab; the link in the top band opens it */
 };
 
 fetch(DATA_FILE)
@@ -463,6 +464,15 @@ function setUpMenu() {
     (function (button) {
       button.addEventListener("click", function () { showPart(button.dataset.go, true, true); });
     })(buttons[b]);
+  }
+
+  /* The links in the top band ("Find your district", "About the data") open their part and move the screen to it */
+  var links = document.querySelectorAll(".banner-links a");
+  for (var l = 0; l < links.length; l++) {
+    links[l].addEventListener("click", function (e) {
+      e.preventDefault();
+      showPart(this.getAttribute("href").replace("#", ""), true, true);
+    });
   }
 
   window.addEventListener("hashchange", function () { showPart(partInAddress(), false, false); });

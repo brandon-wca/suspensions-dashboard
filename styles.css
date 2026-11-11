@@ -225,7 +225,7 @@ section > h2 { margin-bottom: 4px; }
 .tooltip strong { color: var(--white); }
 
 /* "About the data" */
-.about { border-top: 1px solid var(--rule); padding-top: 24px; }
+.about { padding-top: 28px; }
 .about p { max-width: 75ch; font-size: 15px; }
 
 /* Footer */
@@ -272,7 +272,8 @@ section > h2 { margin-bottom: 4px; }
 }
 .site-banner .logo { width: 220px; flex: 0 0 auto; display: block; }
 .site-banner .logo svg { width: 100%; height: auto; display: block; }
-.site-banner .badge {                                    /* the link to the map ("Find your district") */
+.site-banner .banner-links { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
+.site-banner .badge {                                    /* the links in the top band ("Find your district", "About the data") */
   display: inline-flex; align-items: center; gap: 7px;
   font-size: 15px; font-weight: 600; white-space: nowrap; color: var(--white); text-decoration: none;
   border: 1.5px solid var(--white); border-radius: 999px; padding: 8px 16px;
@@ -508,6 +509,8 @@ section > h2 { margin-bottom: 4px; }
   .site-banner .inner { min-height: 92px; padding-top: 16px; padding-bottom: 16px; }
   .site-banner .logo { width: 150px; }
   .site-banner .badge { font-size: 13px; padding: 6px 12px; }
+  .site-banner .banner-links { flex-direction: column; align-items: stretch; gap: 6px; }   /* the two links stacked */
+  .site-banner .badge { justify-content: center; }
   .page-header { padding-top: 20px; }
   .page-header h1 { font-size: 27px; }
   .page-header .subtitle { font-size: 16px; }
