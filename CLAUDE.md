@@ -34,7 +34,7 @@ Ask only what the files can't tell you. Show the user the answer you've assumed 
 - Don't add libraries, folders, build tools or anything loaded from an outside site (fonts, scripts, map tiles). Everything the page needs loads from this folder. (Links a reader can click, such as "Take action", are fine.)
 - Don't define a color or font anywhere except the top of `styles.css`.
 - Don't change what the dashboard says without being asked: which measures, which charts, which groups, which denominators. "Sent home" always means suspended out of school at least once, out of every 100 students enrolled in October.
-- Don't put a chart's point in its title: the title says what is measured; the point goes in the line under it and in "What we see".
+- Don't put a chart's point in its title: the title says what is measured; the point goes in the orange circle on the chart and/or in "What we see".
 - Don't redraw, add, remove or swap a picture without asking the user, and don't copy anything from `../archive/` without asking.
 - Don't rewrite the text beyond what was asked; it belongs to the user and their team. Grammar fixes yes (unless told not to); new meaning no.
 - Don't push, revert or restore anything in git without the user's explicit go-ahead for that specific action.
