@@ -96,10 +96,10 @@
 
   /* Charts */
   --sns-data:          var(--wca-blue);       /* the bars: every student group, a district */
-  --sns-average:       var(--wca-orange);     /* what the bars are compared with, always with a dashed line from it:
-                                                 the "All students" bar (parts 1 and 2), a group's share of all students
-                                                 (part 3's first bar), Westchester beside a district */
-  --sns-other:         var(--muted);          /* part 3: everyone else; New York State beside a district */
+  --sns-average:       var(--wca-orange);     /* what the bars are compared with, with a dashed line from it:
+                                                 the "All students" bar (parts 1 and 2), Westchester beside a district.
+                                                 In part 3 (no dashed line): the "Suspended" and "Felony arrests" bars */
+  --sns-other:         var(--muted);          /* New York State beside a district */
 
   /* The pictures */
   --sns-path:          #F07722;               /* the dotted path and the lit windows: the orange of WCA's color schema,
@@ -113,6 +113,7 @@
   /* Boxes */
   --sns-panel:         var(--wca-blue-tint);  /* "What we see" boxes, the district card, "Take action" */
   --sns-shadow:        rgba(0, 0, 0, 0.05);   /* the soft shadow under the menu */
+  --sns-number-line:   #C9D2E6;               /* the thin lines between the three numbers in part 2's box */
 }
 
 
@@ -345,7 +346,10 @@ section > h2 { margin-bottom: 4px; }
 .art-cap { fill: var(--sns-art-cap); }
 .art-dark { fill: var(--sns-art-dark); }                   /* classmates in the windows, doors */
 .art-dark-line { stroke: var(--sns-art-dark); fill: none; } /* clock hands, window bars */
+.art-roof-line { stroke: var(--sns-art-roof); fill: none; }   /* part 4: the teacher's arm on the laptop screen */
 .art-path { stroke: var(--sns-path); fill: none; stroke-width: 5; stroke-linecap: round; stroke-dasharray: 0.1 14; }   /* the dotted path */
+.art-lit-line { stroke: var(--sns-path); fill: none; }     /* the tassels on the graduation caps */
+.art-far { color: var(--sns-art-cap); }                    /* things standing behind the figures: the chairs at graduation */
 
 /* ---- C5. Chart cards: a plain title, the takeaway under it, then the chart ---- */
 .card:first-of-type { border-top: 0; }
@@ -381,21 +385,35 @@ section > h2 { margin-bottom: 4px; }
 .viz { min-width: 0; }
 .nowrap { white-space: nowrap; }
 
-/* Two charts side by side with the same scale (part 3) */
-.panels { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-.panels figure { margin: 0; min-width: 0; border: 1px solid var(--rule); border-radius: var(--radius); padding: 12px 12px 4px; }
-.panels figcaption { color: var(--ink); font-size: 15px; font-weight: 700; margin-bottom: 4px; }
-.panels .chart-box { height: 250px; }
-
-/* Part 2: the chart with three big numbers beside it */
-.with-numbers { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 28px; align-items: start; }
-.numbers { display: grid; gap: 12px; }
-.number {
-  border: 1px solid var(--rule); border-left: 4px solid var(--sns-number); border-radius: var(--radius);
-  padding: 12px 16px; background: var(--white);
+/* Part 3: one small chart ("panel") for each group, all the same size and on the same scale; charts.js writes them.
+   Two to a row (a 2 x 2 of four panels, starting from the left), one to a row on a phone (further down). The 16px
+   below is the gap between two panels. A panel's height is its number of bars (--rows, set by charts.js) times the
+   height of one row, plus the scale. Beside the panels stands a shaded box in the style of part 2's three numbers
+   (.with-numbers and .numbers, below): a small heading and one sentence, then two numbers with their words. */
+.panels { display: flex; flex-wrap: wrap; justify-content: flex-start; align-content: flex-start; gap: 16px; }
+.panels figure {
+  flex: 0 0 calc((100% - 16px) / 2); margin: 0; min-width: 0;
+  border: 1px solid var(--rule); border-radius: var(--radius); padding: 12px 12px 4px;
 }
-.number .value { color: var(--sns-number); font-size: 34px; font-weight: 700; line-height: 1.1; }
+.panels figcaption { color: var(--ink); font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+.panels .chart-box { height: calc(var(--rows, 5) * 40px + 30px); }
+
+/* Part 2: the chart with three big numbers beside it. The numbers share one softly shaded box, as tall as the
+   chart, with a thin line between them. Under the chart on a tablet (side by side) and a phone (stacked). */
+.with-numbers { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 28px; align-items: stretch; }
+.numbers {
+  display: grid; gap: 0; align-content: space-between; padding: 2px 22px; border-radius: var(--radius);
+  background: linear-gradient(160deg, var(--wca-blue-tint), var(--wca-green-tint));
+}
+.number { display: flex; flex-direction: column; justify-content: center; padding: 14px 0; }
+.number + .number { border-top: 1px solid var(--sns-number-line); }
+.number .value { color: var(--sns-number); font-size: 38px; font-weight: 700; line-height: 1.1; }
 .number p { font-size: 15px; margin: 4px 0 0; }
+/* Part 3's box (.numbers.pattern) opens with a small heading and one sentence, the point its two numbers
+   illustrate; each of those numbers is a pair ("27% → 52%") kept on one line */
+.number h4 { color: var(--sns-title); font-size: 13px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; margin: 0 0 6px; }
+.number p.point { color: var(--ink); font-size: 19px; font-weight: 600; line-height: 1.3; margin: 0; }
+.number .value { white-space: nowrap; }
 
 /* What research says: two findings side by side */
 .research { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
@@ -404,21 +422,34 @@ section > h2 { margin-bottom: 4px; }
 .finding p { font-size: 15px; margin: 0 0 8px; }
 .finding .cite { color: var(--muted); font-size: 13px; margin: 0; }
 .plain-note { border-left: 4px solid var(--rule); padding: 2px 0 2px 14px; color: var(--fine); font-size: 15px; max-width: 75ch; margin: 16px 0 0; }
-
-/* ---- C6. Part 4: the bill's parts, the $50 million, "Take action" ---- */
-.bill { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-.bill-card {
-  border: 1px solid var(--rule); border-top: 4px solid var(--sns-number); border-radius: var(--radius);
-  padding: 16px 18px; background: var(--white);
+/* Part 2: the findings stacked in the left third, a picture in the right two thirds (one column on tablets and phones) */
+.research-split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 24px; align-items: stretch; }
+.research-stack { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+.research-art {
+  display: flex; align-items: center; justify-content: center; min-height: 240px;
+  background: linear-gradient(120deg, var(--sns-sweep-from), var(--sns-sweep-to)); color: var(--white);   /* the same sweep as the opening panels */
+  border-radius: var(--radius); padding: 10px; overflow: hidden;
 }
-.bill-card h4 { color: var(--sns-title); font-size: 17px; font-weight: 600; line-height: 1.3; margin: 0 0 6px; }
-.bill-card .plain { color: var(--fine); font-size: 15px; margin: 0 0 12px; }
-.bill-card .value { color: var(--sns-number); font-size: 34px; font-weight: 700; line-height: 1.1; }
-.bill-card .what { font-size: 15px; margin: 4px 0 0; }
-.bill-card .none { color: var(--fine); font-size: 15px; margin: 0; }
+.research-art svg { display: block; width: 100%; height: auto; overflow: visible; }
 
-.money { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 12px; }
-.money .tile .value { font-size: 34px; }
+/* ---- C6. Part 4: three of the bill's rules, one under another, short lines, "Take action" ----
+   Each rule is a wide panel on the blue-to-green sweep, like the opening panels: the picture on the left,
+   the rule, its big number and its words in white on the right. On a phone the picture and the words get
+   a smaller share and smaller type, but stay side by side. */
+.rules { display: grid; gap: 14px; margin-top: 14px; }
+.rule {
+  display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 24px; align-items: center; margin: 0; min-width: 0;
+  background: linear-gradient(120deg, var(--sns-sweep-from), var(--sns-sweep-to)); color: var(--white);
+  border-radius: var(--radius); padding: 0 28px 0 0; overflow: hidden;
+}
+.rule-art { align-self: end; padding-top: 8px; }   /* the picture sits on the panel's bottom edge, so its floor runs into it */
+.rule-art svg { display: block; width: 100%; height: auto; }
+.rule-text h4 { color: var(--white); font-size: 18px; font-weight: 700; line-height: 1.3; margin: 0 0 6px; }
+.rule-text .value { color: var(--white); font-size: 38px; font-weight: 700; line-height: 1.1; }
+.rule-text p { color: var(--white); font-size: 16px; line-height: 1.45; margin: 4px 0 0; max-width: 52ch; }
+/* Minor misbehavior, the bill's two other rules and the $50 million: one line each, under the three rules */
+.also { border-top: 1px solid var(--rule); margin-top: 24px; padding-top: 12px; }
+.also p { color: var(--ink); font-size: 15px; margin: 0 0 6px; max-width: 90ch; }
 
 .action { background: var(--sns-panel); border-radius: var(--radius); padding: 20px 22px; margin-top: 8px; }
 .action h3 { color: var(--sns-title); font-size: 20px; margin-bottom: 10px; }
@@ -511,13 +542,20 @@ section > h2 { margin-bottom: 4px; }
 
 @media (max-width: 900px) {
   .tiles { grid-template-columns: repeat(3, 1fr); }
-  .pair, .with-numbers, .map-layout { grid-template-columns: minmax(0, 1fr); }      /* one column; minmax keeps a wide chart from stretching the page */
+  .pair, .with-numbers, .map-layout, .research-split { grid-template-columns: minmax(0, 1fr); }      /* one column; minmax keeps a wide chart from stretching the page */
   .pair .card + .card { border-top: 1px solid var(--rule); }
   .pair .takeaway { min-height: 0; }
-  .numbers { grid-template-columns: repeat(3, 1fr); }
-  .bill { grid-template-columns: repeat(2, 1fr); }
+  .numbers { grid-template-columns: repeat(3, 1fr); padding: 20px 6px; }      /* side by side: the lines between them stand upright */
+  .number { justify-content: flex-start; padding: 2px 20px; }
+  .number + .number { border-top: 0; border-left: 1px solid var(--sns-number-line); }
+  /* part 3's box: its heading and sentence across the top, its two numbers side by side under them
+     (three columns would be too narrow for a pair such as "27% → 52%") */
+  .numbers.pattern { grid-template-columns: repeat(2, 1fr); row-gap: 16px; }
+  .numbers.pattern .number:first-child { grid-column: 1 / -1; }
+  .numbers.pattern .number:nth-child(2) { border-left: 0; }
   .hero { grid-template-columns: 1fr; padding: 24px 24px 22px; gap: 14px; }
   .hero-art { width: min(100%, 520px); justify-self: center; }
+  .research-art svg { max-width: 640px; }                  /* under the findings, the picture stops growing here */
   .hero-art.bleed { width: min(100% + 24px, 560px); margin: 0 -24px -22px 0; justify-self: end; }
 }
 @media (max-width: 600px) {
@@ -547,8 +585,21 @@ section > h2 { margin-bottom: 4px; }
   .takeaway { font-size: 17px; }
   br.wide-only { display: none; }                          /* chart titles wrap on their own on a phone */
   .chart-box.tall { height: 320px; }
-  .panels, .research, .bill, .money, .numbers { grid-template-columns: minmax(0, 1fr); }
-  .money { gap: 8px; }
+  .research, .research-split, .numbers { grid-template-columns: minmax(0, 1fr); }
+  .panels figure { flex-basis: 100%; }                     /* part 3's panels: one to a row, in shorter rows */
+  .panels .chart-box { height: calc(var(--rows, 5) * 31px + 30px); }
+  .research-art { min-height: 160px; }
+  .numbers { padding: 4px 20px; }                          /* stacked again: the lines between them lie flat */
+  .number { padding: 16px 0; }
+  .number + .number { border-left: 0; border-top: 1px solid var(--sns-number-line); }
+  .number .value { font-size: 36px; }
+  .numbers.pattern { grid-template-columns: minmax(0, 1fr); row-gap: 0; }      /* part 3's box: one column again */
+  /* part 4: a smaller picture and smaller words, still side by side */
+  .rule { grid-template-columns: 42% minmax(0, 1fr); gap: 12px; padding: 0 14px 0 0; }
+  .rule-text { padding: 10px 0; }
+  .rule-text h4 { font-size: 15px; margin-bottom: 2px; }
+  .rule-text .value { font-size: 28px; }
+  .rule-text p { font-size: 14px; line-height: 1.35; }
   .continue button { padding: 10px 14px; }
   .district-card { padding: 16px; }
   .district-card .rate .big { font-size: 34px; }

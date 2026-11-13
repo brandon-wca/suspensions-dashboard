@@ -352,8 +352,9 @@ var SEARCH_RESULTS = 8;     /* how many districts the town search lists at most 
 /* This dashboard's colors, read from part A2 of styles.css */
 var SNS = {
   data:     WCA.cssVar("--sns-data"),        /* the bars */
-  average:  WCA.cssVar("--sns-average"),     /* what the bars are compared with (orange), and the dashed line */
-  other:    WCA.cssVar("--sns-other"),       /* everyone else, in part 3 */
+  average:  WCA.cssVar("--sns-average"),     /* orange: what the bars are compared with, and the dashed line (parts 1 and 2);
+                                                in part 3, the "Suspended" and "Felony arrests" bars */
+  other:    WCA.cssVar("--sns-other"),       /* everyone else (not used on the page now; kept for later) */
   white:    WCA.cssVar("--white"),
 };
 
@@ -469,7 +470,7 @@ function setUpMenu() {
   }
 
   /* The links in the top band ("Find your district", "About the data") open their part and move the screen to it */
-  var links = document.querySelectorAll(".banner-links a");
+  var links = document.querySelectorAll('.banner-links a, .source a[href^="#"]');   /* and a source line's link to "About the data" */
   for (var l = 0; l < links.length; l++) {
     links[l].addEventListener("click", function (e) {
       e.preventDefault();
@@ -827,76 +828,117 @@ function drawLost(data) {
 
 
 /* --------------------------------------------------------------------------
-   7. PART 3'S CHARTS  ·  one group's share at each step, beside everyone else
+   7. PART 3'S CHARTS  ·  each racial group's share at each step
    --------------------------------------------------------------------------
-   Two small charts on the same 0-to-100% scale (never two scales in one chart).
-   The first bar, in orange, is the group's share of all students: what the other
-   bars are compared with. The dashed line carries that share down the chart, so
-   a bar that passes the line means the group is overrepresented at that step. */
+   One small chart ("panel") for each group in data.json "path.races": three
+   named groups and "All other students", all the same size and on the same scale
+   (never two scales in one chart). Each bar is the group's share of everyone at
+   that step. Two bars are orange, "Suspended" and "Felony arrests" (PATH_ORANGE
+   below), so the eye can set a group's share of suspensions beside its share of
+   arrests; the other bars are blue. The sentences in the shaded box beside the
+   panels are in index.html and take their numbers from data.json like any other.
 
-function drawPath(data) {
-  var path = data.path;
-  drawPathPanel("chart-path-group", path, "group", SNS.data, path.group_label);
-  drawPathPanel("chart-path-others", path, "others", SNS.other, path.others_label);
-}
+   styles.css (.panels) arranges the panels two to a row (a 2 x 2), one to a row
+   on a phone, and sets each panel's height from the number of steps, which this
+   code hands it as --rows. */
+
+var PATH_NAME_ROOM = 146;      /* the width kept for the steps' names, each on one line, in pixels
+                                  (the longest, "At-Home Suspensions", is 138 wide) */
+var PATH_BAR_SHARE = 0.56;     /* how much of its row a bar fills: 22 pixels thick on a computer, 17 on a phone */
+var PATH_SCALE_STEP = 20;      /* the scale ends at the next multiple of this above the longest bar: 52% -> 60% */
+/* The steps whose bars are orange; every other bar is blue. The keys are ids in PATH_STEPS and
+   PATH_ARREST_STEP (update_data_here/build_data.py). */
+var PATH_ORANGE = { suspended: true, arrests: true };
 
 /* The note marks after a step's name; each matches a note in part 3's source line in index.html.
    The keys are ids in PATH_STEPS (update_data_here/build_data.py). */
-var PATH_MARKS = { suspended: "*", arrests: "**" };
+var PATH_MARKS = { suspended: "*" };
 
-/* which = "group" or "others": the two halves of every step in data.json "path.steps" */
-function drawPathPanel(canvasId, path, which, color, name) {
-  var canvas = document.getElementById(canvasId);
-  var steps = path.steps;
+function drawPath(data) {
+  var path = data.path;
+  var box = document.getElementById("path-panels");
 
-  var old = Chart.getChart(canvas);
-  if (old) old.destroy();
+  /* one scale for every panel: it ends just past the longest bar of any group */
+  var highest = 0, rows = 0;
+  path.races.forEach(function (race) {
+    rows = Math.max(rows, race.steps.length);
+    race.steps.forEach(function (s) { highest = Math.max(highest, s.share); });
+  });
+  var max = Math.ceil(highest / PATH_SCALE_STEP) * PATH_SCALE_STEP;
+  box.style.setProperty("--rows", rows);                   /* styles.css turns this into the panels' height */
+
+  /* one panel per group: its name, the box its chart draws into, the chart */
+  box.innerHTML = "";
+  path.races.forEach(function (race) {
+    var figure = document.createElement("figure");
+    var caption = document.createElement("figcaption");
+    caption.textContent = race.label;
+    var chartBox = document.createElement("div");
+    chartBox.className = "chart-box";
+    var canvas = document.createElement("canvas");
+    canvas.id = "chart-path-" + race.id;
+    canvas.setAttribute("role", "img");
+    canvas.setAttribute("aria-label", "Bar chart: " + race.label + "' share of all students and of those at each later step.");
+    chartBox.appendChild(canvas);
+    figure.appendChild(caption);
+    figure.appendChild(chartBox);
+    box.appendChild(figure);
+    drawPathPanel(canvas, race, max);
+  });
+}
+
+/* One panel: a group's share at each step.
+     race    one entry of data.json "path.races": its label and its steps
+     max     where the scale ends (the same for every panel) */
+function drawPathPanel(canvas, race, max) {
+  var steps = race.steps;
 
   new Chart(canvas, {
     type: "bar",
     data: {
       labels: steps.map(function (s) { return s.label; }),
       datasets: [{
-        data: steps.map(function (s) { return s[which].share; }),
-        backgroundColor: steps.map(function (s, i) { return i === 0 ? SNS.average : color; }),
-        barThickness: BAR_THICKNESS,
+        data: steps.map(function (s) { return s.share; }),
+        backgroundColor: steps.map(function (s) { return PATH_ORANGE[s.id] ? SNS.average : SNS.data; }),
+        categoryPercentage: 1,                                       /* a bar's thickness follows its row's height... */
+        barPercentage: PATH_BAR_SHARE,                               /* ...so it is thinner in a phone's shorter rows */
       }],
     },
     options: {
       indexAxis: "y",
-      layout: { padding: { right: 44 } },
+      layout: { padding: { right: 42 } },                           /* room for the number past the longest bar */
       scales: {
-        x: { min: 0, max: 100, ticks: { stepSize: 25, callback: function (v) { return v + "%"; } } },
+        x: { min: 0, max: max, ticks: { stepSize: max / 2, callback: function (v) { return v + "%"; } } },
         y: {
           grid: { display: false },
-          afterFit: fixedNameRoom,
+          afterFit: function (axis) {
+            axis.width = PATH_NAME_ROOM;                             /* the same in every panel, so the bars line up */
+            axis.paddingTop = 2;                                     /* no empty band between the panel's title and its first bar */
+          },
           ticks: {
             color: WCA.colors.body,
             autoSkip: false,                                       /* write every step's name */
-            callback: function (value, index) {
-              return wrap(steps[index].label + (PATH_MARKS[steps[index].id] || ""), this.chart.width < NARROW ? 15 : 24);
-            },
+            callback: function (value, index) { return steps[index].label + (PATH_MARKS[steps[index].id] || ""); },
           },
         },
       },
       plugins: {
-        averageLine: { value: steps[0][which].share },
-        barLabels: { text: function (i) { return [steps[i][which].share_whole + "%"]; } },
+        barLabels: { text: function (i) { return [steps[i].share_whole + "%"]; } },
         tooltip: { callbacks: {
           title: function (items) { return steps[items[0].dataIndex].label; },
           label: function (item) {
             var s = steps[item.dataIndex];
-            return [name + ": " + WCA.fmt.pct(s[which].share),
-                    "(" + WCA.fmt.count(s[which].count) + " of " + WCA.fmt.count(s.total) + ")"];
+            return [race.label + ": " + WCA.fmt.pct(s.share),
+                    "(" + WCA.fmt.count(s.count) + " of " + WCA.fmt.count(s.total) + ")"];
           },
         } },
       },
     },
-    plugins: [averageLine, barLabels],
+    plugins: [barLabels],
   });
 
-  writeTable(canvas, name + ": share at each step", ["Step", "Share", "Count", "Out of"],
-    steps.map(function (s) { return [s.label, WCA.fmt.pct(s[which].share), WCA.fmt.count(s[which].count), WCA.fmt.count(s.total)]; }));
+  writeTable(canvas, race.label + ": share at each step", ["Step", "Share", "Count", "Out of"],
+    steps.map(function (s) { return [s.label, WCA.fmt.pct(s.share), WCA.fmt.count(s.count), WCA.fmt.count(s.total)]; }));
 }
 
 

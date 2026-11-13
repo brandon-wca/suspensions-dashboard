@@ -1,7 +1,7 @@
 {
   "meta": {
     "dashboard": "Suspensions Dashboard",
-    "generated": "2026-11-11 13:15 (local time)",
+    "generated": "2026-11-12 18:31 (local time)",
     "built_by": "build_data.py",
     "school_year": "2024-25",
     "first_school_year": "2018-19",
@@ -423,7 +423,7 @@
     "steps": [
       {
         "id": "enrolled",
-        "label": "Students",
+        "label": "Student Pop.",
         "total": 138515,
         "group": {
           "count": 14782,
@@ -453,7 +453,7 @@
       },
       {
         "id": "sent_home",
-        "label": "Sent home",
+        "label": "At-Home Suspensions",
         "total": 2988,
         "group": {
           "count": 975,
@@ -500,7 +500,7 @@
     "by_id": {
       "enrolled": {
         "id": "enrolled",
-        "label": "Students",
+        "label": "Student Pop.",
         "total": 138515,
         "group": {
           "count": 14782,
@@ -530,7 +530,7 @@
       },
       "sent_home": {
         "id": "sent_home",
-        "label": "Sent home",
+        "label": "At-Home Suspensions",
         "total": 2988,
         "group": {
           "count": 975,
@@ -571,6 +571,714 @@
           "count": 227,
           "share": 47.8,
           "share_whole": 48
+        }
+      }
+    },
+    "races": [
+      {
+        "id": "black",
+        "label": "Black students",
+        "steps": [
+          {
+            "id": "enrolled",
+            "label": "Student Pop.",
+            "total": 138515,
+            "count": 14782,
+            "share": 10.7,
+            "share_whole": 11
+          },
+          {
+            "id": "suspended",
+            "label": "Suspended",
+            "total": 4463,
+            "count": 1205,
+            "share": 27.0,
+            "share_whole": 27
+          },
+          {
+            "id": "sent_home",
+            "label": "At-Home Suspensions",
+            "total": 2988,
+            "count": 975,
+            "share": 32.6,
+            "share_whole": 33
+          },
+          {
+            "id": "twenty_plus",
+            "label": "Suspended 20+ days",
+            "total": 183,
+            "count": 70,
+            "share": 38.3,
+            "share_whole": 38
+          },
+          {
+            "id": "arrests",
+            "label": "Felony arrests",
+            "total": 475,
+            "count": 248,
+            "share": 52.2,
+            "share_whole": 52
+          }
+        ],
+        "by_id": {
+          "enrolled": {
+            "id": "enrolled",
+            "label": "Student Pop.",
+            "total": 138515,
+            "count": 14782,
+            "share": 10.7,
+            "share_whole": 11
+          },
+          "suspended": {
+            "id": "suspended",
+            "label": "Suspended",
+            "total": 4463,
+            "count": 1205,
+            "share": 27.0,
+            "share_whole": 27
+          },
+          "sent_home": {
+            "id": "sent_home",
+            "label": "At-Home Suspensions",
+            "total": 2988,
+            "count": 975,
+            "share": 32.6,
+            "share_whole": 33
+          },
+          "twenty_plus": {
+            "id": "twenty_plus",
+            "label": "Suspended 20+ days",
+            "total": 183,
+            "count": 70,
+            "share": 38.3,
+            "share_whole": 38
+          },
+          "arrests": {
+            "id": "arrests",
+            "label": "Felony arrests",
+            "total": 475,
+            "count": 248,
+            "share": 52.2,
+            "share_whole": 52
+          }
+        }
+      },
+      {
+        "id": "hispanic",
+        "label": "Hispanic students",
+        "steps": [
+          {
+            "id": "enrolled",
+            "label": "Student Pop.",
+            "total": 138515,
+            "count": 53671,
+            "share": 38.7,
+            "share_whole": 39
+          },
+          {
+            "id": "suspended",
+            "label": "Suspended",
+            "total": 4463,
+            "count": 1924,
+            "share": 43.1,
+            "share_whole": 43
+          },
+          {
+            "id": "sent_home",
+            "label": "At-Home Suspensions",
+            "total": 2988,
+            "count": 1335,
+            "share": 44.7,
+            "share_whole": 45
+          },
+          {
+            "id": "twenty_plus",
+            "label": "Suspended 20+ days",
+            "total": 183,
+            "count": 82,
+            "share": 44.8,
+            "share_whole": 45
+          },
+          {
+            "id": "arrests",
+            "label": "Felony arrests",
+            "total": 475,
+            "count": 173,
+            "share": 36.4,
+            "share_whole": 36
+          }
+        ],
+        "by_id": {
+          "enrolled": {
+            "id": "enrolled",
+            "label": "Student Pop.",
+            "total": 138515,
+            "count": 53671,
+            "share": 38.7,
+            "share_whole": 39
+          },
+          "suspended": {
+            "id": "suspended",
+            "label": "Suspended",
+            "total": 4463,
+            "count": 1924,
+            "share": 43.1,
+            "share_whole": 43
+          },
+          "sent_home": {
+            "id": "sent_home",
+            "label": "At-Home Suspensions",
+            "total": 2988,
+            "count": 1335,
+            "share": 44.7,
+            "share_whole": 45
+          },
+          "twenty_plus": {
+            "id": "twenty_plus",
+            "label": "Suspended 20+ days",
+            "total": 183,
+            "count": 82,
+            "share": 44.8,
+            "share_whole": 45
+          },
+          "arrests": {
+            "id": "arrests",
+            "label": "Felony arrests",
+            "total": 475,
+            "count": 173,
+            "share": 36.4,
+            "share_whole": 36
+          }
+        }
+      },
+      {
+        "id": "white",
+        "label": "White students",
+        "steps": [
+          {
+            "id": "enrolled",
+            "label": "Student Pop.",
+            "total": 138515,
+            "count": 54334,
+            "share": 39.2,
+            "share_whole": 39
+          },
+          {
+            "id": "suspended",
+            "label": "Suspended",
+            "total": 4463,
+            "count": 1065,
+            "share": 23.9,
+            "share_whole": 24
+          },
+          {
+            "id": "sent_home",
+            "label": "At-Home Suspensions",
+            "total": 2988,
+            "count": 532,
+            "share": 17.8,
+            "share_whole": 18
+          },
+          {
+            "id": "twenty_plus",
+            "label": "Suspended 20+ days",
+            "total": 183,
+            "count": 22,
+            "share": 12.0,
+            "share_whole": 12
+          },
+          {
+            "id": "arrests",
+            "label": "Felony arrests",
+            "total": 475,
+            "count": 45,
+            "share": 9.5,
+            "share_whole": 9
+          }
+        ],
+        "by_id": {
+          "enrolled": {
+            "id": "enrolled",
+            "label": "Student Pop.",
+            "total": 138515,
+            "count": 54334,
+            "share": 39.2,
+            "share_whole": 39
+          },
+          "suspended": {
+            "id": "suspended",
+            "label": "Suspended",
+            "total": 4463,
+            "count": 1065,
+            "share": 23.9,
+            "share_whole": 24
+          },
+          "sent_home": {
+            "id": "sent_home",
+            "label": "At-Home Suspensions",
+            "total": 2988,
+            "count": 532,
+            "share": 17.8,
+            "share_whole": 18
+          },
+          "twenty_plus": {
+            "id": "twenty_plus",
+            "label": "Suspended 20+ days",
+            "total": 183,
+            "count": 22,
+            "share": 12.0,
+            "share_whole": 12
+          },
+          "arrests": {
+            "id": "arrests",
+            "label": "Felony arrests",
+            "total": 475,
+            "count": 45,
+            "share": 9.5,
+            "share_whole": 9
+          }
+        }
+      },
+      {
+        "id": "rest",
+        "label": "All other students",
+        "steps": [
+          {
+            "id": "enrolled",
+            "label": "Student Pop.",
+            "total": 138515,
+            "count": 15728,
+            "share": 11.4,
+            "share_whole": 11
+          },
+          {
+            "id": "suspended",
+            "label": "Suspended",
+            "total": 4463,
+            "count": 269,
+            "share": 6.0,
+            "share_whole": 6
+          },
+          {
+            "id": "sent_home",
+            "label": "At-Home Suspensions",
+            "total": 2988,
+            "count": 146,
+            "share": 4.9,
+            "share_whole": 5
+          },
+          {
+            "id": "twenty_plus",
+            "label": "Suspended 20+ days",
+            "total": 183,
+            "count": 9,
+            "share": 4.9,
+            "share_whole": 5
+          },
+          {
+            "id": "arrests",
+            "label": "Felony arrests",
+            "total": 475,
+            "count": 9,
+            "share": 1.9,
+            "share_whole": 2
+          }
+        ],
+        "by_id": {
+          "enrolled": {
+            "id": "enrolled",
+            "label": "Student Pop.",
+            "total": 138515,
+            "count": 15728,
+            "share": 11.4,
+            "share_whole": 11
+          },
+          "suspended": {
+            "id": "suspended",
+            "label": "Suspended",
+            "total": 4463,
+            "count": 269,
+            "share": 6.0,
+            "share_whole": 6
+          },
+          "sent_home": {
+            "id": "sent_home",
+            "label": "At-Home Suspensions",
+            "total": 2988,
+            "count": 146,
+            "share": 4.9,
+            "share_whole": 5
+          },
+          "twenty_plus": {
+            "id": "twenty_plus",
+            "label": "Suspended 20+ days",
+            "total": 183,
+            "count": 9,
+            "share": 4.9,
+            "share_whole": 5
+          },
+          "arrests": {
+            "id": "arrests",
+            "label": "Felony arrests",
+            "total": 475,
+            "count": 9,
+            "share": 1.9,
+            "share_whole": 2
+          }
+        }
+      }
+    ],
+    "race_by_id": {
+      "black": {
+        "id": "black",
+        "label": "Black students",
+        "steps": [
+          {
+            "id": "enrolled",
+            "label": "Student Pop.",
+            "total": 138515,
+            "count": 14782,
+            "share": 10.7,
+            "share_whole": 11
+          },
+          {
+            "id": "suspended",
+            "label": "Suspended",
+            "total": 4463,
+            "count": 1205,
+            "share": 27.0,
+            "share_whole": 27
+          },
+          {
+            "id": "sent_home",
+            "label": "At-Home Suspensions",
+            "total": 2988,
+            "count": 975,
+            "share": 32.6,
+            "share_whole": 33
+          },
+          {
+            "id": "twenty_plus",
+            "label": "Suspended 20+ days",
+            "total": 183,
+            "count": 70,
+            "share": 38.3,
+            "share_whole": 38
+          },
+          {
+            "id": "arrests",
+            "label": "Felony arrests",
+            "total": 475,
+            "count": 248,
+            "share": 52.2,
+            "share_whole": 52
+          }
+        ],
+        "by_id": {
+          "enrolled": {
+            "id": "enrolled",
+            "label": "Student Pop.",
+            "total": 138515,
+            "count": 14782,
+            "share": 10.7,
+            "share_whole": 11
+          },
+          "suspended": {
+            "id": "suspended",
+            "label": "Suspended",
+            "total": 4463,
+            "count": 1205,
+            "share": 27.0,
+            "share_whole": 27
+          },
+          "sent_home": {
+            "id": "sent_home",
+            "label": "At-Home Suspensions",
+            "total": 2988,
+            "count": 975,
+            "share": 32.6,
+            "share_whole": 33
+          },
+          "twenty_plus": {
+            "id": "twenty_plus",
+            "label": "Suspended 20+ days",
+            "total": 183,
+            "count": 70,
+            "share": 38.3,
+            "share_whole": 38
+          },
+          "arrests": {
+            "id": "arrests",
+            "label": "Felony arrests",
+            "total": 475,
+            "count": 248,
+            "share": 52.2,
+            "share_whole": 52
+          }
+        }
+      },
+      "hispanic": {
+        "id": "hispanic",
+        "label": "Hispanic students",
+        "steps": [
+          {
+            "id": "enrolled",
+            "label": "Student Pop.",
+            "total": 138515,
+            "count": 53671,
+            "share": 38.7,
+            "share_whole": 39
+          },
+          {
+            "id": "suspended",
+            "label": "Suspended",
+            "total": 4463,
+            "count": 1924,
+            "share": 43.1,
+            "share_whole": 43
+          },
+          {
+            "id": "sent_home",
+            "label": "At-Home Suspensions",
+            "total": 2988,
+            "count": 1335,
+            "share": 44.7,
+            "share_whole": 45
+          },
+          {
+            "id": "twenty_plus",
+            "label": "Suspended 20+ days",
+            "total": 183,
+            "count": 82,
+            "share": 44.8,
+            "share_whole": 45
+          },
+          {
+            "id": "arrests",
+            "label": "Felony arrests",
+            "total": 475,
+            "count": 173,
+            "share": 36.4,
+            "share_whole": 36
+          }
+        ],
+        "by_id": {
+          "enrolled": {
+            "id": "enrolled",
+            "label": "Student Pop.",
+            "total": 138515,
+            "count": 53671,
+            "share": 38.7,
+            "share_whole": 39
+          },
+          "suspended": {
+            "id": "suspended",
+            "label": "Suspended",
+            "total": 4463,
+            "count": 1924,
+            "share": 43.1,
+            "share_whole": 43
+          },
+          "sent_home": {
+            "id": "sent_home",
+            "label": "At-Home Suspensions",
+            "total": 2988,
+            "count": 1335,
+            "share": 44.7,
+            "share_whole": 45
+          },
+          "twenty_plus": {
+            "id": "twenty_plus",
+            "label": "Suspended 20+ days",
+            "total": 183,
+            "count": 82,
+            "share": 44.8,
+            "share_whole": 45
+          },
+          "arrests": {
+            "id": "arrests",
+            "label": "Felony arrests",
+            "total": 475,
+            "count": 173,
+            "share": 36.4,
+            "share_whole": 36
+          }
+        }
+      },
+      "white": {
+        "id": "white",
+        "label": "White students",
+        "steps": [
+          {
+            "id": "enrolled",
+            "label": "Student Pop.",
+            "total": 138515,
+            "count": 54334,
+            "share": 39.2,
+            "share_whole": 39
+          },
+          {
+            "id": "suspended",
+            "label": "Suspended",
+            "total": 4463,
+            "count": 1065,
+            "share": 23.9,
+            "share_whole": 24
+          },
+          {
+            "id": "sent_home",
+            "label": "At-Home Suspensions",
+            "total": 2988,
+            "count": 532,
+            "share": 17.8,
+            "share_whole": 18
+          },
+          {
+            "id": "twenty_plus",
+            "label": "Suspended 20+ days",
+            "total": 183,
+            "count": 22,
+            "share": 12.0,
+            "share_whole": 12
+          },
+          {
+            "id": "arrests",
+            "label": "Felony arrests",
+            "total": 475,
+            "count": 45,
+            "share": 9.5,
+            "share_whole": 9
+          }
+        ],
+        "by_id": {
+          "enrolled": {
+            "id": "enrolled",
+            "label": "Student Pop.",
+            "total": 138515,
+            "count": 54334,
+            "share": 39.2,
+            "share_whole": 39
+          },
+          "suspended": {
+            "id": "suspended",
+            "label": "Suspended",
+            "total": 4463,
+            "count": 1065,
+            "share": 23.9,
+            "share_whole": 24
+          },
+          "sent_home": {
+            "id": "sent_home",
+            "label": "At-Home Suspensions",
+            "total": 2988,
+            "count": 532,
+            "share": 17.8,
+            "share_whole": 18
+          },
+          "twenty_plus": {
+            "id": "twenty_plus",
+            "label": "Suspended 20+ days",
+            "total": 183,
+            "count": 22,
+            "share": 12.0,
+            "share_whole": 12
+          },
+          "arrests": {
+            "id": "arrests",
+            "label": "Felony arrests",
+            "total": 475,
+            "count": 45,
+            "share": 9.5,
+            "share_whole": 9
+          }
+        }
+      },
+      "rest": {
+        "id": "rest",
+        "label": "All other students",
+        "steps": [
+          {
+            "id": "enrolled",
+            "label": "Student Pop.",
+            "total": 138515,
+            "count": 15728,
+            "share": 11.4,
+            "share_whole": 11
+          },
+          {
+            "id": "suspended",
+            "label": "Suspended",
+            "total": 4463,
+            "count": 269,
+            "share": 6.0,
+            "share_whole": 6
+          },
+          {
+            "id": "sent_home",
+            "label": "At-Home Suspensions",
+            "total": 2988,
+            "count": 146,
+            "share": 4.9,
+            "share_whole": 5
+          },
+          {
+            "id": "twenty_plus",
+            "label": "Suspended 20+ days",
+            "total": 183,
+            "count": 9,
+            "share": 4.9,
+            "share_whole": 5
+          },
+          {
+            "id": "arrests",
+            "label": "Felony arrests",
+            "total": 475,
+            "count": 9,
+            "share": 1.9,
+            "share_whole": 2
+          }
+        ],
+        "by_id": {
+          "enrolled": {
+            "id": "enrolled",
+            "label": "Student Pop.",
+            "total": 138515,
+            "count": 15728,
+            "share": 11.4,
+            "share_whole": 11
+          },
+          "suspended": {
+            "id": "suspended",
+            "label": "Suspended",
+            "total": 4463,
+            "count": 269,
+            "share": 6.0,
+            "share_whole": 6
+          },
+          "sent_home": {
+            "id": "sent_home",
+            "label": "At-Home Suspensions",
+            "total": 2988,
+            "count": 146,
+            "share": 4.9,
+            "share_whole": 5
+          },
+          "twenty_plus": {
+            "id": "twenty_plus",
+            "label": "Suspended 20+ days",
+            "total": 183,
+            "count": 9,
+            "share": 4.9,
+            "share_whole": 5
+          },
+          "arrests": {
+            "id": "arrests",
+            "label": "Felony arrests",
+            "total": 475,
+            "count": 9,
+            "share": 1.9,
+            "share_whole": 2
+          }
         }
       }
     },
