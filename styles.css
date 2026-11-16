@@ -111,7 +111,8 @@
   --sns-veil:          rgba(255, 255, 255, 0.55);   /* thin white lines on the sweep */
 
   /* Boxes */
-  --sns-panel:         var(--wca-blue-tint);  /* "What we see" boxes, the district card, "Take action" */
+  --sns-panel:         var(--wca-blue-tint);  /* "What we see" boxes, the research cards, the number boxes in parts 2 and 3,
+                                                 the district card, "Take action" */
   --sns-shadow:        rgba(0, 0, 0, 0.05);   /* the soft shadow under the menu */
   --sns-number-line:   #C9D2E6;               /* the thin lines between the three numbers in part 2's box */
 }
@@ -304,6 +305,10 @@ section > h2 { margin-bottom: 4px; }
   display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none;      /* on a phone the tabs slide sideways */
 }
 .tabbar .inner::-webkit-scrollbar { display: none; }
+/* The tabs sit in the middle of the menu. The two outer margins share the spare room; on a phone, where the tabs
+   are wider than the screen, there is none, so they start at the left edge and still slide sideways. */
+.tabbar .tab:first-child { margin-left: auto; }
+.tabbar .tab:last-child { margin-right: auto; }
 .tab {
   font: inherit; font-size: 15px; font-weight: 600; color: var(--fine); white-space: nowrap;
   background: none; border: 0; border-bottom: 3px solid transparent; padding: 14px 12px 11px; cursor: pointer;
@@ -398,12 +403,13 @@ section > h2 { margin-bottom: 4px; }
 .panels figcaption { color: var(--ink); font-size: 15px; font-weight: 700; margin-bottom: 4px; }
 .panels .chart-box { height: calc(var(--rows, 5) * 40px + 30px); }
 
-/* Part 2: the chart with three big numbers beside it. The numbers share one softly shaded box, as tall as the
-   chart, with a thin line between them. Under the chart on a tablet (side by side) and a phone (stacked). */
+/* Part 2: the chart with three big numbers beside it. The numbers share one light blue box (the color of the
+   research cards under it), as tall as the chart, with a thin line between them. Under the chart on a tablet
+   (side by side) and a phone (stacked). */
 .with-numbers { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 28px; align-items: stretch; }
 .numbers {
   display: grid; gap: 0; align-content: space-between; padding: 2px 22px; border-radius: var(--radius);
-  background: linear-gradient(160deg, var(--wca-blue-tint), var(--wca-green-tint));
+  background: var(--sns-panel);
 }
 .number { display: flex; flex-direction: column; justify-content: center; padding: 14px 0; }
 .number + .number { border-top: 1px solid var(--sns-number-line); }
@@ -414,6 +420,13 @@ section > h2 { margin-bottom: 4px; }
 .number h4 { color: var(--sns-title); font-size: 13px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; margin: 0 0 6px; }
 .number p.point { color: var(--ink); font-size: 19px; font-weight: 600; line-height: 1.3; margin: 0; }
 .number .value { white-space: nowrap; }
+/* Part 3's box (and part 4's money box, which copies it) is only as tall as its words and sits in the middle of
+   the height beside it, rather than stretching to the full height of the charts with empty space inside
+   (Brandon, Nov 16: option 3A). On a tablet or phone, where the box sits under the charts, nothing changes. */
+.numbers.pattern { align-self: center; padding: 6px 22px; }
+/* Part 4's money box: a short list of what the money pays for */
+.number ul.uses { margin: 8px 0 0; padding-left: 18px; }
+.number ul.uses li { font-size: 15px; margin: 2px 0; }
 
 /* What research says: two findings side by side */
 .research { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
@@ -437,6 +450,9 @@ section > h2 { margin-bottom: 4px; }
    the rule, its big number and its words in white on the right. On a phone the picture and the words get
    a smaller share and smaller type, but stay side by side. */
 .rules { display: grid; gap: 14px; margin-top: 14px; }
+/* The three rules on the left, the money box on the right (the layout of part 3: .with-numbers) */
+.bill-money { margin-top: 14px; }
+.bill-money .rules { margin-top: 0; }
 .rule {
   display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 24px; align-items: center; margin: 0; min-width: 0;
   background: linear-gradient(120deg, var(--sns-sweep-from), var(--sns-sweep-to)); color: var(--white);
@@ -447,7 +463,7 @@ section > h2 { margin-bottom: 4px; }
 .rule-text h4 { color: var(--white); font-size: 18px; font-weight: 700; line-height: 1.3; margin: 0 0 6px; }
 .rule-text .value { color: var(--white); font-size: 38px; font-weight: 700; line-height: 1.1; }
 .rule-text p { color: var(--white); font-size: 16px; line-height: 1.45; margin: 4px 0 0; max-width: 52ch; }
-/* Minor misbehavior, the bill's two other rules and the $50 million: one line each, under the three rules */
+/* Minor misbehavior and the bill's two other rules: one line each, under the three rules */
 .also { border-top: 1px solid var(--rule); margin-top: 24px; padding-top: 12px; }
 .also p { color: var(--ink); font-size: 15px; margin: 0 0 6px; max-width: 90ch; }
 
